@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:movie_app/provider/auth.provider.dart';
+import 'package:movie_app/utils/extensions/build.context.extension.dart';
+import 'package:movie_app/views/common/common.button.dart';
 import 'package:movie_app/views/home/page/profile/widgets/profile.details.dart';
 import 'package:movie_app/views/home/page/profile/widgets/profile.menu.card.dart';
 import 'package:movie_app/views/home/page/profile/widgets/profile.section.title.dart';
+import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -15,67 +19,80 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          SizedBox(height: 20),
-          Center(
-            child: Text(
-              'Profile',
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 20),
+            const Center(
+              child: Text(
+                'Profile',
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
-          ),
-          SizedBox(height: 25),
-          ProfileDetails(),
-          SizedBox(height: 30),
-          ProfileSectionTitle(title: 'Your Activities'),
-          SizedBox(height: 15),
-          ProfileMenuCard(
-            title: 'Bookmark List',
-            icon: Icons.bookmark,
-            isCountItem: true,
-            count: 15,
-          ),
-          SizedBox(height: 15),
-          ProfileMenuCard(
-            title: 'Reviews',
-            icon: Icons.message,
-            isCountItem: true,
-            count: 15,
-          ),
-          SizedBox(height: 15),
-          ProfileMenuCard(
-            title: 'History',
-            icon: Icons.play_arrow_rounded,
-          ),
-          SizedBox(height: 25),
-          ProfileSectionTitle(title: 'Theme'),
-          SizedBox(height: 15),
-          ProfileMenuCard(
-            title: 'Switch to Dark theme',
-            icon: Icons.dark_mode,
-            showtrailing: false,
-          ),
-          SizedBox(height: 25),
-          ProfileSectionTitle(title: 'Account'),
-          SizedBox(height: 15),
-          ProfileMenuCard(
-            title: 'Settings',
-            icon: Icons.settings,
-          ),
-          SizedBox(height: 15),
-          ProfileMenuCard(
-            title: 'My Subscription Plan',
-            icon: Icons.money,
-          ),
-          SizedBox(height: 15),
-          ProfileMenuCard(
-            title: 'Change Password',
-            icon: Icons.lock,
-          ),
-        ],
+            const SizedBox(height: 25),
+            const ProfileDetails(),
+            const SizedBox(height: 30),
+            const ProfileSectionTitle(title: 'Your Activities'),
+            const SizedBox(height: 15),
+            Consumer<AuthProvider>(builder: (_, provider, __) {
+              var isGuest = provider.isGuestUser;
+              return ProfileMenuCard(
+                title: 'Bookmark List',
+                icon: Icons.bookmark,
+                isCountItem: true,
+                count: isGuest ? 0 : 15,
+              );
+            }),
+            const SizedBox(height: 15),
+            const ProfileMenuCard(
+              title: 'Reviews',
+              icon: Icons.message,
+              isCountItem: true,
+              count: 15,
+            ),
+            const SizedBox(height: 15),
+            const ProfileMenuCard(
+              title: 'History',
+              icon: Icons.play_arrow_rounded,
+            ),
+            const SizedBox(height: 25),
+            const ProfileSectionTitle(title: 'Theme'),
+            const SizedBox(height: 15),
+            const ProfileMenuCard(
+              title: 'Switch to Dark theme',
+              icon: Icons.dark_mode,
+              showtrailing: false,
+            ),
+            const SizedBox(height: 25),
+            const ProfileSectionTitle(title: 'Account'),
+            const SizedBox(height: 15),
+            const ProfileMenuCard(
+              title: 'Settings',
+              icon: Icons.settings,
+            ),
+            const SizedBox(height: 15),
+            const ProfileMenuCard(
+              title: 'My Subscription Plan',
+              icon: Icons.money,
+            ),
+            const SizedBox(height: 15),
+            const ProfileMenuCard(
+              title: 'Change Password',
+              icon: Icons.lock,
+            ),
+            const SizedBox(height: 30),
+            CommonButton(
+              callback: () {
+                context.authProvider.logout(context);
+              },
+              title: 'Sign Out',
+            ),
+            const SizedBox(height: 20),
+          ],
+        ),
       ),
     );
   }

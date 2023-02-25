@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:movie_app/model/actors.model.dart';
 import 'package:movie_app/model/genre.model.dart';
 import 'package:movie_app/model/movie.dart';
+import 'package:movie_app/model/movie.details.dart';
 import 'package:movie_app/model/tv.shows.dart';
-import 'package:movie_app/repo/repo.dart';
+import 'package:movie_app/repo/movie/movie.repo.dart';
 
 class MoviesProvider extends ChangeNotifier {
+  MovieDetails? _selectedMovie;
+  MovieDetails? get selectedMovie => _selectedMovie;
+
+  void updateSelectedMovie(MovieDetails movie) {
+    _selectedMovie = movie;
+    notifyListeners();
+  }
+
   int _carousalIndex = 0;
   int get carousalIndex => _carousalIndex;
 
@@ -19,11 +29,17 @@ class MoviesProvider extends ChangeNotifier {
   List<Movie> _trendingMovieList = [];
   List<Movie> get trendingMovieList => _trendingMovieList;
 
+  List<Movie> _similarMovieList = [];
+  List<Movie> get similarMovieList => _similarMovieList;
+
   List<Movie> _nowPlayingList = [];
   List<Movie> get nowPlayingList => _nowPlayingList;
 
   List<TvShows> _onTvList = [];
   List<TvShows> get onTvList => _onTvList;
+
+  List<Actors> _actorsList = [];
+  List<Actors> get actorsList => _actorsList;
 
   final List<Movie> _carousalMovieList = [];
   List<Movie> get carousalMovieList => _carousalMovieList;
@@ -36,20 +52,32 @@ class MoviesProvider extends ChangeNotifier {
   bool _trendingListLoading = true;
   bool get trendingListLoading => _trendingListLoading;
 
+  bool _actorsListLoading = true;
+  bool get actorsListLoading => _actorsListLoading;
+
   bool _nowPlayingListLoading = true;
   bool get nowPlayingListLoading => _nowPlayingListLoading;
 
   bool _onTVListLoading = true;
   bool get onTVListLoading => _onTVListLoading;
 
+  bool _similarMovieListLoading = true;
+  bool get similarMovieListLoading => _similarMovieListLoading;
+
   void updateTrendingListLoading(bool value) {
     _trendingListLoading = value;
     notifyListeners();
   }
 
+  void updateActorsListLoading(bool value) {
+    _actorsListLoading = value;
+    notifyListeners();
+  }
+
   Future getTrendingList() async {
     _trendingListLoading = true;
-    _trendingMovieList = await Repo.getTrendingList();
+    _trendingMovieList = [];
+    _trendingMovieList = await MovieRepo.getTrendingList();
     for (var i in _trendingMovieList) {
       if (_carousalMovieList.length < 5) {
         _carousalMovieList.add(i);
@@ -61,7 +89,8 @@ class MoviesProvider extends ChangeNotifier {
 
   Future getNowPlayingList() async {
     _nowPlayingListLoading = true;
-    _nowPlayingList = await Repo.getNowPlayingList();
+    _nowPlayingList = [];
+    _nowPlayingList = await MovieRepo.getNowPlayingList();
 
     _nowPlayingListLoading = false;
     notifyListeners();
@@ -69,14 +98,40 @@ class MoviesProvider extends ChangeNotifier {
 
   Future getOnTvList() async {
     _onTVListLoading = true;
-    _onTvList = await Repo.getOnTvList();
+    _onTvList = [];
+    _onTvList = await MovieRepo.getOnTvList();
 
     _onTVListLoading = false;
     notifyListeners();
   }
 
   Future getGenres() async {
-    _movieGenreList = await Repo.getGenreList();
+    _movieGenreList = await MovieRepo.getGenreList();
+    notifyListeners();
+  }
+
+  Future getDetails(int id) async {
+    _selectedMovie = await MovieRepo.getMovieDetails(id);
+    getActorsList(id);
+    getSimilarMoviesList(id);
+    notifyListeners();
+  }
+
+  Future getActorsList(int id) async {
+    _actorsListLoading = true;
+    _actorsList = [];
+    _actorsList = await MovieRepo.getActorsList(id);
+
+    _actorsListLoading = false;
+    notifyListeners();
+  }
+
+  Future getSimilarMoviesList(int id) async {
+    _similarMovieListLoading = true;
+    _similarMovieList = [];
+    _similarMovieList = await MovieRepo.getSimilarMoviesList(id);
+
+    _similarMovieListLoading = false;
     notifyListeners();
   }
 }

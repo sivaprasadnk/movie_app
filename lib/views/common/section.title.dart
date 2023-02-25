@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 
 class SectionTitle extends StatelessWidget {
-  const SectionTitle(
-      {super.key, required this.title, required this.seeMoreCallBack});
+  const SectionTitle({
+    super.key,
+    required this.title,
+    this.seeMoreCallBack,
+    this.withSeeMore = false,
+  });
   final String title;
-  final VoidCallback seeMoreCallBack;
+  final VoidCallback? seeMoreCallBack;
+  final bool withSeeMore;
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +23,10 @@ class SectionTitle extends StatelessWidget {
           ),
         ),
         const Spacer(),
+        if (withSeeMore)
         GestureDetector(
           onTap: () {
-            seeMoreCallBack.call();
+              seeMoreCallBack!.call();
           },
           child: const Text(
             "See all",

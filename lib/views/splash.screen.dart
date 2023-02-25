@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
 import 'package:movie_app/views/auth/sign.in/sign.in.screen.dart';
+import 'package:movie_app/views/home/home.screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
+  static const routeName = "/splash";
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -80,7 +82,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     height: 50,
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: Colors.red,
+                      color: context.theme.primaryColor,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: const Center(
@@ -156,7 +158,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     height: 75,
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: Colors.red,
+                      color: context.theme.primaryColor,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     padding: const EdgeInsets.all(10),
@@ -200,51 +202,55 @@ class _SplashScreenState extends State<SplashScreen> {
                   ),
                 ),
                 const SizedBox(height: 15),
-                Container(
-                  width: double.infinity,
-                  height: 75,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(
-                      color: Colors.black,
+                InkWell(
+                  onTap: () {
+                    context.authProvider.updateGuestUser(true);
+                    Navigator.pushNamed(context, HomeScreen.routeName);
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    height: 75,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(
+                        color: Colors.black,
+                      ),
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  padding: const EdgeInsets.all(10),
-                  child: Row(
-                    children: [
-                      const SizedBox(width: 10),
-                      const Icon(
-                        Icons.person,
-                        // color: Colors.grey,
-                      ),
-                      const SizedBox(width: 10),
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: const [
-                          Text(
-                            'Guest',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
+                    padding: const EdgeInsets.all(10),
+                    child: Row(
+                      children: [
+                        const SizedBox(width: 10),
+                        const Icon(
+                          Icons.person,
+                        ),
+                        const SizedBox(width: 10),
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: const [
+                            Text(
+                              'Guest',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
-                          ),
-                          SizedBox(height: 1),
-                          Text(
-                            'Use the app without authentication',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w200,
-                              // color: Colors.white,
+                            SizedBox(height: 1),
+                            Text(
+                              'Use the app without authentication',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w200,
+                                // color: Colors.white,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      const Spacer(),
-                      const Icon(
-                        Icons.arrow_forward_ios,
-                      )
-                    ],
+                          ],
+                        ),
+                        const Spacer(),
+                        const Icon(
+                          Icons.arrow_forward_ios,
+                        )
+                      ],
+                    ),
                   ),
                 ),
                 const SizedBox(height: 5),

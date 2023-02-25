@@ -1,7 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:movie_app/utils/extensions/build.context.extension.dart';
 import 'package:movie_app/views/auth/sign.up/sign.up.screen.dart';
-import 'package:movie_app/views/home/home.screen.dart';
+import 'package:movie_app/views/common/common.button.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -12,7 +13,8 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInScreenState extends State<SignInScreen> {
   final _formKey = GlobalKey<FormState>();
-
+  String email = "";
+  String password = "";
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -43,6 +45,10 @@ class _SignInScreenState extends State<SignInScreen> {
               ),
               const SizedBox(height: 50),
               TextFormField(
+                onSaved: (newValue) {
+                  email = newValue!.trim();
+                },
+                keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   prefixIcon: const Icon(Icons.email),
                   label: const Text("Email"),
@@ -53,6 +59,9 @@ class _SignInScreenState extends State<SignInScreen> {
               ),
               const SizedBox(height: 20),
               TextFormField(
+                onSaved: (newValue) {
+                  password = newValue!.trim();
+                },
                 decoration: InputDecoration(
                   prefixIcon: const Icon(Icons.lock),
                   label: const Text("Password"),
@@ -84,28 +93,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 ],
               ),
               const SizedBox(height: 50),
-              GestureDetector(
-                onTap: () {
-                  Navigator.pushReplacementNamed(context, HomeScreen.routeName);
-                },
-                child: Container(
-                  height: 50,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: const Center(
-                    child: Text(
-                      "Sign In",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              CommonButton(callback: validateAndProceed, title: 'Sign In'),
               const SizedBox(height: 20),
               RichText(
                 text: TextSpan(
@@ -122,9 +110,9 @@ class _SignInScreenState extends State<SignInScreen> {
                           Navigator.pushReplacementNamed(
                               context, SignUpScreen.routeName);
                         },
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.red,
+                        color: context.theme.primaryColor,
                       ),
                     ),
                   ],
@@ -134,6 +122,15 @@ class _SignInScreenState extends State<SignInScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  validateAndProceed() async {
+    _formKey.currentState!.save();
+    await context.authProvider.signIn(
+      email,
+      password,
+      context,
     );
   }
 }

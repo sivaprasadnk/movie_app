@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "482990802190",
+    "project_id": "movie-app-invenics",
+    "storage_bucket": "movie-app-invenics.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:482990802190:android:ad77d9ed6103613f96435f",
+        "android_client_info": {
+          "package_name": "com.sptpra.movie_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "482990802190-isqfno7m5qsu1bm7bsd90t6h6feeef6s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKQ7Esao7zTNA8GJ8PQgWR2yLFgO_Tc2E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "482990802190-isqfno7m5qsu1bm7bsd90t6h6feeef6s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

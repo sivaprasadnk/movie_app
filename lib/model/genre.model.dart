@@ -14,8 +14,23 @@ class MovieGenre {
   }
 }
 
-// extension GenreExt on List<int>{
-//   List<MovieGenre> getGenreModelList{
+extension GenreExt on List<MovieGenre> {
+  String get stringText {
+    String list = " [ ";
+    var count = 0;
+    var limit = length > 3 ? 3 : length;
+    for (var i in this) {
+      if (count < limit) {
 
-//   }
-// }
+        list += i.name;
+
+        if (count != limit - 1) {
+          list += ", ";
+        }
+        count++;
+      }
+    }
+    list = "$list ]";
+    return list;
+  }
+}

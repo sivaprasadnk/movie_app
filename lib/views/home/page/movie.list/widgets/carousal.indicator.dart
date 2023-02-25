@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/model/movie.dart';
+import 'package:movie_app/utils/extensions/build.context.extension.dart';
 
 class CarousalIndicator extends StatelessWidget {
   const CarousalIndicator({
@@ -31,8 +32,8 @@ class CarousalIndicator extends StatelessWidget {
                   Radius.circular(10),
                 ),
                 color: carousalIndex == i
-                    ? Colors.red
-                    : Colors.red.withOpacity(0.4),
+                    ? context.theme.primaryColor
+                    : context.theme.primaryColor.withOpacity(0.4),
               ),
             );
           }).toList(),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movie_app/provider/auth.provider.dart';
 import 'package:movie_app/provider/movies.provider.dart';
 import 'package:provider/provider.dart';
 
@@ -9,4 +10,10 @@ extension ContextExtensions on BuildContext {
 
   MoviesProvider get moviesProvider =>
       Provider.of<MoviesProvider>(this, listen: false);
+
+  AuthProvider get authProvider =>
+      Provider.of<AuthProvider>(this, listen: false);
+
+  ScaffoldMessengerState get scaffoldMessenger => ScaffoldMessenger.of(this);
+  ThemeData get theme => Theme.of(this);   
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movie_app/utils/extensions/build.context.extension.dart';
 
 class BottomNavBarItem extends StatelessWidget {
   const BottomNavBarItem({
@@ -25,13 +26,13 @@ class BottomNavBarItem extends StatelessWidget {
         children: [
           Icon(
             icon,
-            color: isSelected ? Colors.red : Colors.grey,
+            color: isSelected ? context.theme.primaryColor : Colors.grey,
           ),
           Text(
             name,
             style: TextStyle(
               fontSize: 12,
-              color: isSelected ? Colors.red : Colors.grey,
+              color: isSelected ? context.theme.primaryColor : Colors.grey,
             ),
           )
         ],
