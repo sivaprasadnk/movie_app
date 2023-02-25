@@ -7,7 +7,9 @@ import 'package:movie_app/utils/string.constants.dart';
 var userColllection = FirebaseFirestore.instance.collection(kUsersCollection);
 
 class UserRepo {
-  static Future addUserDetails(User user) async {
+  static Future addUserDetails() async {
+    var user = FirebaseAuth.instance.currentUser!;
+
     userColllection.doc(user.uid).set({
       kEmail: user.email,
       kDisplayName: user.displayName,

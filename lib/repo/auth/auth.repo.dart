@@ -4,27 +4,16 @@ import 'package:movie_app/repo/user/user.repo.dart';
 
 class AuthRepo {
   /// register
-  static Future<UserCredential?> register(
+  static Future<void> register(
       String emailAddress, String password, String userName) async {
-    UserCredential? user;
-    try {
-      user = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: emailAddress,
-        password: password,
-      );
-      await user.user!.updateDisplayName(userName);
-
-      await UserRepo.addUserDetails(user.user!);
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        debugPrint('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        debugPrint('The account already exists for that email.');
-      }
-    } catch (e) {
-      debugPrint(e.toString());
-    }
-    return user;
+    var userDetails =
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      email: emailAddress,
+      password: password,
+    );
+    await userDetails.user!.updateDisplayName(userName);
+    await UserRepo.addUserDetails();
+    return;
   }
 
   static Future logout() async {

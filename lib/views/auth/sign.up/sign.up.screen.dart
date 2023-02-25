@@ -152,11 +152,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   validateAndProceed() async {
     _formKey.currentState!.save();
+    // await context.authProvider.register(
+    //   email,
+    //   password,
+    //   confirmPassword,
+    //   userName,
+    //   context,
+    // );
     await context.authProvider.register(
-      email,
-      password,
-      confirmPassword,
-      userName,
+      'sivaprasadnk123@gmail.com',
+      '123456789',
+      '123456789',
+      'userName',
       context,
     );
   }

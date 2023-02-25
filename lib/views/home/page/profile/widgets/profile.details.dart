@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_app/provider/auth.provider.dart';
 import 'package:movie_app/views/home/page/profile/widgets/edit.icon.dart';
@@ -8,8 +9,10 @@ class ProfileDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var user = FirebaseAuth.instance.currentUser!;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
         const CircleAvatar(
           radius: 35,
@@ -26,7 +29,7 @@ class ProfileDetails extends StatelessWidget {
             children: [
               !isGuest
                   ? Text(
-                      provider.userCredential!.user!.displayName!,
+                      user.displayName!,
                       style: const TextStyle(
                         fontWeight: FontWeight.w500,
                       ),
@@ -40,7 +43,7 @@ class ProfileDetails extends StatelessWidget {
               const SizedBox(height: 5),
               if (!isGuest)
                 Text(
-                  provider.userCredential!.user!.email!,
+                  user.email!,
                   style: const TextStyle(
                       fontWeight: FontWeight.w200, color: Colors.grey),
                 ),

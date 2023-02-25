@@ -15,8 +15,13 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  UserCredential? _userCredential;
-  UserCredential? get userCredential => _userCredential;
+  // UserCredential? _userCredential;
+  // UserCredential? get userCredential => _userCredential;
+
+  // void updateUser(UserCredential user) {
+  //   _userCredential = user;
+  //   notifyListeners();
+  // }
 
   Future register(String emailAddress, String password, String confirmPassword,
       String userName, BuildContext context) async {
@@ -33,20 +38,30 @@ class AuthProvider extends ChangeNotifier {
       if (userName.isEmpty) {
         throw CustomException("Username cannot be empty!");
       }
+      updateGuestUser(false);
 
-      _userCredential =
-          await AuthRepo.register(emailAddress, password, userName);
-      if (_userCredential != null) {
-        await _userCredential!.user!.updateDisplayName(userName).then((value) {
-          Navigator.pushReplacementNamed(context, HomeScreen.routeName);
-        });
+      await AuthRepo.register(emailAddress, password, userName);
+      if (context.mounted) {
+        Navigator.pushReplacementNamed(context, HomeScreen.routeName);
       }
     } on CustomException catch (exc) {
-      final snackBar = SnackBar(
+      context.scaffoldMessenger.showSnackBar(SnackBar(
         content: Text(exc.message),
-      );
-
-      context.scaffoldMessenger.showSnackBar(snackBar);
+      ));
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        context.scaffoldMessenger.showSnackBar(
+          const SnackBar(
+            content: Text('The password provided is too weak.'),
+          ),
+        );
+      } else if (e.code == 'email-already-in-use') {
+        context.scaffoldMessenger.showSnackBar(
+          const SnackBar(
+            content: Text('The account already exists for that email.'),
+          ),
+        );
+      }
     }
   }
 
@@ -62,7 +77,7 @@ class AuthProvider extends ChangeNotifier {
 
       await AuthRepo.signIn(emailAddress, password).then((userCredential) {
         if (userCredential != null) {
-          _userCredential = userCredential;
+          updateGuestUser(false);
           Navigator.pushReplacementNamed(context, HomeScreen.routeName);
         }
       });
