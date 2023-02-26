@@ -74,6 +74,13 @@ class MoviesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void clearActorsAndSimilarList() {
+    _actorsList.clear();
+    _actorsListLoading = true;
+    _similarMovieList.clear();
+    _similarMovieListLoading = true;
+  }
+
   Future getTrendingList() async {
     _trendingListLoading = true;
     _trendingMovieList = [];

@@ -38,6 +38,8 @@ class SectionTitle extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 2),
+        if (withSeeMore)
+
         const Icon(
           Icons.arrow_forward_ios,
           size: 9,

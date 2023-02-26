@@ -13,7 +13,7 @@ class UserRepo {
     userColllection.doc(user.uid).set({
       kEmail: user.email,
       kDisplayName: user.displayName,
-      kBooksMarkCount: 0,
+      kBookMarkedMovieIdList: [],
       kCreatedDateTime: DateTime.now(),
     });
   }
@@ -26,13 +26,12 @@ class UserRepo {
         .collection(kMoviesCollection)
         .add(movie.toMap());
 
-    List list = await getBookmarkMovieIds(userId);
+    List list = await getBookmarkMovieIds();
 
     list.add(movie.id);
 
     userColllection.doc(userId).update({
-      kBooksMarkCount: list.length + 1,
-      kBooksMarkedMovieIdList: list,
+      kBookMarkedMovieIdList: list,
     });
   }
 
@@ -43,14 +42,29 @@ class UserRepo {
         .doc(userId)
         .collection(kTvShowsCollection)
         .add(show.toMap());
-    var list = await getBookmarkMovieIds(userId);
+    var list = await getBookmarkMovieIds();
     userColllection.doc(userId).update({
-      kBooksMarkCount: list.length + 1,
+      // kBooksMarkCount: list.length + 1,
     });
   }
 
-  static Future<List<int>> getBookmarkMovieIds(String userId) async {
+  static Future<List<int>> getBookmarkMovieIds() async {
+    var userId = FirebaseAuth.instance.currentUser!.uid;
+
     var docSnapshot = await userColllection.doc(userId).get();
-    return docSnapshot[kBooksMarkedMovieIdList] ?? [];
+    var list = docSnapshot[kBookMarkedMovieIdList] as List;
+    return list.isEmpty ? [] : list.map((e) => e as int).toList();
+  }
+
+  static Future<List<MovieDetails>> getBookmarkedMovies() async {
+    var userId = FirebaseAuth.instance.currentUser!.uid;
+    List<MovieDetails> list = [];
+    List<QueryDocumentSnapshot<Map<String, dynamic>>> list1 =
+        (await userColllection.doc(userId).collection(kMoviesCollection).get())
+            .docs;
+    for (var i in list1) {
+      list.add(MovieDetails.fromDoc(i));
+    }
+    return list;
   }
 }

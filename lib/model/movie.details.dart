@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:movie_app/model/genre.model.dart';
 import 'package:movie_app/repo/movie/end.points.dart';
 
@@ -28,6 +29,23 @@ class MovieDetails {
   });
 
   factory MovieDetails.fromJson(Map<String, dynamic> json) {
+    return MovieDetails(
+      id: json['id'],
+      backdropPath: kImageBaseUrl + json['backdrop_path'],
+      posterPath: kImageBaseUrl + json['poster_path'],
+      genreList:
+          (json['genres'] as List).map((e) => MovieGenre.fromJson(e)).toList(),
+      title: json['title'] ?? "",
+      voteAverage: json['vote_average'],
+      voteCount: json['vote_count'],
+      runtime: json['runtime'],
+      releaseDate: json['release_date'],
+      overview: json['overview'],
+    );
+  }
+
+  factory MovieDetails.fromDoc(
+      QueryDocumentSnapshot<Map<String, dynamic>> json) {
     return MovieDetails(
       id: json['id'],
       backdropPath: kImageBaseUrl + json['backdrop_path'],

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
+import 'package:movie_app/views/common/custom.cache.image.dart';
 import 'package:movie_app/views/home/page/movie.list/movie/movie.details.screen.dart';
+
+import '../../../../../utils/dialogs.dart';
 
 class MovieCard extends StatelessWidget {
   const MovieCard({
@@ -18,10 +21,14 @@ class MovieCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var cacheKey = "movie$id$name";
     return GestureDetector(
       onTap: () {
-        context.moviesProvider.updateActorsListLoading(true);
+        Dialogs.showLoader(context: context);
+        context.moviesProvider.clearActorsAndSimilarList();
+
         context.moviesProvider.getDetails(id).then((value) {
+          context.pop();
           Navigator.pushNamed(context, MovieDetailsScreen.routeName);
         });
       },
@@ -31,19 +38,30 @@ class MovieCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            ClipRRect(
-              borderRadius: const BorderRadius.all(
-                Radius.circular(8),
-              ),
-              child: Image.network(
-                poster,
-                height: 155,
-                width: 100,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return const Icon(Icons.error);
-                },
-              ),
+            // ClipRRect(
+            //   borderRadius: const BorderRadius.all(
+            //     Radius.circular(8),
+            //   ),
+            //   child: Image.network(
+            //     poster,
+            //     height: 155,
+            //     width: 100,
+            //     fit: BoxFit.cover,
+            //     errorBuilder: (context, error, stackTrace) {
+            //       return const SizedBox(
+            //         height: 155,
+            //         width: 100,
+            //         child: Icon(Icons.error),
+            //       );
+            //     },
+            //   ),
+            // ),
+            CustomCacheImage(
+              borderRadius: 8,
+              height: 155,
+              width: 100,
+              imageUrl: poster,
+              cacheKey: cacheKey,
             ),
             const SizedBox(height: 8),
             Text(

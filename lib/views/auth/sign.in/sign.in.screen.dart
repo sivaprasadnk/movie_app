@@ -1,7 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:movie_app/utils/dialogs.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
 import 'package:movie_app/views/auth/sign.up/sign.up.screen.dart';
+import 'package:movie_app/views/auth/sign.up/widgets/custom.decoration.dart';
+import 'package:movie_app/views/auth/sign.up/widgets/password.decoration.dart';
 import 'package:movie_app/views/common/common.button.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -13,8 +16,25 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInScreenState extends State<SignInScreen> {
   final _formKey = GlobalKey<FormState>();
+  final List<FocusNode> _focusNodes = [
+    FocusNode(),
+    FocusNode(),
+  ];
+
+  @override
+  void initState() {
+    for (var node in _focusNodes) {
+      node.addListener(() {
+        setState(() {});
+      });
+    }
+    super.initState();
+  }
+
   String email = "";
   String password = "";
+  bool isVisible = false;
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -46,32 +66,33 @@ class _SignInScreenState extends State<SignInScreen> {
                 ),
                 const SizedBox(height: 50),
                 TextFormField(
+                  focusNode: _focusNodes[0],
                   onSaved: (newValue) {
                     email = newValue!.trim();
                   },
                   keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.email),
-                    label: const Text("Email"),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
+                  decoration: customDecoration(
+                    _focusNodes[0],
+                    'Email Address',
+                    Icons.email,
                   ),
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
+                  focusNode: _focusNodes[1],
+                  obscureText: !isVisible,
                   onSaved: (newValue) {
                     password = newValue!.trim();
                   },
-                  decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.lock),
-                    label: const Text("Password"),
-                    suffixIcon: const Icon(
-                      Icons.visibility,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
+                  decoration: passwordDecoration(
+                    _focusNodes[1],
+                    'Password',
+                    Icons.lock,
+                    () {
+                      isVisible = !isVisible;
+                      setState(() {});
+                    },
+                    isVisible,
                   ),
                 ),
                 const SizedBox(height: 15),
@@ -129,6 +150,8 @@ class _SignInScreenState extends State<SignInScreen> {
 
   validateAndProceed() async {
     _formKey.currentState!.save();
+    Dialogs.showLoader(context: context);
+
     await context.authProvider.signIn(
       email,
       password,

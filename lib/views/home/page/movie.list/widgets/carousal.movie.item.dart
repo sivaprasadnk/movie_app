@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/model/movie.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
+import 'package:movie_app/views/common/custom.cache.image.dart';
 
 class CarousalMovieItem extends StatelessWidget {
   const CarousalMovieItem({super.key, required this.movie});
@@ -9,18 +10,26 @@ class CarousalMovieItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var cacheKey = "carousal${movie.id}${movie.title}";
     return Stack(
       children: [
         SizedBox(
           width: double.infinity,
-          child: Image.network(
-            movie.backdropPath,
+          child: CustomCacheImage(
+            imageUrl: movie.backdropPath,
             height: context.height * 0.4,
-            fit: BoxFit.cover,
-            errorBuilder: (context, error, stackTrace) {
-              return const Icon(Icons.error);
-            },
+            width: double.infinity,
+            cacheKey: cacheKey,
+            borderRadius: 0,
           ),
+          // child: Image.network(
+          //   movie.backdropPath,
+          //   height: context.height * 0.4,
+          //   fit: BoxFit.cover,
+          //   errorBuilder: (context, error, stackTrace) {
+          //     return const Icon(Icons.error);
+          //   },
+          // ),
         ),
         Positioned.fill(
           child: Align(

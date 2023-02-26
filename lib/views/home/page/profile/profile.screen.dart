@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
+import 'package:movie_app/views/auth/sign.in/sign.in.screen.dart';
 import 'package:movie_app/views/common/common.button.dart';
+import 'package:movie_app/views/common/page.title.dart';
 import 'package:movie_app/views/home/page/profile/widgets/bookmark.list.menu.dart';
 import 'package:movie_app/views/home/page/profile/widgets/profile.details.dart';
 import 'package:movie_app/views/home/page/profile/widgets/profile.menu.card.dart';
@@ -16,22 +18,15 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    var isGuest = context.authProvider.isGuestUser;
+    var provider = context.authProvider;
+    var isGuest = provider.isGuestUser;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 20),
-            const Center(
-              child: Text(
-                'Profile',
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
+            const PageTitle(title: 'Profile'),
             const SizedBox(height: 25),
             ProfileDetails(isGuest: isGuest),
             const SizedBox(height: 30),
@@ -76,12 +71,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
               icon: Icons.lock,
             ),
             const SizedBox(height: 30),
-            CommonButton(
-              callback: () {
-                context.authProvider.logout(context);
-              },
-              title: 'Sign Out',
-            ),
+            !isGuest
+                ? CommonButton(
+                    callback: () {
+                      provider.logout(context);
+                    },
+                    title: 'Sign Out',
+                  )
+                : CommonButton(
+                    callback: () {
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, SignInScreen.routeName, (route) => false);
+                    },
+                    title: 'Sign In',
+                  ),
             const SizedBox(height: 20),
           ],
         ),

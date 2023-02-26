@@ -42,18 +42,25 @@ class AuthProvider extends ChangeNotifier {
 
       await AuthRepo.register(emailAddress, password, userName);
       if (context.mounted) {
+        context.pop();
         Navigator.pushReplacementNamed(context, HomeScreen.routeName);
       }
     } on CustomException catch (exc) {
+      context.pop();
+
       context.scaffoldMessenger.showSnackBar(SnackBar(
         content: Text(exc.message),
       ));
     } on FirebaseAuthException catch (e) {
+      context.pop();
+
       var message = "";
       if (e.code == 'weak-password') {
         message = "The password provided is too weak.";
       } else if (e.code == 'email-already-in-use') {
         message = "The account already exists for that email.";
+      } else {
+        message = e.code;
       }
       context.scaffoldMessenger.showSnackBar(
         SnackBar(content: Text(message)),
@@ -74,15 +81,32 @@ class AuthProvider extends ChangeNotifier {
       await AuthRepo.signIn(emailAddress, password).then((userCredential) {
         if (userCredential != null) {
           updateGuestUser(false);
+          context.pop();
           Navigator.pushReplacementNamed(context, HomeScreen.routeName);
         }
       });
     } on CustomException catch (exc) {
+      context.pop();
+
       final snackBar = SnackBar(
         content: Text(exc.message),
       );
 
       context.scaffoldMessenger.showSnackBar(snackBar);
+    } on FirebaseAuthException catch (e) {
+      context.pop();
+
+      var message = "";
+      if (e.code == 'weak-password') {
+        message = "The password provided is too weak.";
+      } else if (e.code == 'email-already-in-use') {
+        message = "The account already exists for that email.";
+      } else {
+        message = e.code;
+      }
+      context.scaffoldMessenger.showSnackBar(
+        SnackBar(content: Text(message)),
+      );
     }
   }
 

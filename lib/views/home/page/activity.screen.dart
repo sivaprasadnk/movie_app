@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movie_app/views/common/page.title.dart';
 
 class ActivityScreen extends StatefulWidget {
   const ActivityScreen({super.key});
@@ -12,12 +13,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
   Widget build(BuildContext context) {
     return Column(
       children: const [
-        Text(
-          'Activity',
-          style: TextStyle(
-            fontWeight: FontWeight.w600,
-          ),
-        )
+        PageTitle(title: 'Activity'),
       ],
     );
   }

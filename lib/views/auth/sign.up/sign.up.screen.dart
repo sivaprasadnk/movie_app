@@ -1,7 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:movie_app/utils/dialogs.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
 import 'package:movie_app/views/auth/sign.in/sign.in.screen.dart';
+import 'package:movie_app/views/auth/sign.up/widgets/custom.decoration.dart';
+import 'package:movie_app/views/auth/sign.up/widgets/password.decoration.dart';
 import 'package:movie_app/views/common/common.button.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -13,11 +16,30 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
+  final List<FocusNode> _focusNodes = [
+    FocusNode(),
+    FocusNode(),
+    FocusNode(),
+    FocusNode(),
+  ];
+
+  @override
+  void initState() {
+    for (var node in _focusNodes) {
+      node.addListener(() {
+        setState(() {});
+      });
+    }
+    super.initState();
+  }
 
   String email = "";
   String password = "";
   String confirmPassword = "";
   String userName = "";
+
+  bool isVisible = false;
+  bool isConfirmVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -50,73 +72,63 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 const SizedBox(height: 50),
                 TextFormField(
+                  focusNode: _focusNodes[0],
                   onSaved: (newValue) {
                     userName = newValue!.trim();
                   },
-                  decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.person),
-                    label: const Text("Name"),
-                    border: OutlineInputBorder(
-                      borderSide: const BorderSide(
-                        color: Colors.black,
-                      ),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
+                  decoration:
+                      customDecoration(_focusNodes[0], 'Name', Icons.person),
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
+                  focusNode: _focusNodes[1],
+
                   onSaved: (newValue) {
                     email = newValue!.trim();
                   },
                   keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.email),
-                    label: const Text("Email"),
-                    border: OutlineInputBorder(
-                      borderSide: const BorderSide(
-                        color: Colors.black,
-                      ),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
+                  decoration: customDecoration(
+                    _focusNodes[1],
+                    'Email Address',
+                    Icons.email,
                   ),
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
+                  focusNode: _focusNodes[2],
+
                   onSaved: (newValue) {
                     password = newValue!.trim();
                   },
-                  decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.lock),
-                    label: const Text("Password"),
-                    suffixIcon: const Icon(
-                      Icons.visibility,
-                    ),
-                    border: OutlineInputBorder(
-                      borderSide: const BorderSide(
-                        color: Colors.black,
-                      ),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
+                  obscureText: !isVisible,
+                  decoration: passwordDecoration(
+                    _focusNodes[2],
+                    'Password',
+                    Icons.lock,
+                    () {
+                      isVisible = !isVisible;
+                      setState(() {});
+                    },
+                    isVisible,
                   ),
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
+                  focusNode: _focusNodes[3],
+
                   onSaved: (newValue) {
                     confirmPassword = newValue!.trim();
                   },
-                  decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.lock),
-                    label: const Text("Confirm password"),
-                    suffixIcon: const Icon(
-                      Icons.visibility,
-                    ),
-                    border: OutlineInputBorder(
-                      borderSide: const BorderSide(
-                        color: Colors.black,
-                      ),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
+                  obscureText: !isConfirmVisible,
+                  decoration: passwordDecoration(
+                    _focusNodes[3],
+                    'Confirm Password',
+                    Icons.lock,
+                    () {
+                      isConfirmVisible = !isConfirmVisible;
+                      setState(() {});
+                    },
+                    isConfirmVisible,
                   ),
                 ),
                 const SizedBox(height: 15),
@@ -164,19 +176,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   validateAndProceed() async {
     _formKey.currentState!.save();
-    // await context.authProvider.register(
-    //   email,
-    //   password,
-    //   confirmPassword,
-    //   userName,
-    //   context,
-    // );
+    Dialogs.showLoader(context: context);
     await context.authProvider.register(
-      'sivaprasadnk123@gmail.com',
-      '123456789',
-      '123456789',
-      'userName',
+      email,
+      password,
+      confirmPassword,
+      userName,
       context,
     );
+    // await context.authProvider.register(
+    //   'sivaprasadnk123@gmail.com',
+    //   '123456789',
+    //   '123456789',
+    //   'userName',
+    //   context,
+    // );
   }
 }

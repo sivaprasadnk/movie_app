@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/provider/movies.provider.dart';
+import 'package:movie_app/views/common/custom.cache.image.dart';
 import 'package:provider/provider.dart';
 
 class ActorsList extends StatelessWidget {
@@ -24,30 +25,14 @@ class ActorsList extends StatelessWidget {
               return Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  ClipRRect(
-                    borderRadius: const BorderRadius.all(Radius.circular(8)),
-                    child: Image.network(
-                      actor.profilePath,
-                      height: 80,
-                      width: 80,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) {
-                        return Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(),
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(8),
-                            ),
-                          ),
-                          height: 80,
-                          width: 80,
-                          child: const Center(
-                            child: Text('No image !'),
-                          ),
-                        );
-                      },
-                    ),
+                  CustomCacheImage(
+                    imageUrl: actor.profilePath,
+                    borderRadius: 8,
+                    height: 100,
+                    width: 80,
+                    cacheKey: 'actor${actor.id}${actor.name}',
                   ),
+                  
                   const SizedBox(height: 8),
                   SizedBox(
                     width: 80,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movie_app/views/common/page.title.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -12,12 +13,7 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     return Column(
       children: const [
-        Text(
-          'Search',
-          style: TextStyle(
-            fontWeight: FontWeight.w600,
-          ),
-        )
+        PageTitle(title: 'Search'),
       ],
     );
   }

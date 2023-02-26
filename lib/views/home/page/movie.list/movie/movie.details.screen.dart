@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/model/genre.model.dart';
+import 'package:movie_app/provider/auth.provider.dart';
 import 'package:movie_app/provider/movies.provider.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
 import 'package:movie_app/utils/extensions/time.extensions.dart';
@@ -195,7 +196,8 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                       const SizedBox(height: 20),
                       Text(movie.overview),
                       const SizedBox(height: 20),
-                      const SectionTitle(title: 'Cast'),
+                      if (!provider.actorsListLoading)
+                        const SectionTitle(title: 'Cast'),
                       const SizedBox(height: 20),
                       AnimatedSwitcher(
                         duration: const Duration(
@@ -206,18 +208,31 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                             : const SizedBox.shrink(),
                       ),
                       const SizedBox(height: 20),
-                      const SectionTitle(title: 'Similar'),
+                      if (!provider.actorsListLoading)
+                        const SectionTitle(title: 'Similar'),
                       const SizedBox(height: 20),
-                      const SimilarMovieList(),
+                      if (!provider.actorsListLoading) const SimilarMovieList(),
                       const SizedBox(height: 20),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 25),
-                        child: CommonButton(
-                            callback: () {
-                              context.userProvider.addMovieToBookmarks(movie);
-                            },
-                            title: 'Bookmark '),
-                      ),
+                      if (!provider.actorsListLoading &&
+                          !provider.similarMovieListLoading)
+                        Consumer<AuthProvider>(builder: (_, authProvider, __) {
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 25),
+                            child: CommonButton(
+                                callback: () {
+                                  if (!authProvider.isGuestUser) {
+                                    context.userProvider
+                                        .addMovieToBookmarks(movie, context);
+                                  } else {
+                                    context.scaffoldMessenger.showSnackBar(
+                                        const SnackBar(
+                                            content:
+                                                Text("Login to Bookmark !")));
+                                  }
+                                },
+                                title: 'Bookmark '),
+                          );
+                        }),
                       const SizedBox(height: 20),
                     ],
                   ),

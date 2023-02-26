@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
+import 'package:movie_app/views/home/page/profile/bookmark.list.screen.dart';
 import 'package:movie_app/views/home/page/profile/widgets/profile.menu.card.dart';
 
 class BookmarkListMenu extends StatefulWidget {
@@ -29,6 +30,11 @@ class _BookmarkListMenuState extends State<BookmarkListMenu> {
       icon: Icons.bookmark,
       isCountItem: true,
       count: widget.isGuest ? 0 : count,
+      isImplemented: true,
+      onTap: () {
+        context.userProvider.clearList();
+        Navigator.pushNamed(context, BookmarkListScreen.routeName);
+      },
     );
   }
 }
