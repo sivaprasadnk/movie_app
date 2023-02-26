@@ -3,6 +3,7 @@ import 'package:movie_app/model/genre.model.dart';
 import 'package:movie_app/provider/movies.provider.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
 import 'package:movie_app/utils/extensions/time.extensions.dart';
+import 'package:movie_app/views/common/common.button.dart';
 import 'package:movie_app/views/common/section.title.dart';
 import 'package:movie_app/views/home/page/movie.list/movie/widgets/actors.list.dart';
 import 'package:movie_app/views/home/page/movie.list/movie/widgets/similar.movies.list.dart';
@@ -41,6 +42,21 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                         errorBuilder: (context, error, stackTrace) {
                           return const Icon(Icons.error);
                         },
+                      ),
+                    ),
+                    Positioned.fill(
+                      top: 50,
+                      left: 20,
+                      child: Align(
+                        alignment: Alignment.topLeft,
+                        child: GestureDetector(
+                          onTap: () {
+                            context.pop();
+                          },
+                          child: const Icon(
+                            Icons.arrow_back_ios,
+                          ),
+                        ),
                       ),
                     ),
                     Positioned.fill(
@@ -192,7 +208,17 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                       const SizedBox(height: 20),
                       const SectionTitle(title: 'Similar'),
                       const SizedBox(height: 20),
-                      const SimilarMovieList()
+                      const SimilarMovieList(),
+                      const SizedBox(height: 20),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 25),
+                        child: CommonButton(
+                            callback: () {
+                              context.userProvider.addMovieToBookmarks(movie);
+                            },
+                            title: 'Bookmark '),
+                      ),
+                      const SizedBox(height: 20),
                     ],
                   ),
                 ),

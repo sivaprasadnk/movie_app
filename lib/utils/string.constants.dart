@@ -1,6 +1,7 @@
 const String kEmail = 'email';
 const String kDisplayName = 'displayName';
 const String kBooksMarkCount = 'bookMarksCount';
+const String kBooksMarkedMovieIdList = 'bookMarkedMovieIdList';
 const String kCreatedDateTime = 'createdDateTime';
 const String kMoviesCollection = 'movies';
 const String kTvShowsCollection = 'tvShows';

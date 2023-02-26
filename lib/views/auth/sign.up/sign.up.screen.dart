@@ -57,6 +57,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     prefixIcon: const Icon(Icons.person),
                     label: const Text("Name"),
                     border: OutlineInputBorder(
+                      borderSide: const BorderSide(
+                        color: Colors.black,
+                      ),
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
@@ -71,6 +74,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     prefixIcon: const Icon(Icons.email),
                     label: const Text("Email"),
                     border: OutlineInputBorder(
+                      borderSide: const BorderSide(
+                        color: Colors.black,
+                      ),
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
@@ -87,6 +93,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       Icons.visibility,
                     ),
                     border: OutlineInputBorder(
+                      borderSide: const BorderSide(
+                        color: Colors.black,
+                      ),
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
@@ -103,6 +112,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       Icons.visibility,
                     ),
                     border: OutlineInputBorder(
+                      borderSide: const BorderSide(
+                        color: Colors.black,
+                      ),
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),

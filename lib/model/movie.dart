@@ -27,7 +27,6 @@ class Movie {
       genreIdListJson:
           (json['genre_ids'] as List).map((e) => e as int).toList(),
       title: json['title'] ?? "",
-      // voteAverage: 0.0,
       voteAverage: json['vote_average'],
     );
   }

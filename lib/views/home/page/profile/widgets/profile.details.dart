@@ -1,11 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:movie_app/provider/auth.provider.dart';
 import 'package:movie_app/views/home/page/profile/widgets/edit.icon.dart';
-import 'package:provider/provider.dart';
 
 class ProfileDetails extends StatelessWidget {
-  const ProfileDetails({super.key});
+  const ProfileDetails({
+    super.key,
+    required this.isGuest,
+  });
+  final bool isGuest;
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +23,7 @@ class ProfileDetails extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 10),
-        Consumer<AuthProvider>(builder: (_, provider, __) {
-          var isGuest = provider.isGuestUser;
-          return Column(
+        Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -74,8 +74,7 @@ class ProfileDetails extends StatelessWidget {
                   ),
                 )
             ],
-          );
-        }),
+        ),
         const Spacer(),
         const EditIcon(),
       ],

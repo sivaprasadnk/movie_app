@@ -12,6 +12,15 @@ class MovieGenre {
       name: json['name'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    final result = <String, dynamic>{};
+
+    result.addAll({'id': id});
+    result.addAll({'name': name});
+
+    return result;
+  }
 }
 
 extension GenreExt on List<MovieGenre> {

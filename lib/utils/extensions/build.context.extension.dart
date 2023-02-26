@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/provider/auth.provider.dart';
 import 'package:movie_app/provider/movies.provider.dart';
+import 'package:movie_app/provider/user.provider.dart';
 import 'package:provider/provider.dart';
 
 extension ContextExtensions on BuildContext {
@@ -14,6 +15,12 @@ extension ContextExtensions on BuildContext {
   AuthProvider get authProvider =>
       Provider.of<AuthProvider>(this, listen: false);
 
+  UserProvider get userProvider =>
+      Provider.of<UserProvider>(this, listen: false);
+
   ScaffoldMessengerState get scaffoldMessenger => ScaffoldMessenger.of(this);
-  ThemeData get theme => Theme.of(this);   
+  ThemeData get theme => Theme.of(this);
+  void pop() {
+    Navigator.pop(this);
+  } 
 }

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/provider/auth.provider.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
 import 'package:movie_app/views/common/common.button.dart';
+import 'package:movie_app/views/home/page/profile/widgets/bookmark.list.menu.dart';
 import 'package:movie_app/views/home/page/profile/widgets/profile.details.dart';
 import 'package:movie_app/views/home/page/profile/widgets/profile.menu.card.dart';
 import 'package:movie_app/views/home/page/profile/widgets/profile.section.title.dart';
-import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -17,6 +16,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
+    var isGuest = context.authProvider.isGuestUser;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: SingleChildScrollView(
@@ -33,19 +33,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ),
             const SizedBox(height: 25),
-            const ProfileDetails(),
+            ProfileDetails(isGuest: isGuest),
             const SizedBox(height: 30),
             const ProfileSectionTitle(title: 'Your Activities'),
             const SizedBox(height: 15),
-            Consumer<AuthProvider>(builder: (_, provider, __) {
-              var isGuest = provider.isGuestUser;
-              return ProfileMenuCard(
-                title: 'Bookmark List',
-                icon: Icons.bookmark,
-                isCountItem: true,
-                count: isGuest ? 0 : 15,
-              );
-            }),
+            BookmarkListMenu(isGuest: isGuest),
             const SizedBox(height: 15),
             const ProfileMenuCard(
               title: 'Reviews',

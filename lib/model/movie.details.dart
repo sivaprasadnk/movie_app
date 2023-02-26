@@ -42,4 +42,22 @@ class MovieDetails {
       overview: json['overview'],
     );
   }
+
+  Map<String, dynamic> toMap() {
+    final result = <String, dynamic>{};
+
+    result.addAll({'id': id});
+    var genreMapList = genreList.map((e) => e.toJson()).toList();
+    result.addAll({'genres': genreMapList});
+    result.addAll({'backdrop_path': backdropPath});
+    result.addAll({'poster_path': posterPath});
+    result.addAll({'title': title});
+    result.addAll({'vote_average': voteAverage});
+    result.addAll({'vote_count': voteCount});
+    result.addAll({'runtime': runtime});
+    result.addAll({'overview': overview});
+    result.addAll({'release_date': releaseDate});
+
+    return result;
+  }
 }

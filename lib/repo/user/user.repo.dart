@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:movie_app/model/movie.dart';
+import 'package:movie_app/model/movie.details.dart';
 import 'package:movie_app/model/tv.shows.dart';
 import 'package:movie_app/utils/string.constants.dart';
 
@@ -18,17 +18,21 @@ class UserRepo {
     });
   }
 
-  static Future addMovieToBookmarks(Movie movie) async {
+  static Future addMovieToBookmarks(MovieDetails movie) async {
     var userId = FirebaseAuth.instance.currentUser!.uid;
 
     userColllection
         .doc(userId)
         .collection(kMoviesCollection)
         .add(movie.toMap());
-    var count = await getBookmarksCount(userId);
+
+    List list = await getBookmarkMovieIds(userId);
+
+    list.add(movie.id);
 
     userColllection.doc(userId).update({
-      kBooksMarkCount: count + 1,
+      kBooksMarkCount: list.length + 1,
+      kBooksMarkedMovieIdList: list,
     });
   }
 
@@ -39,14 +43,14 @@ class UserRepo {
         .doc(userId)
         .collection(kTvShowsCollection)
         .add(show.toMap());
-    var count = await getBookmarksCount(userId);
+    var list = await getBookmarkMovieIds(userId);
     userColllection.doc(userId).update({
-      kBooksMarkCount: count + 1,
+      kBooksMarkCount: list.length + 1,
     });
   }
 
-  static Future getBookmarksCount(String userId) async {
+  static Future<List<int>> getBookmarkMovieIds(String userId) async {
     var docSnapshot = await userColllection.doc(userId).get();
-    return docSnapshot[kBooksMarkCount] ?? 0;
+    return docSnapshot[kBooksMarkedMovieIdList] ?? [];
   }
 }

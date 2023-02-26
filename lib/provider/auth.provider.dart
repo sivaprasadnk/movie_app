@@ -49,19 +49,15 @@ class AuthProvider extends ChangeNotifier {
         content: Text(exc.message),
       ));
     } on FirebaseAuthException catch (e) {
+      var message = "";
       if (e.code == 'weak-password') {
-        context.scaffoldMessenger.showSnackBar(
-          const SnackBar(
-            content: Text('The password provided is too weak.'),
-          ),
-        );
+        message = "The password provided is too weak.";
       } else if (e.code == 'email-already-in-use') {
-        context.scaffoldMessenger.showSnackBar(
-          const SnackBar(
-            content: Text('The account already exists for that email.'),
-          ),
-        );
+        message = "The account already exists for that email.";
       }
+      context.scaffoldMessenger.showSnackBar(
+        SnackBar(content: Text(message)),
+      );
     }
   }
 
