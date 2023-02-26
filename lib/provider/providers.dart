@@ -1,7 +1,9 @@
 import 'package:movie_app/provider/app.provider.dart';
 import 'package:movie_app/provider/auth.provider.dart';
 import 'package:movie_app/provider/movies.provider.dart';
+import 'package:movie_app/provider/network.provider.dart';
 import 'package:movie_app/provider/user.provider.dart';
+import 'package:movie_app/utils/network.service.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
@@ -17,5 +19,12 @@ List<SingleChildWidget> providers = [
   ),
   ChangeNotifierProvider<UserProvider>(
     create: (_) => UserProvider(),
+  ),
+  StreamProvider<NetworkStatus>(
+    create: (context) => NetworkStatusService().networkStatusController.stream,
+    initialData: NetworkStatus.onLine,
+  ),
+  ChangeNotifierProvider<ConnectivityProvider>(
+    create: (_) => ConnectivityProvider(),
   ),
 ];

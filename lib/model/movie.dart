@@ -42,6 +42,5 @@ class Movie {
 
     return result;
   }
-
-  
 }
+
