@@ -16,7 +16,7 @@ class _BookmarkListMenuState extends State<BookmarkListMenu> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      count = await context.userProvider.getBookmarksCount();
+      count = (await context.userProvider.getBookmarksCount()).length;
       setState(() {});
     });
     super.initState();

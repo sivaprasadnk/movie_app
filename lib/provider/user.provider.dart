@@ -7,9 +7,9 @@ class UserProvider extends ChangeNotifier {
 
   //
 
-  Future<int> getBookmarksCount() async {
+  Future<List<int>> getBookmarksCount() async {
     var user = FirebaseAuth.instance.currentUser!;
-    return await UserRepo.getBookmarksCount(user.uid);
+    return await UserRepo.getBookmarkMovieIds(user.uid);
   }
 
   Future<int> addMovieToBookmarks(MovieDetails movie) async {
