@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
 import 'package:movie_app/views/common/custom.cache.image.dart';
 import 'package:movie_app/views/home/page/movie.list/movie/movie.details.screen.dart';
+import 'package:movie_app/views/home/page/movie.list/movie/tv.show.details.screen.dart';
 
 import '../../../../../utils/dialogs.dart';
 
@@ -12,25 +13,37 @@ class MovieCard extends StatelessWidget {
     required this.name,
     required this.vote,
     required this.id,
+    this.isMovie = true,
   }) : super(key: key);
 
   final String poster;
   final String name;
   final double vote;
   final int id;
+  final bool isMovie;
 
   @override
   Widget build(BuildContext context) {
     var cacheKey = "movie$id$name";
+    if (!isMovie) {
+      cacheKey = "tvshow$id$name";
+    }
     return GestureDetector(
       onTap: () {
         Dialogs.showLoader(context: context);
         context.moviesProvider.clearActorsAndSimilarList();
+        if (isMovie) {
 
-        context.moviesProvider.getDetails(id).then((value) {
+          context.moviesProvider.getMovieDetails(id).then((value) {
           context.pop();
           Navigator.pushNamed(context, MovieDetailsScreen.routeName);
         });
+        } else {
+          context.moviesProvider.getTvShowDetails(id).then((value) {
+            context.pop();
+            Navigator.pushNamed(context, TvShowDetailsScreen.routeName);
+          });
+        }
       },
       child: SizedBox(
         width: 110,

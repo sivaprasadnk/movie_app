@@ -3,12 +3,16 @@ import 'package:movie_app/model/actors.model.dart';
 import 'package:movie_app/model/genre.model.dart';
 import 'package:movie_app/model/movie.dart';
 import 'package:movie_app/model/movie.details.dart';
+import 'package:movie_app/model/tv.show.details.dart';
 import 'package:movie_app/model/tv.shows.dart';
 import 'package:movie_app/repo/movie/movie.repo.dart';
 
 class MoviesProvider extends ChangeNotifier {
   MovieDetails? _selectedMovie;
   MovieDetails? get selectedMovie => _selectedMovie;
+
+  TvShowDetails? _selectedShow;
+  TvShowDetails? get selectedShow => _selectedShow;
 
   void updateSelectedMovie(MovieDetails movie) {
     _selectedMovie = movie;
@@ -29,8 +33,14 @@ class MoviesProvider extends ChangeNotifier {
   List<Movie> _trendingMovieList = [];
   List<Movie> get trendingMovieList => _trendingMovieList;
 
+  List<Movie> _popularMovieList = [];
+  List<Movie> get popularMovieList => _popularMovieList;
+
   List<Movie> _similarMovieList = [];
   List<Movie> get similarMovieList => _similarMovieList;
+
+  List<TvShows> _similarTvShowList = [];
+  List<TvShows> get similarTvShowList => _similarTvShowList;
 
   List<Movie> _nowPlayingList = [];
   List<Movie> get nowPlayingList => _nowPlayingList;
@@ -52,6 +62,9 @@ class MoviesProvider extends ChangeNotifier {
   bool _trendingListLoading = true;
   bool get trendingListLoading => _trendingListLoading;
 
+  bool _popularListLoading = true;
+  bool get popularListLoading => _popularListLoading;
+
   bool _actorsListLoading = true;
   bool get actorsListLoading => _actorsListLoading;
 
@@ -63,6 +76,9 @@ class MoviesProvider extends ChangeNotifier {
 
   bool _similarMovieListLoading = true;
   bool get similarMovieListLoading => _similarMovieListLoading;
+
+  bool _similarTvShowsLoading = true;
+  bool get similarTvShowsLoading => _similarTvShowsLoading;
 
   void updateTrendingListLoading(bool value) {
     _trendingListLoading = value;
@@ -94,11 +110,33 @@ class MoviesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future getPopularList() async {
+    _popularListLoading = true;
+    _popularMovieList = [];
+    notifyListeners();
+
+    var list = await MovieRepo.getPopularList();
+    for (var i in list) {
+      if (_popularMovieList.length < 5) {
+        _popularMovieList.add(i);
+      }
+    }
+    debugPrint('popular list size : ');
+    debugPrint(_popularMovieList.length.toString());
+    _popularListLoading = false;
+    notifyListeners();
+  }
+
   Future getNowPlayingList() async {
     _nowPlayingListLoading = true;
     _nowPlayingList = [];
-    _nowPlayingList = await MovieRepo.getNowPlayingList();
-
+    notifyListeners();
+    var list = await MovieRepo.getNowPlayingList();
+    for (var i in list) {
+      if (_nowPlayingList.length < 5) {
+        _nowPlayingList.add(i);
+      }
+    }
     _nowPlayingListLoading = false;
     notifyListeners();
   }
@@ -106,8 +144,14 @@ class MoviesProvider extends ChangeNotifier {
   Future getOnTvList() async {
     _onTVListLoading = true;
     _onTvList = [];
-    _onTvList = await MovieRepo.getOnTvList();
+    notifyListeners();
 
+    var list = await MovieRepo.getOnTvList();
+    for (var i in list) {
+      if (_onTvList.length < 5) {
+        _onTvList.add(i);
+      }
+    }
     _onTVListLoading = false;
     notifyListeners();
   }
@@ -117,10 +161,17 @@ class MoviesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future getDetails(int id) async {
+  Future getMovieDetails(int id) async {
     _selectedMovie = await MovieRepo.getMovieDetails(id);
     getActorsList(id);
     getSimilarMoviesList(id);
+    notifyListeners();
+  }
+
+  Future getTvShowDetails(int id) async {
+    _selectedShow = await MovieRepo.getTvShowDetails(id);
+    getActorsList(id);
+    getSimilarTvShowsList(id);
     notifyListeners();
   }
 
@@ -136,9 +187,20 @@ class MoviesProvider extends ChangeNotifier {
   Future getSimilarMoviesList(int id) async {
     _similarMovieListLoading = true;
     _similarMovieList = [];
+    notifyListeners();
+
     _similarMovieList = await MovieRepo.getSimilarMoviesList(id);
 
     _similarMovieListLoading = false;
+    notifyListeners();
+  }
+
+  Future getSimilarTvShowsList(int id) async {
+    _similarTvShowsLoading = true;
+    _similarTvShowList = [];
+    notifyListeners();
+    _similarTvShowList = await MovieRepo.getSimilarTvShowList(id);
+    _similarTvShowsLoading = false;
     notifyListeners();
   }
 }

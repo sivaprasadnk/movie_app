@@ -10,7 +10,8 @@ class ActorsList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<MoviesProvider>(
       builder: (_, provider, __) {
-        return SizedBox(
+        return provider.actorsList.isNotEmpty
+            ? SizedBox(
           height: 150,
           width: double.infinity,
           child: ListView.separated(
@@ -49,7 +50,8 @@ class ActorsList extends StatelessWidget {
               );
             },
           ),
-        );
+              )
+            : const SizedBox.shrink();
       },
     );
   }

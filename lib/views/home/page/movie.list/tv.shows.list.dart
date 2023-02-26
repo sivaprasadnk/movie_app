@@ -1,16 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:movie_app/model/tv.shows.dart';
 import 'package:movie_app/provider/movies.provider.dart';
 import 'package:movie_app/views/home/page/movie.list/widgets/movie.card.dart';
 import 'package:provider/provider.dart';
 
-class OnTvList extends StatelessWidget {
-  const OnTvList({super.key});
+class TvShowList extends StatelessWidget {
+  const TvShowList({
+    super.key,
+    required this.isLoading,
+    required this.showList,
+  });
+
+  final bool isLoading;
+  final List<TvShows> showList;
 
   @override
   Widget build(BuildContext context) {
     return Consumer<MoviesProvider>(
       builder: (_, provider, __) {
-        return provider.onTVListLoading
+        return isLoading
             ? const SizedBox(
                 height: 75,
                 width: double.infinity,
@@ -27,9 +35,9 @@ class OnTvList extends StatelessWidget {
                   },
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
-                  itemCount: provider.onTvList.length,
+                  itemCount: showList.length,
                   itemBuilder: (context, index) {
-                    var movie = provider.onTvList[index];
+                    var movie = showList[index];
                     return MovieCard(
                       name: movie.name,
                       poster: movie.posterPath,

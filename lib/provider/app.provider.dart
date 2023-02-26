@@ -6,7 +6,6 @@ class AppProvider extends ChangeNotifier {
 
   void updatedSelectedIndex(int index) {
     _selectedIndex = index;
-    debugPrint("tapped : $_selectedIndex");
     notifyListeners();
   }
 }

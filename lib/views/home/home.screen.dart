@@ -24,6 +24,8 @@ class _HomeScreenState extends State<HomeScreen> {
       context.moviesProvider.getTrendingList();
       context.moviesProvider.getNowPlayingList();
       context.moviesProvider.getOnTvList();
+      context.moviesProvider.getPopularList();
+      context.appProvider.updatedSelectedIndex(0);
     });
     super.initState();
   }

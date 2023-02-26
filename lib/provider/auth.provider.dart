@@ -26,6 +26,8 @@ class AuthProvider extends ChangeNotifier {
   Future register(String emailAddress, String password, String confirmPassword,
       String userName, BuildContext context) async {
     try {
+      context.unfocus();
+
       if (emailAddress.isEmpty) {
         throw CustomException('Email Address cannot be empty !');
       }
@@ -71,6 +73,7 @@ class AuthProvider extends ChangeNotifier {
   Future signIn(
       String emailAddress, String password, BuildContext context) async {
     try {
+      context.unfocus();
       if (emailAddress.isEmpty) {
         throw CustomException('Email Address cannot be empty !');
       }
@@ -80,9 +83,11 @@ class AuthProvider extends ChangeNotifier {
 
       await AuthRepo.signIn(emailAddress, password).then((userCredential) {
         if (userCredential != null) {
-          updateGuestUser(false);
           context.pop();
+          updateGuestUser(false);
           Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+        } else {
+          context.pop();
         }
       });
     } on CustomException catch (exc) {
@@ -95,7 +100,7 @@ class AuthProvider extends ChangeNotifier {
       context.scaffoldMessenger.showSnackBar(snackBar);
     } on FirebaseAuthException catch (e) {
       context.pop();
-
+      debugPrint(e.message);
       var message = "";
       if (e.code == 'weak-password') {
         message = "The password provided is too weak.";
@@ -107,6 +112,8 @@ class AuthProvider extends ChangeNotifier {
       context.scaffoldMessenger.showSnackBar(
         SnackBar(content: Text(message)),
       );
+    } catch (err) {
+      debugPrint(err.toString());
     }
   }
 

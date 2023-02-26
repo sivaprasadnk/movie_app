@@ -3,47 +3,41 @@ import 'package:movie_app/model/genre.model.dart';
 import 'package:movie_app/provider/auth.provider.dart';
 import 'package:movie_app/provider/movies.provider.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
-import 'package:movie_app/utils/extensions/time.extensions.dart';
 import 'package:movie_app/views/common/common.button.dart';
+import 'package:movie_app/views/common/custom.cache.image.dart';
 import 'package:movie_app/views/common/section.title.dart';
 import 'package:movie_app/views/home/page/movie.list/movie/widgets/actors.list.dart';
-import 'package:movie_app/views/home/page/movie.list/movie/widgets/similar.movies.list.dart';
+import 'package:movie_app/views/home/page/movie.list/movie/widgets/similar.shows.list.dart';
 import 'package:provider/provider.dart';
 
-class MovieDetailsScreen extends StatefulWidget {
-  const MovieDetailsScreen({super.key});
-  static const routeName = "/MovieDetails";
+class TvShowDetailsScreen extends StatefulWidget {
+  const TvShowDetailsScreen({super.key});
+  static const routeName = "/TvShowDetails";
   @override
-  State<MovieDetailsScreen> createState() => _MovieDetailsScreenState();
+  State<TvShowDetailsScreen> createState() => _TvShowDetailsScreenState();
 }
 
-class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
+class _TvShowDetailsScreenState extends State<TvShowDetailsScreen> {
   @override
   Widget build(BuildContext context) {
-    // var movie = ModalRoute.of(context)!.settings.arguments as MovieDetails;
-    //         var year = movie.releaseDate.split('-').first;
-
     return Scaffold(
       body: SingleChildScrollView(
         child: Consumer<MoviesProvider>(
           builder: (_, provider, __) {
-            var movie = provider.selectedMovie!;
-            var year = movie.releaseDate.split('-').first;
+            var show = provider.selectedShow!;
+            var year = show.releaseDate.split('-').first;
+            var cacheKey = "tvshow_${show.id}${show.name}";
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Stack(
                   children: [
-                    SizedBox(
+                    CustomCacheImage(
+                      imageUrl: show.backdropPath,
+                      height: context.height * 0.4,
                       width: double.infinity,
-                      child: Image.network(
-                        movie.backdropPath,
-                        height: context.height * 0.4,
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) {
-                          return const Icon(Icons.error);
-                        },
-                      ),
+                      cacheKey: cacheKey,
+                      borderRadius: 0,
                     ),
                     Positioned.fill(
                       top: 50,
@@ -86,7 +80,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                       child: Align(
                         alignment: Alignment.bottomLeft,
                         child: Text(
-                          movie.title,
+                          show.name,
                           maxLines: 3,
                           style: const TextStyle(
                             fontWeight: FontWeight.w600,
@@ -120,7 +114,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                             ),
                             const SizedBox(width: 8),
                             Text(
-                              movie.genreList.stringText,
+                              show.genreList.stringText,
                               style: const TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 12,
@@ -136,13 +130,13 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                               ),
                             ),
                             const SizedBox(width: 8),
-                            Text(
-                              movie.runtime.durationInHrs,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 12,
-                              ),
-                            ),
+                            // Text(
+                            //   show.runtime.durationInHrs,
+                            //   style: const TextStyle(
+                            //     fontWeight: FontWeight.w600,
+                            //     fontSize: 12,
+                            //   ),
+                            // ),
                           ],
                         ),
                       ),
@@ -161,7 +155,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                             ),
                             const SizedBox(width: 8),
                             Text(
-                              movie.voteAverage.toString(),
+                              show.voteAverage.toString(),
                               style: const TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 12,
@@ -169,7 +163,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                             ),
                             const SizedBox(width: 8),
                             Text(
-                              "( ${movie.voteCount} )",
+                              "( ${show.voteCount} )",
                               style: const TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 12,
@@ -194,10 +188,11 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                       const SizedBox(height: 20),
                       const SectionTitle(title: 'Story'),
                       const SizedBox(height: 20),
-                      Text(movie.overview),
+                      Text(show.overview),
                       const SizedBox(height: 20),
                       if (!provider.actorsListLoading)
-                        const SectionTitle(title: 'Cast'),
+                        if (provider.actorsList.isNotEmpty)
+                          const SectionTitle(title: 'Cast'),
                       const SizedBox(height: 20),
                       AnimatedSwitcher(
                         duration: const Duration(
@@ -209,13 +204,13 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                       ),
                       const SizedBox(height: 20),
                       if (!provider.actorsListLoading)
-                        if (provider.similarMovieList.isNotEmpty)
-                        const SectionTitle(title: 'Similar'),
+                        if (provider.similarTvShowList.isNotEmpty)
+                          const SectionTitle(title: 'Similar'),
                       const SizedBox(height: 20),
-                      if (!provider.actorsListLoading) const SimilarMovieList(),
+                      if (!provider.actorsListLoading) const SimilarShowsList(),
                       const SizedBox(height: 20),
                       if (!provider.actorsListLoading &&
-                          !provider.similarMovieListLoading)
+                          !provider.similarTvShowsLoading)
                         Consumer<AuthProvider>(builder: (_, authProvider, __) {
                           return Padding(
                             padding: const EdgeInsets.only(right: 25),
@@ -223,7 +218,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                                 callback: () {
                                   if (!authProvider.isGuestUser) {
                                     context.userProvider
-                                        .addMovieToBookmarks(movie, context);
+                                        .addTvShowToBookmarks(show, context);
                                   } else {
                                     context.scaffoldMessenger.showSnackBar(
                                         const SnackBar(

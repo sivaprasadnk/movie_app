@@ -28,20 +28,10 @@ class AuthRepo {
   static Future<UserCredential?> signIn(
       String emailAddress, String password) async {
     UserCredential? user;
-    try {
-      user = await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailAddress,
-        password: password,
-      );
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        debugPrint('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        debugPrint('The account already exists for that email.');
-      }
-    } catch (e) {
-      debugPrint(e.toString());
-    }
+    user = await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: emailAddress,
+      password: password,
+    );
     return user;
   }
 }

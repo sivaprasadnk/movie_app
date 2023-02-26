@@ -23,8 +23,12 @@ class _BookmarkListScreenState extends State<BookmarkListScreen> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       Dialogs.showLoader(context: context);
-      await context.userProvider.getBookmarkedMovies(context).then((value) {
-        context.pop();
+      await context.userProvider
+          .getBookmarkedMovies(context)
+          .then((value) async {
+        await context.userProvider.getBookmarkedShows(context).then((value) {
+          context.pop();
+        });
       });
     });
     super.initState();
@@ -37,13 +41,15 @@ class _BookmarkListScreenState extends State<BookmarkListScreen> {
         body: SingleChildScrollView(
           child: Consumer<UserProvider>(builder: (_, provider, __) {
             var moviesList = provider.bookMarkMoviesList;
+            var shows = provider.bookMarkShowsList;
             return Column(
               children: [
                 const PageTitle(
                   title: 'Bookmark List',
                   showLeadingIcon: true,
                 ),
-                if (!provider.bookmarkListLoading)
+                if (!provider.bookmarkListLoading &&
+                    !provider.bookmarkShowsListLoading)
                   if (moviesList.isEmpty)
                     const Center(
                       child: EmptyBookmarkListContainer(),
@@ -55,8 +61,11 @@ class _BookmarkListScreenState extends State<BookmarkListScreen> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           const SizedBox(height: 30),
+                          if (!provider.bookmarkListLoading)
                           const SectionTitle(title: 'Movies'),
                           const SizedBox(height: 20),
+                          if (!provider.bookmarkListLoading)
+
                           SizedBox(
                             height: 200,
                             width: double.infinity,
@@ -77,6 +86,34 @@ class _BookmarkListScreenState extends State<BookmarkListScreen> {
                                 );
                               },
                             ),
+                            ),
+                          const SizedBox(height: 30),
+                          if (!provider.bookmarkShowsListLoading)
+                            if (shows.isNotEmpty)
+                              const SectionTitle(title: 'Tv Shows'),
+                          const SizedBox(height: 20),
+                          if (!provider.bookmarkShowsListLoading)
+                            SizedBox(
+                              height: 200,
+                              width: double.infinity,
+                              child: ListView.separated(
+                                scrollDirection: Axis.horizontal,
+                                separatorBuilder: (context, index) {
+                                  return const SizedBox(width: 15);
+                                },
+                                shrinkWrap: true,
+                                itemCount: shows.length,
+                                itemBuilder: (context, index) {
+                                  var movie = shows[index];
+                                  return MovieCard(
+                                    poster: movie.posterPath,
+                                    name: movie.name,
+                                    vote: movie.voteAverage,
+                                    id: movie.id,
+                                    isMovie: false,
+                                  );
+                                },
+                              ),
                           )
                         ],
                       ),

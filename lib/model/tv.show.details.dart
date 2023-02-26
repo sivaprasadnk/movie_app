@@ -2,59 +2,64 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:movie_app/model/genre.model.dart';
 import 'package:movie_app/repo/movie/end.points.dart';
 
-class MovieDetails {
-  String title;
+class TvShowDetails {
+  String name;
   int id;
   String backdropPath;
   String posterPath;
   List<MovieGenre> genreList;
   double voteAverage;
   int voteCount;
-  int runtime;
+  // int runtime;
   String releaseDate;
   String overview;
-  MovieDetails({
-    required this.title,
+  TvShowDetails({
+    required this.name,
     required this.id,
     required this.backdropPath,
     required this.posterPath,
     required this.genreList,
     required this.voteAverage,
     required this.voteCount,
-    required this.runtime,
+    // required this.runtime,
     required this.releaseDate,
     required this.overview,
   });
 
-  factory MovieDetails.fromJson(Map<String, dynamic> json) {
-    return MovieDetails(
+  factory TvShowDetails.fromJson(Map<String, dynamic> json) {
+    return TvShowDetails(
       id: json['id'],
       backdropPath: kImageBaseUrl + json['backdrop_path'],
       posterPath: kImageBaseUrl + json['poster_path'],
       genreList:
           (json['genres'] as List).map((e) => MovieGenre.fromJson(e)).toList(),
-      title: json['title'] ?? "",
+      name: json['name'] ?? "",
       voteAverage: json['vote_average'],
       voteCount: json['vote_count'],
-      runtime: json['runtime'],
-      releaseDate: json['release_date'],
+      // runtime: json['runtime'],
+      releaseDate: json['first_air_date'],
       overview: json['overview'],
     );
   }
 
-  factory MovieDetails.fromDoc(
+  factory TvShowDetails.fromDoc(
       QueryDocumentSnapshot<Map<String, dynamic>> json) {
-    return MovieDetails(
+    var name = "";
+    if (!json.data().containsKey('name')) {
+      name = json['title'];
+    } else {
+      name = json['name'];
+    }
+    return TvShowDetails(
       id: json['id'],
       backdropPath: kImageBaseUrl + json['backdrop_path'],
       posterPath: kImageBaseUrl + json['poster_path'],
       genreList:
           (json['genres'] as List).map((e) => MovieGenre.fromJson(e)).toList(),
-      title: json['title'] ?? "",
+      name: name,
       voteAverage: json['vote_average'],
       voteCount: json['vote_count'],
-      runtime: json['runtime'],
-      releaseDate: json['release_date'],
+      releaseDate: json['first_air_date'],
       overview: json['overview'],
     );
   }
@@ -67,12 +72,12 @@ class MovieDetails {
     result.addAll({'genres': genreMapList});
     result.addAll({'backdrop_path': backdropPath});
     result.addAll({'poster_path': posterPath});
-    result.addAll({'title': title});
+    result.addAll({'name': name});
     result.addAll({'vote_average': voteAverage});
     result.addAll({'vote_count': voteCount});
-    result.addAll({'runtime': runtime});
+    // result.addAll({'runtime': runtime});
     result.addAll({'overview': overview});
-    result.addAll({'release_date': releaseDate});
+    result.addAll({'first_air_date': releaseDate});
 
     return result;
   }

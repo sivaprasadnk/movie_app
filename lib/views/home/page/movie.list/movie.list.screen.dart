@@ -7,6 +7,7 @@ import 'package:movie_app/views/home/page/movie.list/widgets/carousal.indicator.
 import 'package:movie_app/views/home/page/movie.list/widgets/carousal.movie.item.dart';
 import 'package:movie_app/views/home/page/movie.list/widgets/now.playing.list.dart';
 import 'package:movie_app/views/home/page/movie.list/widgets/ontv.list.dart';
+import 'package:movie_app/views/home/page/movie.list/widgets/popular.movies.list.dart';
 import 'package:provider/provider.dart';
 
 class MovieListScreen extends StatelessWidget {
@@ -72,6 +73,14 @@ class MovieListScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 const OnTvList(),
+                const SizedBox(height: 20),
+                SectionTitle(
+                  title: 'Popular Movies',
+                  withSeeMore: true,
+                  seeMoreCallBack: () {},
+                ),
+                const SizedBox(height: 20),
+                const PopularMoviesList(),
               ],
             ),
           ),
