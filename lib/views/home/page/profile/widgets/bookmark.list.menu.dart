@@ -17,7 +17,9 @@ class _BookmarkListMenuState extends State<BookmarkListMenu> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      count = (await context.userProvider.getBookmarksCount());
+      if (!widget.isGuest) {
+        count = (await context.userProvider.getBookmarksCount());
+      }
       setState(() {});
     });
     super.initState();
@@ -32,8 +34,13 @@ class _BookmarkListMenuState extends State<BookmarkListMenu> {
       count: widget.isGuest ? 0 : count,
       isImplemented: true,
       onTap: () {
-        context.userProvider.clearList();
-        Navigator.pushNamed(context, BookmarkListScreen.routeName);
+        if (!widget.isGuest) {
+          context.userProvider.clearList();
+          Navigator.pushNamed(context, BookmarkListScreen.routeName);
+        } else {
+          context.scaffoldMessenger.showSnackBar(const SnackBar(
+              content: Text("Login to add and view bookmarks !")));
+        }
       },
     );
   }

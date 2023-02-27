@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:movie_app/firebase_options.dart';
 import 'package:movie_app/provider/providers.dart';
 import 'package:movie_app/utils/routes.dart';
-import 'package:movie_app/views/splash.screen.dart';
+import 'package:movie_app/views/common/not.network.screen.dart';
+import 'package:movie_app/views/splash.screen/splash.screen.dart';
+import 'package:movie_app/views/splash.screen/splash.screen.scaffold.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -25,17 +27,19 @@ class MyApp extends StatelessWidget {
       child: StreamBuilder<ConnectivityResult>(
           stream: Connectivity().onConnectivityChanged,
           builder: (context, snapshot) {
-            return snapshot.data == ConnectivityResult.mobile ||
-                    snapshot.data == ConnectivityResult.wifi
-                ? MaterialApp(
-                    debugShowCheckedModeBanner: false,
-                    title: 'Movie App',
-                    routes: routes,
-                    theme: ThemeData(
-                      primarySwatch: Colors.red,
-                    ),
-                    home: const SplashScreen(),
-                  )
+            return snapshot.hasData
+                ? (snapshot.data == ConnectivityResult.mobile ||
+                        snapshot.data == ConnectivityResult.wifi)
+                    ? MaterialApp(
+                        debugShowCheckedModeBanner: false,
+                        title: 'Movie App',
+                        routes: routes,
+                        theme: ThemeData(
+                          primarySwatch: Colors.red,
+                        ),
+                        home: const SplashScreen(),
+                      )
+                    : const NoNetworkScreen()
                 : MaterialApp(
                     debugShowCheckedModeBanner: false,
                     title: 'Movie App',
@@ -44,33 +48,7 @@ class MyApp extends StatelessWidget {
                       primarySwatch: Colors.red,
                     ),
                     builder: (context, child) {
-                      return Scaffold(
-                        body: Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
-                              Icon(Icons.network_check_rounded, size: 40),
-                              SizedBox(height: 20),
-                              Text(
-                                "No Network Connection !",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 18,
-                                ),
-                              ),
-                              SizedBox(height: 20),
-                              Text(
-                                "Please check your connection and try again.",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w300,
-                                  fontSize: 12,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
+                      return const SplashScreenScaffold();
                     },
                   );
           }),

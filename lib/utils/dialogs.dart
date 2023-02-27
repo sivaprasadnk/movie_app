@@ -7,7 +7,6 @@ class Dialogs {
   static void showLoader({required BuildContext context}) async {
     showDialog(
       context: context,
-      // barrierColor: Colors.white,
       barrierDismissible: false,
       builder: ((context) {
         return WillPopScope(
@@ -27,7 +26,6 @@ class Dialogs {
   }
 
   static Future showGetStartedDialog(BuildContext context) async {
-    debugPrint("..@1");
     await showModalBottomSheet(
       context: context,
       enableDrag: false,

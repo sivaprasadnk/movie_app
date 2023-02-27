@@ -4,7 +4,7 @@ import 'package:movie_app/repo/auth/auth.repo.dart';
 import 'package:movie_app/utils/custom.exception.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
 import 'package:movie_app/views/home/home.screen.dart';
-import 'package:movie_app/views/splash.screen.dart';
+import 'package:movie_app/views/splash.screen/splash.screen.dart';
 
 class AuthProvider extends ChangeNotifier {
   bool _isGuestUser = true;

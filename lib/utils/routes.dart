@@ -5,7 +5,7 @@ import 'package:movie_app/views/home/home.screen.dart';
 import 'package:movie_app/views/home/page/movie.list/movie/movie.details.screen.dart';
 import 'package:movie_app/views/home/page/movie.list/movie/tv.show.details.screen.dart';
 import 'package:movie_app/views/home/page/profile/bookmark.list.screen.dart';
-import 'package:movie_app/views/splash.screen.dart';
+import 'package:movie_app/views/splash.screen/splash.screen.dart';
 
 final routes = <String, WidgetBuilder>{
   SignInScreen.routeName: (context) => const SignInScreen(),
