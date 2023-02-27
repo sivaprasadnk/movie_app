@@ -43,3 +43,16 @@ class TvShows {
     return result;
   }
 }
+
+
+extension TvShowExtension on List<TvShows> {
+  List<TvShows> get homeScreenList {
+    List<TvShows> list = [];
+    for (var show in this) {
+      if (list.length < 6) {
+        list.add(show);
+      }
+    }
+    return list;
+  }
+}

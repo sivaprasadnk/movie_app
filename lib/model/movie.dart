@@ -44,3 +44,14 @@ class Movie {
   }
 }
 
+extension MovieExtension on List<Movie> {
+  List<Movie> get homeScreenList {
+    List<Movie> list = [];
+    for (var movie in this) {
+      if (list.length < 6) {
+        list.add(movie);
+      }
+    }
+    return list;
+  }
+}

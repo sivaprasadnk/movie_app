@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_app/firebase_options.dart';
@@ -21,16 +22,58 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: providers,
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Movie App',
-        routes: routes,
-        theme: ThemeData(
-          primarySwatch: Colors.red,
-        ),
-        home: const SplashScreen(),
-        
-      ),
+      child: StreamBuilder<ConnectivityResult>(
+          stream: Connectivity().onConnectivityChanged,
+          builder: (context, snapshot) {
+            return snapshot.data == ConnectivityResult.mobile ||
+                    snapshot.data == ConnectivityResult.wifi
+                ? MaterialApp(
+                    debugShowCheckedModeBanner: false,
+                    title: 'Movie App',
+                    routes: routes,
+                    theme: ThemeData(
+                      primarySwatch: Colors.red,
+                    ),
+                    home: const SplashScreen(),
+                  )
+                : MaterialApp(
+                    debugShowCheckedModeBanner: false,
+                    title: 'Movie App',
+                    routes: routes,
+                    theme: ThemeData(
+                      primarySwatch: Colors.red,
+                    ),
+                    builder: (context, child) {
+                      return Scaffold(
+                        body: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Icon(Icons.network_check_rounded, size: 40),
+                              SizedBox(height: 20),
+                              Text(
+                                "No Network Connection !",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 18,
+                                ),
+                              ),
+                              SizedBox(height: 20),
+                              Text(
+                                "Please check your connection and try again.",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: 12,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+          }),
     );
   }
 }

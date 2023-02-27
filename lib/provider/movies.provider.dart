@@ -115,14 +115,7 @@ class MoviesProvider extends ChangeNotifier {
     _popularMovieList = [];
     notifyListeners();
 
-    var list = await MovieRepo.getPopularList();
-    for (var i in list) {
-      if (_popularMovieList.length < 5) {
-        _popularMovieList.add(i);
-      }
-    }
-    debugPrint('popular list size : ');
-    debugPrint(_popularMovieList.length.toString());
+    _popularMovieList = await MovieRepo.getPopularList();
     _popularListLoading = false;
     notifyListeners();
   }
@@ -131,12 +124,8 @@ class MoviesProvider extends ChangeNotifier {
     _nowPlayingListLoading = true;
     _nowPlayingList = [];
     notifyListeners();
-    var list = await MovieRepo.getNowPlayingList();
-    for (var i in list) {
-      if (_nowPlayingList.length < 5) {
-        _nowPlayingList.add(i);
-      }
-    }
+    _nowPlayingList = await MovieRepo.getNowPlayingList();
+    
     _nowPlayingListLoading = false;
     notifyListeners();
   }
@@ -146,12 +135,8 @@ class MoviesProvider extends ChangeNotifier {
     _onTvList = [];
     notifyListeners();
 
-    var list = await MovieRepo.getOnTvList();
-    for (var i in list) {
-      if (_onTvList.length < 5) {
-        _onTvList.add(i);
-      }
-    }
+    _onTvList = await MovieRepo.getOnTvList();
+  
     _onTVListLoading = false;
     notifyListeners();
   }
@@ -162,6 +147,7 @@ class MoviesProvider extends ChangeNotifier {
   }
 
   Future getMovieDetails(int id) async {
+
     _selectedMovie = await MovieRepo.getMovieDetails(id);
     getActorsList(id);
     getSimilarMoviesList(id);

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movie_app/model/tv.shows.dart';
 import 'package:movie_app/provider/movies.provider.dart';
 import 'package:movie_app/views/home/page/movie.list/widgets/movie.card.dart';
 import 'package:provider/provider.dart';
@@ -27,9 +28,9 @@ class OnTvList extends StatelessWidget {
                   },
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
-                  itemCount: provider.onTvList.length,
+                  itemCount: provider.onTvList.homeScreenList.length,
                   itemBuilder: (context, index) {
-                    var movie = provider.onTvList[index];
+                    var movie = provider.onTvList.homeScreenList[index];
                     return MovieCard(
                       name: movie.name,
                       poster: movie.posterPath,

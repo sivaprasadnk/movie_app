@@ -1,6 +1,5 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:movie_app/provider/network.provider.dart';
 import 'package:movie_app/utils/dialogs.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
 import 'package:movie_app/views/auth/sign.up/sign.up.screen.dart';
@@ -150,11 +149,7 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   validateAndProceed() async {
-    debugPrint(context.networkProvider.toString());
-    if (context.networkProvider.status == ConnectivityStatus.offline) {
-      context.scaffoldMessenger
-          .showSnackBar(const SnackBar(content: Text("Check Network")));
-    } else {
+   
     _formKey.currentState!.save();
       Dialogs.showLoader(context: context);
 
@@ -164,5 +159,5 @@ class _SignInScreenState extends State<SignInScreen> {
         context,
       );
     }
-  }
+  // }
 }

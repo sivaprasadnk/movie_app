@@ -28,17 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
         return false;
       },
       child: Scaffold(
-        appBar: AppBar(
-          actions: [
-            GestureDetector(
-              onTap: () async {
-                await Dialogs.showGetStartedDialog(context);
-                
-              },
-              child: const Icon(Icons.menu),
-            )
-          ],
-        ),
+        
         body: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 15,

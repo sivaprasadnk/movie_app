@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:movie_app/provider/app.provider.dart';
 import 'package:movie_app/provider/auth.provider.dart';
 import 'package:movie_app/provider/movies.provider.dart';
-import 'package:movie_app/provider/network.provider.dart';
 import 'package:movie_app/provider/user.provider.dart';
 import 'package:provider/provider.dart';
 
@@ -21,8 +20,7 @@ extension ContextExtensions on BuildContext {
       Provider.of<UserProvider>(this, listen: false);
 
   AppProvider get appProvider => Provider.of<AppProvider>(this, listen: false);
-  ConnectivityProvider get networkProvider =>
-      Provider.of<ConnectivityProvider>(this, listen: false);
+
 
   ScaffoldMessengerState get scaffoldMessenger => ScaffoldMessenger.of(this);
   ThemeData get theme => Theme.of(this);
