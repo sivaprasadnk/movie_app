@@ -22,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
         await Dialogs.showGetStartedDialog(context);
       } else {
         context.authProvider.updateGuestUser(false);
-        Navigator.pushNamed(context, HomeScreen.routeName);
+        Navigator.pushReplacementNamed(context, HomeScreen.routeName);
       }
     });
     super.initState();
