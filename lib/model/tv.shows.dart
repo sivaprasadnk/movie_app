@@ -1,4 +1,3 @@
-import 'package:movie_app/model/genre.model.dart';
 import 'package:movie_app/repo/movie/end.points.dart';
 
 class TvShows {
@@ -6,17 +5,15 @@ class TvShows {
   int id;
   String backdropPath;
   String posterPath;
-  List<int> genreIdListJson;
+  List<int> genreIdList;
   double voteAverage;
-  List<MovieGenre>? genreIdList;
   TvShows({
     required this.name,
     required this.id,
     required this.backdropPath,
     required this.posterPath,
-    required this.genreIdListJson,
+    required this.genreIdList,
     required this.voteAverage,
-    this.genreIdList,
   });
 
   factory TvShows.fromJson(Map<String, dynamic> json) {
@@ -24,7 +21,7 @@ class TvShows {
       id: json['id'],
       backdropPath: kImageBaseUrl + json['backdrop_path'],
       posterPath: kImageBaseUrl + json['poster_path'],
-      genreIdListJson:
+      genreIdList:
           (json['genre_ids'] as List).map((e) => e as int).toList(),
       name: json['name'] ?? "",
       voteAverage: 0.0,
@@ -54,5 +51,15 @@ extension TvShowExtension on List<TvShows> {
       }
     }
     return list;
+  }
+
+  List<int> uniqueIdList() {
+    List<int> idList = [];
+    for (var i in this) {
+      for (var id in i.genreIdList) {
+        idList.add(id);
+      }
+    }
+    return idList.toSet().toList();
   }
 }

@@ -6,6 +6,7 @@ import 'package:movie_app/views/common/section.title.dart';
 import 'package:movie_app/views/common/title.app.bar.dart';
 import 'package:movie_app/views/web/home/widgets/now.playing.list.web.dart';
 import 'package:movie_app/views/web/home/widgets/ontv.grid.web.dart';
+import 'package:movie_app/views/web/movie.list/tv.show.list.screen.web.dart';
 import 'package:provider/provider.dart';
 
 import '../../../provider/movies.provider.dart';
@@ -103,8 +104,10 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
                       title: 'Now Playing',
                       withSeeMore: true,
                       seeMoreCallBack: () {
-                        context.moviesProvider
-                            .updateGenre(MovieGenre(id: 0, name: 'All'));
+                        context.moviesProvider.updateGenre(
+                          MovieGenre(id: 0, name: 'All'),
+                          true,
+                        );
 
                         Navigator.push(
                           context,
@@ -123,23 +126,62 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
                       limit: 5,
                       isGrid: true,
                     ),
+                    const SizedBox(height: 20),
+                    SectionTitle(
+                      title: 'Popular Movies',
+                      withSeeMore: true,
+                      seeMoreCallBack: () {
+                        context.moviesProvider.updateGenre(
+                          MovieGenre(id: 0, name: 'All'),
+                          true,
+                          true,
+                        );
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) {
+                              return MovieListScreenWeb(
+                                isMobileWeb: widget.isMobileWeb,
+                                isPopularMovies: true,
+                              );
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    const NowPlayingListWeb(
+                      limit: 5,
+                      isGrid: true,
+                      isPopularMovies: true,
+                    ),
                     SectionTitle(
                       title: 'Tv Shows',
                       withSeeMore: true,
                       seeMoreCallBack: () {
-                        // var movieList = context.moviesProvider.nowPlayingList;
-                        // Navigator.push(context, MaterialPageRoute(builder: (_) {
-                        //   return MovieListScreenWeb(
-                        //     movieList: movieList,
-                        //     isMobileWeb: widget.isMobileWeb,
-                        //   );
-                        // }));
+                        context.moviesProvider.updateGenre(
+                          MovieGenre(id: 0, name: 'All'),
+                          false,
+                        );
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) {
+                              return TvShowListScreenWeb(
+                                isMobileWeb: widget.isMobileWeb,
+                              );
+                            },
+                          ),
+                        );
                       },
                     ),
                     const SizedBox(height: 20),
                     const OnTvGridWeb(
                       limit: 5,
                     ),
+                   
                   ],
                 ),
               ),

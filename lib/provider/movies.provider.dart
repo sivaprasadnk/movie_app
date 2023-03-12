@@ -44,8 +44,15 @@ class MoviesProvider extends ChangeNotifier {
 
   List<Movie> _nowPlayingList = [];
   List<Movie> get nowPlayingList => _nowPlayingList;
+
   List<Movie> _filteredNowPlayingList = [];
   List<Movie> get filteredNowPlayingList => _filteredNowPlayingList;
+
+  List<Movie> _filteredPopularMovies = [];
+  List<Movie> get filteredPopularMovies => _filteredPopularMovies;
+
+  List<TvShows> _filteredTvShowsList = [];
+  List<TvShows> get filteredTvShowsList => _filteredTvShowsList;
 
   List<TvShows> _onTvList = [];
   List<TvShows> get onTvList => _onTvList;
@@ -64,13 +71,29 @@ class MoviesProvider extends ChangeNotifier {
   MovieGenre? _selectedGenre;
   MovieGenre get selectedGenre => _selectedGenre!;
 
-  void updateGenre(MovieGenre genre) {
+  void updateGenre(MovieGenre genre, bool isMovie, [bool isPopular = false]) {
     _selectedGenre = genre;
     _filteredNowPlayingList = [];
     if (genre.id == 0) {
-      _filteredNowPlayingList = _nowPlayingList;
+      if (isMovie) {
+        if (!isPopular) {
+          _filteredNowPlayingList = _nowPlayingList;
+        } else {
+          _filteredPopularMovies = _popularMovieList;
+        }
+      } else {
+        _filteredTvShowsList = _onTvList;
+      }
     } else {
-      _filteredNowPlayingList = genre.getFilteredList(_nowPlayingList);
+      if (isMovie) {
+        if (!isPopular) {
+          _filteredNowPlayingList = genre.getFilteredList(_nowPlayingList);
+        } else {
+          _filteredPopularMovies = genre.getFilteredList(_popularMovieList);
+        }
+      } else {
+        _filteredTvShowsList = genre.getFilteredTvShowsList(_onTvList);
+      }
     }
     notifyListeners();
   }
@@ -132,6 +155,7 @@ class MoviesProvider extends ChangeNotifier {
     notifyListeners();
 
     _popularMovieList = await MovieRepo.getPopularList();
+    _filteredPopularMovies = _popularMovieList;
     _popularListLoading = false;
     notifyListeners();
   }
@@ -142,7 +166,6 @@ class MoviesProvider extends ChangeNotifier {
     notifyListeners();
     _nowPlayingList = await MovieRepo.getNowPlayingList();
     _filteredNowPlayingList = _nowPlayingList;
-    
 
     _nowPlayingListLoading = false;
     notifyListeners();
@@ -154,7 +177,7 @@ class MoviesProvider extends ChangeNotifier {
     notifyListeners();
 
     _onTvList = await MovieRepo.getOnTvList();
-
+    _filteredTvShowsList = _onTvList;
     _onTVListLoading = false;
     notifyListeners();
   }

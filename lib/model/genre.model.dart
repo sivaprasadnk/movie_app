@@ -1,4 +1,5 @@
 import 'package:movie_app/model/movie.dart';
+import 'package:movie_app/model/tv.shows.dart';
 
 class MovieGenre {
   int id;
@@ -60,11 +61,40 @@ extension GenreExt on List<MovieGenre> {
 
     return list;
   }
+
+  List<MovieGenre> tvGenres(List<TvShows> movieList) {
+    var list = <MovieGenre>[];
+    var idList = <int>[];
+
+    idList = movieList.uniqueIdList();
+    list.add(MovieGenre(id: 0, name: 'All'));
+    for (var i in this) {
+      for (var id in idList) {
+        if (id == i.id) {
+          list.add(MovieGenre(id: id, name: i.name));
+        }
+      }
+    }
+
+    return list;
+  }
 }
 
 extension GenreExts on MovieGenre {
   List<Movie> getFilteredList(List<Movie> movieList) {
     var list = <Movie>[];
+
+    for (var movie in movieList) {
+      if (movie.genreIdList.contains(id)) {
+        list.add(movie);
+      }
+    }
+
+    return list;
+  }
+
+  List<TvShows> getFilteredTvShowsList(List<TvShows> movieList) {
+    var list = <TvShows>[];
 
     for (var movie in movieList) {
       if (movie.genreIdList.contains(id)) {

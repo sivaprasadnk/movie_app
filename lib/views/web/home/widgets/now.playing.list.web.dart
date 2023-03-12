@@ -10,20 +10,29 @@ class NowPlayingListWeb extends StatelessWidget {
     Key? key,
     this.isGrid = false,
     this.limit = 0,
+    this.isPopularMovies = false,
   }) : super(key: key);
   final bool isGrid;
   final int limit;
+  final bool isPopularMovies;
 
   @override
   Widget build(BuildContext context) {
     return Consumer<MoviesProvider>(
       builder: (_, provider, __) {
-        return MovieGrid(
-          isLoading: provider.nowPlayingListLoading,
-          movieGrid: provider.nowPlayingList.homeScreenList(limit),
-          isWeb: true,
-          limit: context.gridCrossAxisCount,
-        );
+        return !isPopularMovies
+            ? MovieGrid(
+                isLoading: provider.nowPlayingListLoading,
+                movieGrid: provider.nowPlayingList.homeScreenList(limit),
+                isWeb: true,
+                limit: context.gridCrossAxisCount,
+              )
+            : MovieGrid(
+                isLoading: provider.popularListLoading,
+                movieGrid: provider.popularMovieList.homeScreenList(limit),
+                isWeb: true,
+                limit: context.gridCrossAxisCount,
+              );
       },
     );
   }

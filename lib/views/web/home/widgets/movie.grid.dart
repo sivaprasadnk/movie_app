@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/model/movie.dart';
+import 'package:movie_app/model/tv.shows.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
 import 'package:movie_app/views/mobile/home/page/movie.list/widgets/movie.card.dart';
 
@@ -7,19 +8,22 @@ class MovieGrid extends StatelessWidget {
   const MovieGrid({
     super.key,
     required this.isLoading,
-    required this.movieGrid,
-    this.isWeb = false,
+    this.movieGrid = const [],
+    this.tvShowsList = const [],
     required this.limit,
+    this.isWeb = false,
+    this.isMovie = true,
   });
 
   final bool isLoading;
   final List<Movie> movieGrid;
+  final List<TvShows> tvShowsList;
   final bool isWeb;
   final int limit;
+  final bool isMovie;
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('width : ${context.width}');
     return isLoading
         ? const SizedBox(
             height: 75,
@@ -40,21 +44,41 @@ class MovieGrid extends StatelessWidget {
             shrinkWrap: true,
             itemCount: limit,
             itemBuilder: (context, index) {
-              var movie = movieGrid[index];
-              return Padding(
-                padding: const EdgeInsets.only(
-                  right: 10,
-                ),
-                child: MovieCard(
-                  name: movie.title,
-                  poster: movie.posterPath,
-                  vote: movie.voteAverage,
-                  id: movie.id,
-                  isWeb: isWeb,
-                  imageHeight: 200,
-                  imageWidth: 150,
-                ),
-              );
+              if (isMovie) {
+                var movie = movieGrid[index];
+                return Padding(
+                  padding: const EdgeInsets.only(
+                    right: 10,
+                  ),
+                  child: MovieCard(
+                    isMovie: true,
+                    name: movie.title,
+                    poster: movie.posterPath,
+                    vote: movie.voteAverage,
+                    id: movie.id,
+                    isWeb: isWeb,
+                    imageHeight: 200,
+                    imageWidth: 150,
+                  ),
+                );
+              } else {
+                var show = tvShowsList[index];
+                return Padding(
+                  padding: const EdgeInsets.only(
+                    right: 10,
+                  ),
+                  child: MovieCard(
+                    isMovie: false,
+                    name: show.name,
+                    poster: show.posterPath,
+                    vote: show.voteAverage,
+                    id: show.id,
+                    isWeb: isWeb,
+                    imageHeight: 200,
+                    imageWidth: 150,
+                  ),
+                );
+              }
             },
           );
   }

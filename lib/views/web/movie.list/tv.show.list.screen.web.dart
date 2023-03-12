@@ -8,15 +8,13 @@ import 'package:movie_app/views/web/home/widgets/genre.list.dart';
 import 'package:movie_app/views/web/home/widgets/movie.grid.dart';
 import 'package:provider/provider.dart';
 
-class MovieListScreenWeb extends StatelessWidget {
-  const MovieListScreenWeb({
+class TvShowListScreenWeb extends StatelessWidget {
+  const TvShowListScreenWeb({
     Key? key,
     this.isMobileWeb = false,
-    this.isPopularMovies = false,
   }) : super(key: key);
 
   final bool isMobileWeb;
-  final bool isPopularMovies;
 
   @override
   Widget build(BuildContext context) {
@@ -31,38 +29,26 @@ class MovieListScreenWeb extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 20),
-              SectionTitle(
-                title: !isPopularMovies ? 'Now Playing' : 'Popular Movies',
+              const SectionTitle(
+                title: 'Tv Shows',
                 withSeeMore: false,
               ),
               const SizedBox(height: 20),
               const SizedBox(height: 20),
-              !isPopularMovies
-                  ? GenreOptionsList(
-                      genreList: context.moviesProvider.movieGenreList
-                          .movieGenres(context.moviesProvider.nowPlayingList),
-                    )
-                  : GenreOptionsList(
-                      genreList: context.moviesProvider.movieGenreList
-                          .movieGenres(context.moviesProvider.popularMovieList),
-                      isPopular: true,
-                    ),
+              GenreOptionsList(
+                genreList: context.moviesProvider.movieGenreList
+                    .tvGenres(context.moviesProvider.onTvList),
+              ),
               const SizedBox(height: 20),
               Consumer<MoviesProvider>(
                 builder: (_, provider, __) {
-                  return !isPopularMovies
-                      ? MovieGrid(
-                          isLoading: false,
-                          movieGrid: provider.filteredNowPlayingList,
-                          isWeb: true,
-                          limit: provider.filteredNowPlayingList.length,
-                        )
-                      : MovieGrid(
-                          isLoading: false,
-                          movieGrid: provider.filteredPopularMovies,
-                          isWeb: true,
-                          limit: provider.filteredPopularMovies.length,
-                        );
+                  return MovieGrid(
+                    isLoading: false,
+                    tvShowsList: provider.filteredTvShowsList,
+                    isWeb: true,
+                    isMovie: false,
+                    limit: provider.filteredTvShowsList.length,
+                  );
                 },
               )
             ],
