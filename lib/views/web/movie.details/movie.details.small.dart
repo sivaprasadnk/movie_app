@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/model/genre.model.dart';
 import 'package:movie_app/model/movie.details.dart';
-import 'package:movie_app/utils/extensions/time.extensions.dart';
+import 'package:movie_app/utils/extensions/int.extensions.dart';
 import 'package:movie_app/views/common/section.title.dart';
 
 import '../../common/custom.cache.image.dart';

@@ -2,10 +2,10 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_app/utils/dialogs.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
+import 'package:movie_app/views/common/auth/sign.in/sign.in.screen.dart';
+import 'package:movie_app/views/common/auth/sign.up/widgets/custom.decoration.dart';
+import 'package:movie_app/views/common/auth/sign.up/widgets/password.decoration.dart';
 import 'package:movie_app/views/common/common.button.dart';
-import 'package:movie_app/views/mobile/auth/sign.in/sign.in.screen.dart';
-import 'package:movie_app/views/mobile/auth/sign.up/widgets/custom.decoration.dart';
-import 'package:movie_app/views/mobile/auth/sign.up/widgets/password.decoration.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});

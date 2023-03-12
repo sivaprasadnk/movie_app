@@ -7,12 +7,14 @@ import 'package:provider/provider.dart';
 class OnTvList extends StatelessWidget {
   const OnTvList({
     Key? key,
-    this.isWeb = false,
+    this.isGrid = false,
+    this.limit = 0,
   }) : super(key: key);
-  final bool isWeb;
+  final bool isGrid;
+  final int limit;
   @override
   Widget build(BuildContext context) {
-    final limit = isWeb ? 10 : 5;
+    // final limit = isWeb ? 10 : 5;
     return Consumer<MoviesProvider>(
       builder: (_, provider, __) {
         return provider.onTVListLoading

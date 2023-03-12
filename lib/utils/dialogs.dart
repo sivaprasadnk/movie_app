@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
-import 'package:movie_app/views/mobile/auth/sign.in/sign.in.screen.dart';
+import 'package:movie_app/views/common/auth/sign.in/sign.in.screen.dart';
 import 'package:movie_app/views/mobile/home/home.screen.dart';
 
 class Dialogs {

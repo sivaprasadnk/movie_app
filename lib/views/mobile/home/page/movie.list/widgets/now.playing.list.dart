@@ -2,25 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:movie_app/model/movie.dart';
 import 'package:movie_app/provider/movies.provider.dart';
 import 'package:movie_app/views/mobile/home/page/movie.list/widgets/movie.list.dart';
+import 'package:movie_app/views/web/home/widgets/movie.grid.dart';
 import 'package:provider/provider.dart';
 
-class NowPlayingList extends StatelessWidget {
-  const NowPlayingList({
+class NowPlayingListMobile extends StatelessWidget {
+  const NowPlayingListMobile({
     Key? key,
-    this.isWeb = false,
+    this.isGrid = false,
+    this.limit = 0,
   }) : super(key: key);
-  final bool isWeb;
+  final bool isGrid;
+  final int limit;
 
   @override
   Widget build(BuildContext context) {
-    var limit = isWeb ? 10 : 5;
     return Consumer<MoviesProvider>(
       builder: (_, provider, __) {
-        return MovieList(
-          isLoading: provider.nowPlayingListLoading,
-          movieList: provider.nowPlayingList.homeScreenList(limit),
-          isWeb: isWeb,
-        );
+        return !isGrid
+            ? MovieList(
+                isLoading: provider.nowPlayingListLoading,
+                movieList: provider.nowPlayingList.homeScreenList(limit),
+                isWeb: false,
+              )
+            : MovieGrid(
+                isLoading: provider.nowPlayingListLoading,
+                movieGrid: provider.nowPlayingList.homeScreenList(limit),
+                isWeb: true,
+                limit: limit,
+              );
       },
     );
   }

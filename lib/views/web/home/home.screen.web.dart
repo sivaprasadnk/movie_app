@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
+import 'package:movie_app/model/genre.model.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
 import 'package:movie_app/views/common/section.title.dart';
-import 'package:movie_app/views/mobile/home/page/movie.list/widgets/ontv.list.dart';
-import 'package:movie_app/views/mobile/home/page/movie.list/widgets/popular.movies.list.dart';
-import 'package:movie_app/views/web/user.name.container.dart';
+import 'package:movie_app/views/common/title.app.bar.dart';
+import 'package:movie_app/views/web/home/widgets/now.playing.list.web.dart';
+import 'package:movie_app/views/web/home/widgets/ontv.grid.web.dart';
 import 'package:provider/provider.dart';
 
-import '../../provider/movies.provider.dart';
-import '../mobile/home/page/movie.list/widgets/carousal.indicator.dart';
-import '../mobile/home/page/movie.list/widgets/carousal.movie.item.dart';
-import '../mobile/home/page/movie.list/widgets/now.playing.list.dart';
+import '../../../provider/movies.provider.dart';
+import '../../mobile/home/page/movie.list/widgets/carousal.indicator.dart';
+import '../../mobile/home/page/movie.list/widgets/carousal.movie.item.dart';
+import '../movie.list/movie.list.screen.web.dart';
 
 class HomeScreenWeb extends StatefulWidget {
-  const HomeScreenWeb({super.key});
+  const HomeScreenWeb({
+    Key? key,
+    this.isMobileWeb = false,
+  }) : super(key: key);
+
+  final bool isMobileWeb;
 
   static const routeName = '/home';
   @override
@@ -24,12 +30,15 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      context.appProvider.updateMobileApp(false);
+
       context.moviesProvider.getGenres();
       context.moviesProvider.getTrendingList();
       context.moviesProvider.getNowPlayingList();
       context.moviesProvider.getOnTvList();
       context.moviesProvider.getPopularList();
       context.appProvider.updatedSelectedIndex(0);
+      context.appProvider.updateMobileWeb(widget.isMobileWeb);
     });
     super.initState();
   }
@@ -41,35 +50,7 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
     return Form(
       key: _formKey,
       child: Scaffold(
-        appBar: AppBar(
-          title: SizedBox(
-            // width: context.width * 0.6,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: const [
-                Text(
-                  "MovieVerse",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black,
-                  ),
-                ),
-                SizedBox(width: 20),
-                // Container(
-                //   width: context.width * 0.5,
-                //   decoration: BoxDecoration(
-                //     color: Colors.white,
-                //     borderRadius: BorderRadius.circular(10),
-                //   ),
-                // ),
-              ],
-            ),
-          ),
-          actions: const [
-            UserDetailsContainer(),
-            SizedBox(width: 50),
-          ],
-        ),
+        appBar: const TitleAppBar(),
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -121,31 +102,43 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
                     SectionTitle(
                       title: 'Now Playing',
                       withSeeMore: true,
-                      seeMoreCallBack: () {},
+                      seeMoreCallBack: () {
+                        context.moviesProvider
+                            .updateGenre(MovieGenre(id: 0, name: 'All'));
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) {
+                              return MovieListScreenWeb(
+                                isMobileWeb: widget.isMobileWeb,
+                              );
+                            },
+                          ),
+                        );
+                      },
                     ),
                     const SizedBox(height: 20),
-                    const NowPlayingList(
-                      isWeb: true,
+                    const NowPlayingListWeb(
+                      limit: 5,
+                      isGrid: true,
                     ),
-                    const SizedBox(height: 20),
                     SectionTitle(
-                      title: 'On TV',
+                      title: 'Tv Shows',
                       withSeeMore: true,
-                      seeMoreCallBack: () {},
+                      seeMoreCallBack: () {
+                        // var movieList = context.moviesProvider.nowPlayingList;
+                        // Navigator.push(context, MaterialPageRoute(builder: (_) {
+                        //   return MovieListScreenWeb(
+                        //     movieList: movieList,
+                        //     isMobileWeb: widget.isMobileWeb,
+                        //   );
+                        // }));
+                      },
                     ),
                     const SizedBox(height: 20),
-                    const OnTvList(
-                      isWeb: true,
-                    ),
-                    const SizedBox(height: 20),
-                    SectionTitle(
-                      title: 'Popular Movies',
-                      withSeeMore: true,
-                      seeMoreCallBack: () {},
-                    ),
-                    const SizedBox(height: 20),
-                    const PopularMoviesList(
-                      isWeb: true,
+                    const OnTvGridWeb(
+                      limit: 5,
                     ),
                   ],
                 ),

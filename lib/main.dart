@@ -7,7 +7,7 @@ import 'package:movie_app/provider/providers.dart';
 import 'package:movie_app/utils/routes.dart';
 import 'package:movie_app/views/common/not.network.screen.dart';
 import 'package:movie_app/views/mobile/splash.screen/splash.screen.dart';
-import 'package:movie_app/views/web/home.screen.web.dart';
+import 'package:movie_app/views/web/home/home.screen.web.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -21,7 +21,11 @@ void main() async {
   // );
   if (defaultTargetPlatform == TargetPlatform.android ||
       defaultTargetPlatform == TargetPlatform.iOS) {
-    runApp(const MobileApp());
+    if (kIsWeb) {
+      runApp(const WebApp(isMobileWeb: true));
+    } else {
+      runApp(const MobileApp());
+    }
   } else {
     runApp(const WebApp());
   }
@@ -74,7 +78,12 @@ class MobileApp extends StatelessWidget {
 }
 
 class WebApp extends StatelessWidget {
-  const WebApp({super.key});
+  const WebApp({
+    super.key,
+    this.isMobileWeb = false,
+  });
+
+  final bool isMobileWeb;
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +96,7 @@ class WebApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.red,
         ),
-        home: const HomeScreenWeb(),
+        home: HomeScreenWeb(isMobileWeb: isMobileWeb),
       ),
     );
   }

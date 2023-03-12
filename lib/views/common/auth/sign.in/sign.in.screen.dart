@@ -1,10 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:movie_app/utils/dialogs.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
+import 'package:movie_app/views/common/auth/sign.up/sign.up.screen.dart';
+import 'package:movie_app/views/common/auth/sign.up/widgets/custom.decoration.dart';
+import 'package:movie_app/views/common/auth/sign.up/widgets/password.decoration.dart';
 import 'package:movie_app/views/common/common.button.dart';
-import 'package:movie_app/views/mobile/auth/sign.up/sign.up.screen.dart';
-import 'package:movie_app/views/mobile/auth/sign.up/widgets/custom.decoration.dart';
-import 'package:movie_app/views/mobile/auth/sign.up/widgets/password.decoration.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -149,17 +150,17 @@ class _SignInScreenState extends State<SignInScreen> {
 
   validateAndProceed() async {
     _formKey.currentState!.save();
-    // Dialogs.showLoader(context: context);
+    Dialogs.showLoader(context: context);
 
-    // await context.authProvider.signIn(
-    // email,
-    // password,
-    // // 'sp@sp.com',
-    // // '1234567890',
-    //   context,
-    // );
+    await context.authProvider.signIn(
+      email,
+      password,
+      // 'sp@sp.com',
+      // '1234567890',
+      context,
+      context.appProvider.isMobileApp,
+    );
 
-    context.authProvider.signInWithMobile(context, email);
+    // context.authProvider.signInWithMobile(context, email);
   }
-  // }
 }

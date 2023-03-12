@@ -5,6 +5,7 @@ import 'package:movie_app/utils/custom.exception.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
 import 'package:movie_app/views/mobile/home/home.screen.dart';
 import 'package:movie_app/views/mobile/splash.screen/splash.screen.dart';
+import 'package:movie_app/views/web/home/home.screen.web.dart';
 
 class AuthProvider extends ChangeNotifier {
   bool _isGuestUser = true;
@@ -71,7 +72,11 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future signIn(
-      String emailAddress, String password, BuildContext context) async {
+    String emailAddress,
+    String password,
+    BuildContext context,
+    bool isApp,
+  ) async {
     try {
       context.unfocus();
       if (emailAddress.isEmpty) {
@@ -85,7 +90,11 @@ class AuthProvider extends ChangeNotifier {
         if (userCredential != null) {
           context.pop();
           updateGuestUser(false);
-          Navigator.pushReplacementNamed(context, HomeScreenMobile.routeName);
+          if (isApp) {
+            Navigator.pushReplacementNamed(context, HomeScreenMobile.routeName);
+          } else {
+            Navigator.pushReplacementNamed(context, HomeScreenWeb.routeName);
+          }
         } else {
           context.pop();
         }

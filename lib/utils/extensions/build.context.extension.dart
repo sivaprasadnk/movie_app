@@ -10,6 +10,30 @@ extension ContextExtensions on BuildContext {
   double get height => size.height;
   double get width => size.width;
 
+  // int get gridCrossAxisCount => width > 1200
+  //     ? 5
+  //     : width > 920
+  //         ? 4
+  //         : width > 685
+  //             ? 3
+  //             : 2;
+
+  int get gridCrossAxisCount => width > 1200
+      ? 5
+      : width > 920
+          ? 4
+          : width > 685
+              ? 3
+              : 2;
+
+  int get gridLimit => width > 1200
+      ? 5
+      : width > 920
+          ? 4
+          : width > 685
+              ? 3
+              : 2;            
+
   MoviesProvider get moviesProvider =>
       Provider.of<MoviesProvider>(this, listen: false);
 
@@ -23,7 +47,9 @@ extension ContextExtensions on BuildContext {
 
 
   ScaffoldMessengerState get scaffoldMessenger => ScaffoldMessenger.of(this);
+
   ThemeData get theme => Theme.of(this);
+  
   void pop() {
     Navigator.pop(this);
   }

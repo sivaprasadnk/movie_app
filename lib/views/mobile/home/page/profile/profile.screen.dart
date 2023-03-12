@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
+import 'package:movie_app/views/common/auth/sign.in/sign.in.screen.dart';
 import 'package:movie_app/views/common/common.button.dart';
 import 'package:movie_app/views/common/page.title.dart';
-import 'package:movie_app/views/mobile/auth/sign.in/sign.in.screen.dart';
 import 'package:movie_app/views/mobile/home/page/profile/widgets/bookmark.list.menu.dart';
 import 'package:movie_app/views/mobile/home/page/profile/widgets/profile.details.dart';
 import 'package:movie_app/views/mobile/home/page/profile/widgets/profile.menu.card.dart';

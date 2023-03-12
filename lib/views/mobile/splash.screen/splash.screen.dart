@@ -18,10 +18,13 @@ class _SplashScreenStateMobile extends State<SplashScreenMobile> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      context.appProvider.updateMobileApp(true);
+      context.appProvider.updateMobileWeb(false);
       if (FirebaseAuth.instance.currentUser == null) {
         await Dialogs.showGetStartedDialog(context);
       } else {
         context.authProvider.updateGuestUser(false);
+
         Navigator.pushReplacementNamed(context, HomeScreenMobile.routeName);
       }
     });

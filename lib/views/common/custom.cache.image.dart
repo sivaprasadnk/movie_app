@@ -40,3 +40,44 @@ class CustomCacheImage extends StatelessWidget {
     );
   }
 }
+
+
+class CustomCacheImageWithoutSize extends StatelessWidget {
+  const CustomCacheImageWithoutSize({
+    super.key,
+    required this.imageUrl,
+    // required this.height,
+    // required this.width,
+    required this.cacheKey,
+    required this.borderRadius,
+  });
+
+  final String imageUrl;
+  // final double height;
+  // final double width;
+  final String cacheKey;
+  final double borderRadius;
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.all(
+        Radius.circular(borderRadius),
+      ),
+      child: CachedNetworkImage(
+        imageUrl: imageUrl,
+        cacheKey: cacheKey,
+        // height: height,
+        // width: width,
+        fit: BoxFit.cover,
+        errorWidget: (context, url, error) {
+          return const SizedBox(
+            // height: height,
+            // width: width,
+            child: Icon(Icons.error),
+          );
+        },
+      ),
+    );
+  }
+}

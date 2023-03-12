@@ -15,6 +15,8 @@ class MovieCard extends StatelessWidget {
     required this.id,
     this.isMovie = true,
     this.isWeb = false,
+    this.imageHeight = 155,
+    this.imageWidth = 100,
   }) : super(key: key);
 
   final String poster;
@@ -23,6 +25,8 @@ class MovieCard extends StatelessWidget {
   final int id;
   final bool isMovie;
   final bool isWeb;
+  final double imageHeight;
+  final double imageWidth;
 
   @override
   Widget build(BuildContext context) {
@@ -62,18 +66,26 @@ class MovieCard extends StatelessWidget {
         }
       },
       child: SizedBox(
-        width: 110,
+        // width: 110,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            CustomCacheImage(
-              borderRadius: 8,
-              height: 155,
-              width: 100,
-              imageUrl: poster,
-              cacheKey: cacheKey,
-            ),
+            !isWeb
+                ? CustomCacheImage(
+                    borderRadius: 8,
+                    height: imageHeight,
+                    width: imageWidth,
+                    imageUrl: poster,
+                    cacheKey: cacheKey,
+                  )
+                : CustomCacheImageWithoutSize(
+                    borderRadius: 8,
+                    // height: imageHeight,
+                    // width: imageWidth,
+                    imageUrl: poster,
+                    cacheKey: cacheKey,
+                  ),
             const SizedBox(height: 8),
             Text(
               name,

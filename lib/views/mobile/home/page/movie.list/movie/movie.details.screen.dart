@@ -3,7 +3,7 @@ import 'package:movie_app/model/genre.model.dart';
 import 'package:movie_app/provider/auth.provider.dart';
 import 'package:movie_app/provider/movies.provider.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
-import 'package:movie_app/utils/extensions/time.extensions.dart';
+import 'package:movie_app/utils/extensions/int.extensions.dart';
 import 'package:movie_app/views/common/common.button.dart';
 import 'package:movie_app/views/common/section.title.dart';
 import 'package:movie_app/views/mobile/home/page/movie.list/movie/widgets/actors.list.dart';

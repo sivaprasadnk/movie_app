@@ -44,6 +44,8 @@ class MoviesProvider extends ChangeNotifier {
 
   List<Movie> _nowPlayingList = [];
   List<Movie> get nowPlayingList => _nowPlayingList;
+  List<Movie> _filteredNowPlayingList = [];
+  List<Movie> get filteredNowPlayingList => _filteredNowPlayingList;
 
   List<TvShows> _onTvList = [];
   List<TvShows> get onTvList => _onTvList;
@@ -56,6 +58,20 @@ class MoviesProvider extends ChangeNotifier {
 
   void updateMovieGenreList(List<MovieGenre> list) {
     _movieGenreList = list;
+    notifyListeners();
+  }
+
+  MovieGenre? _selectedGenre;
+  MovieGenre get selectedGenre => _selectedGenre!;
+
+  void updateGenre(MovieGenre genre) {
+    _selectedGenre = genre;
+    _filteredNowPlayingList = [];
+    if (genre.id == 0) {
+      _filteredNowPlayingList = _nowPlayingList;
+    } else {
+      _filteredNowPlayingList = genre.getFilteredList(_nowPlayingList);
+    }
     notifyListeners();
   }
 
@@ -125,7 +141,9 @@ class MoviesProvider extends ChangeNotifier {
     _nowPlayingList = [];
     notifyListeners();
     _nowPlayingList = await MovieRepo.getNowPlayingList();
+    _filteredNowPlayingList = _nowPlayingList;
     
+
     _nowPlayingListLoading = false;
     notifyListeners();
   }
@@ -136,18 +154,18 @@ class MoviesProvider extends ChangeNotifier {
     notifyListeners();
 
     _onTvList = await MovieRepo.getOnTvList();
-  
+
     _onTVListLoading = false;
     notifyListeners();
   }
 
   Future getGenres() async {
     _movieGenreList = await MovieRepo.getGenreList();
+    _selectedGenre = _movieGenreList[0];
     notifyListeners();
   }
 
   Future getMovieDetails(int id) async {
-
     _selectedMovie = await MovieRepo.getMovieDetails(id);
     getActorsList(id);
     getSimilarMoviesList(id);

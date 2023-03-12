@@ -29,6 +29,7 @@ class MovieRepo {
         var genreList = item['genres'] as List;
         if (genreList.isNotEmpty) {
           for (var i in genreList) {
+            // list.add(MovieGenre(id: id, name: name))
             list.add(MovieGenre.fromJson(i));
           }
         }

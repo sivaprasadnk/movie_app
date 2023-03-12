@@ -1,7 +1,6 @@
-extension TimeExt on int {
+extension IntExt on int {
   String get durationInHrs {
     int minutes = this;
-    // var hrsInDble = minutes / 60;
     int hours = minutes ~/ 60;
     int remainingMinutes = minutes % 60;
     return "${hours}h ${remainingMinutes}m";

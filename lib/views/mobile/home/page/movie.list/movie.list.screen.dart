@@ -63,7 +63,7 @@ class MovieListScreen extends StatelessWidget {
                   seeMoreCallBack: () {},
                 ),
                 const SizedBox(height: 20),
-                const NowPlayingList(),
+                const NowPlayingListMobile(),
                 const SizedBox(height: 20),
                 SectionTitle(
                   title: 'On TV',
