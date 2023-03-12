@@ -70,6 +70,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '482990802190',
     projectId: 'movie-app-invenics',
     storageBucket: 'movie-app-invenics.appspot.com',
+    androidClientId: '482990802190-mkk9heuaeqkofc6tn8s6a6drmqp8fg4o.apps.googleusercontent.com',
     iosClientId: '482990802190-qqovq9s8b7rdle1snmr57o3b2f66d5bj.apps.googleusercontent.com',
     iosBundleId: 'com.sptpra.movieApp',
   );

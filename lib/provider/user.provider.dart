@@ -3,7 +3,7 @@ import 'package:movie_app/model/movie.details.dart';
 import 'package:movie_app/model/tv.show.details.dart';
 import 'package:movie_app/repo/user/user.repo.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
-import 'package:movie_app/views/home/home.screen.dart';
+import 'package:movie_app/views/mobile/home/home.screen.dart';
 
 class UserProvider extends ChangeNotifier {
   //
@@ -39,7 +39,7 @@ class UserProvider extends ChangeNotifier {
         context.scaffoldMessenger.showSnackBar(
             SnackBar(content: Text("${movie.title}  added to Bookmarks !")));
         Navigator.pushNamedAndRemoveUntil(
-            context, HomeScreen.routeName, (route) => false);
+            context, HomeScreenMobile.routeName, (route) => false);
       }
     }
   }
@@ -57,7 +57,7 @@ class UserProvider extends ChangeNotifier {
         context.scaffoldMessenger.showSnackBar(
             SnackBar(content: Text("${show.name}  added to Bookmarks !")));
         Navigator.pushNamedAndRemoveUntil(
-            context, HomeScreen.routeName, (route) => false);
+            context, HomeScreenMobile.routeName, (route) => false);
       }
     }
   }

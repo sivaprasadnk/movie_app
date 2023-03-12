@@ -14,6 +14,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "482990802190-mkk9heuaeqkofc6tn8s6a6drmqp8fg4o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sptpra.movie_app",
+            "certificate_hash": "463f5c6cc71b3c1b604e20cc21864653f2672e5e"
+          }
+        },
+        {
+          "client_id": "482990802190-uisepvvcrgoc4b7k0ku2mav1as96rttd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sptpra.movie_app",
+            "certificate_hash": "b111ad093ba7bbe26357a1e65056457e494042a7"
+          }
+        },
+        {
           "client_id": "482990802190-isqfno7m5qsu1bm7bsd90t6h6feeef6s.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,6 +45,13 @@
             {
               "client_id": "482990802190-isqfno7m5qsu1bm7bsd90t6h6feeef6s.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "482990802190-qqovq9s8b7rdle1snmr57o3b2f66d5bj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sptpra.movieApp"
+              }
             }
           ]
         }

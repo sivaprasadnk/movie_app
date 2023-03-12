@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
-import 'package:movie_app/views/auth/sign.in/sign.in.screen.dart';
-import 'package:movie_app/views/home/home.screen.dart';
+import 'package:movie_app/views/mobile/auth/sign.in/sign.in.screen.dart';
+import 'package:movie_app/views/mobile/home/home.screen.dart';
 
 class Dialogs {
   static void showLoader({required BuildContext context}) async {
@@ -211,7 +211,7 @@ class Dialogs {
                 InkWell(
                   onTap: () {
                     context.authProvider.updateGuestUser(true);
-                    Navigator.pushNamed(context, HomeScreen.routeName);
+                    Navigator.pushNamed(context, HomeScreenMobile.routeName);
                   },
                   child: Container(
                     width: double.infinity,

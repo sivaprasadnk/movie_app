@@ -1,0 +1,57 @@
+import 'package:flutter/material.dart';
+import 'package:movie_app/provider/app.provider.dart';
+import 'package:movie_app/utils/extensions/build.context.extension.dart';
+import 'package:movie_app/views/common/bottom.nav.bar.dart';
+import 'package:movie_app/views/mobile/home/page/activity.screen.dart';
+import 'package:movie_app/views/mobile/home/page/movie.list/movie.list.screen.dart';
+import 'package:movie_app/views/mobile/home/page/profile/profile.screen.dart';
+import 'package:movie_app/views/mobile/home/page/search.screen.dart';
+import 'package:provider/provider.dart';
+
+class HomeScreenMobile extends StatefulWidget {
+  const HomeScreenMobile({super.key});
+  static const routeName = '/homeMobile';
+
+  @override
+  State<HomeScreenMobile> createState() => _HomeScreenMobileState();
+}
+
+class _HomeScreenMobileState extends State<HomeScreenMobile> {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      context.moviesProvider.getGenres();
+      context.moviesProvider.getTrendingList();
+      context.moviesProvider.getNowPlayingList();
+      context.moviesProvider.getOnTvList();
+      context.moviesProvider.getPopularList();
+      context.appProvider.updatedSelectedIndex(0);
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        bottomNavigationBar: const BottomNavBar(),
+        body: Consumer<AppProvider>(
+          builder: (_, provider, __) {
+            switch (provider.selectedIndex) {
+              case 0:
+                return const MovieListScreen();
+              case 1:
+                return const SearchScreen();
+              case 2:
+                return const ActivityScreen();
+              case 3:
+                return const ProfileScreen();
+            }
+            return const SizedBox.shrink();
+          },
+        ),
+      ),
+    );
+  }
+}

@@ -45,10 +45,10 @@ class Movie {
 }
 
 extension MovieExtension on List<Movie> {
-  List<Movie> get homeScreenList {
+  List<Movie> homeScreenList(int limit) {
     List<Movie> list = [];
     for (var movie in this) {
-      if (list.length < 6) {
+      if (list.length < limit) {
         list.add(movie);
       }
     }

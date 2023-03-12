@@ -50,7 +50,7 @@ class MovieRepo {
           HttpHeaders.contentTypeHeader: "application/json",
         },
       );
-      debugPrint(response.body);
+      // debugPrint(response.body);
       if (response.statusCode == 200) {
         final item = json.decode(response.body);
         var movieList = item['results'] as List;
@@ -66,8 +66,7 @@ class MovieRepo {
     return trendingList;
   }
 
-
-static Future getPopularList() async {
+  static Future getPopularList() async {
     List<Movie> movieList = [];
     try {
       debugPrint(kPopularMoviesUrl);
@@ -78,7 +77,7 @@ static Future getPopularList() async {
           HttpHeaders.contentTypeHeader: "application/json",
         },
       );
-      debugPrint(response.body);
+      // debugPrint(response.body);
       if (response.statusCode == 200) {
         final item = json.decode(response.body);
         var list = item['results'] as List;
@@ -105,7 +104,7 @@ static Future getPopularList() async {
           HttpHeaders.contentTypeHeader: "application/json",
         },
       );
-      debugPrint(response.body);
+      // debugPrint(response.body);
       if (response.statusCode == 200) {
         final item = json.decode(response.body);
         var movieList = item['results'] as List;
@@ -132,15 +131,13 @@ static Future getPopularList() async {
           HttpHeaders.contentTypeHeader: "application/json",
         },
       );
-      debugPrint(response.body);
+      // debugPrint(response.body);
       if (response.statusCode == 200) {
         final item = json.decode(response.body);
         var movieList = item['results'] as List;
         if (movieList.isNotEmpty) {
           for (var i in movieList) {
-            if (finalList.length < 5) {
-              finalList.add(TvShows.fromJson(i));
-            }
+            finalList.add(TvShows.fromJson(i));
           }
         }
       }
@@ -162,7 +159,7 @@ static Future getPopularList() async {
           HttpHeaders.contentTypeHeader: "application/json",
         },
       );
-      debugPrint(response.body);
+      // debugPrint(response.body);r
       if (response.statusCode == 200) {
         final item = json.decode(response.body);
         movie = MovieDetails.fromJson(item);
@@ -185,7 +182,7 @@ static Future getPopularList() async {
           HttpHeaders.contentTypeHeader: "application/json",
         },
       );
-      debugPrint(response.body);
+      // debugPrint(response.body);
       if (response.statusCode == 200) {
         final item = json.decode(response.body);
         show = TvShowDetails.fromJson(item);
@@ -209,7 +206,7 @@ static Future getPopularList() async {
           HttpHeaders.contentTypeHeader: "application/json",
         },
       );
-      debugPrint(response.body);
+      // debugPrint(response.body);
       if (response.statusCode == 200) {
         final item = json.decode(response.body);
         var castList = item['cast'] as List;
@@ -237,7 +234,7 @@ static Future getPopularList() async {
           HttpHeaders.contentTypeHeader: "application/json",
         },
       );
-      debugPrint(response.body);
+      // debugPrint(response.body);
       if (response.statusCode == 200) {
         final item = json.decode(response.body);
         var movieList = item['results'] as List;
@@ -265,7 +262,7 @@ static Future getPopularList() async {
           HttpHeaders.contentTypeHeader: "application/json",
         },
       );
-      debugPrint(response.body);
+      // debugPrint(response.body);
       if (response.statusCode == 200) {
         final item = json.decode(response.body);
         var movieList = item['results'] as List;

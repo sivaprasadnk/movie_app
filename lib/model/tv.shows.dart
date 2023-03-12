@@ -46,10 +46,10 @@ class TvShows {
 
 
 extension TvShowExtension on List<TvShows> {
-  List<TvShows> get homeScreenList {
+  List<TvShows> homeScreenList(int limit) {
     List<TvShows> list = [];
     for (var show in this) {
-      if (list.length < 6) {
+      if (list.length < limit) {
         list.add(show);
       }
     }

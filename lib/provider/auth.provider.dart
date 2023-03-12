@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:movie_app/repo/auth/auth.repo.dart';
 import 'package:movie_app/utils/custom.exception.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
-import 'package:movie_app/views/home/home.screen.dart';
-import 'package:movie_app/views/splash.screen/splash.screen.dart';
+import 'package:movie_app/views/mobile/home/home.screen.dart';
+import 'package:movie_app/views/mobile/splash.screen/splash.screen.dart';
 
 class AuthProvider extends ChangeNotifier {
   bool _isGuestUser = true;
@@ -45,7 +45,7 @@ class AuthProvider extends ChangeNotifier {
       await AuthRepo.register(emailAddress, password, userName);
       if (context.mounted) {
         context.pop();
-        Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+        Navigator.pushReplacementNamed(context, HomeScreenMobile.routeName);
       }
     } on CustomException catch (exc) {
       context.pop();
@@ -85,7 +85,7 @@ class AuthProvider extends ChangeNotifier {
         if (userCredential != null) {
           context.pop();
           updateGuestUser(false);
-          Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+          Navigator.pushReplacementNamed(context, HomeScreenMobile.routeName);
         } else {
           context.pop();
         }
@@ -120,7 +120,71 @@ class AuthProvider extends ChangeNotifier {
   Future logout(BuildContext context) async {
     await AuthRepo.logout().then((value) {
       Navigator.pushNamedAndRemoveUntil(
-          context, SplashScreen.routeName, (route) => false);
+          context, SplashScreenMobile.routeName, (route) => false);
     });
+  }
+
+  Future signInWithMobile(BuildContext context, String mobile) async {
+    try {
+      context.unfocus();
+
+      // await AuthRepo.phoneSignIn(mobile);
+      try {
+        await FirebaseAuth.instance.verifyPhoneNumber(
+          // phoneNumber: '+918086028340',
+          phoneNumber: '+91$mobile',
+          verificationCompleted: (phoneAuthCredential) {
+            debugPrint('verificationCompleted :');
+          },
+          verificationFailed: (error) {
+            debugPrint('verificationFailed :');
+            debugPrint(error.toString());
+            context.scaffoldMessenger.showSnackBar(
+              SnackBar(content: Text(error.toString())),
+            );
+          },
+          codeSent: (verificationId, forceResendingToken) {
+            debugPrint('codeSent : $verificationId');
+            context.scaffoldMessenger.showSnackBar(
+              SnackBar(content: Text('codeSent : $verificationId')),
+            );
+          },
+          codeAutoRetrievalTimeout: (verificationId) {
+            debugPrint('codeAutoRetrievalTimeout :');
+          },
+        );
+        return;
+      } on FirebaseAuthException catch (err) {
+        debugPrint(err.message);
+        debugPrint(err.code);
+        debugPrint(err.toString());
+      } catch (err) {
+        debugPrint(err.toString());
+      }
+    } on CustomException catch (exc) {
+      context.pop();
+
+      final snackBar = SnackBar(
+        content: Text(exc.message),
+      );
+
+      context.scaffoldMessenger.showSnackBar(snackBar);
+    } on FirebaseAuthException catch (e) {
+      context.pop();
+      debugPrint(e.message);
+      var message = "";
+      if (e.code == 'weak-password') {
+        message = "The password provided is too weak.";
+      } else if (e.code == 'email-already-in-use') {
+        message = "The account already exists for that email.";
+      } else {
+        message = e.code;
+      }
+      context.scaffoldMessenger.showSnackBar(
+        SnackBar(content: Text(message)),
+      );
+    } catch (err) {
+      debugPrint(err.toString());
+    }
   }
 }

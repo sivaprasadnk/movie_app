@@ -1,12 +1,13 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_app/firebase_options.dart';
 import 'package:movie_app/provider/providers.dart';
 import 'package:movie_app/utils/routes.dart';
 import 'package:movie_app/views/common/not.network.screen.dart';
-import 'package:movie_app/views/splash.screen/splash.screen.dart';
-import 'package:movie_app/views/splash.screen/splash.screen.scaffold.dart';
+import 'package:movie_app/views/mobile/splash.screen/splash.screen.dart';
+import 'package:movie_app/views/web/home.screen.web.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -14,17 +15,27 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  // await FirebaseAppCheck.instance.activate(
+  //   webRecaptchaSiteKey: 'recaptcha-v3-site-key',
+  //   androidProvider: AndroidProvider.playIntegrity,
+  // );
+  if (defaultTargetPlatform == TargetPlatform.android ||
+      defaultTargetPlatform == TargetPlatform.iOS) {
+    runApp(const MobileApp());
+  } else {
+    runApp(const WebApp());
+  }
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MobileApp extends StatelessWidget {
+  const MobileApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: providers,
-      child: StreamBuilder<ConnectivityResult>(
+      child: StreamBuilder(
+          initialData: ConnectivityResult.wifi,
           stream: Connectivity().onConnectivityChanged,
           builder: (context, snapshot) {
             return snapshot.hasData
@@ -37,9 +48,17 @@ class MyApp extends StatelessWidget {
                         theme: ThemeData(
                           primarySwatch: Colors.red,
                         ),
-                        home: const SplashScreen(),
+                        home: const SplashScreenMobile(),
                       )
-                    : const NoNetworkScreen()
+                    : MaterialApp(
+                        debugShowCheckedModeBanner: false,
+                        title: 'Movie App',
+                        routes: routes,
+                        theme: ThemeData(
+                          primarySwatch: Colors.red,
+                        ),
+                        home: const NoNetworkScreen(),
+                      )
                 : MaterialApp(
                     debugShowCheckedModeBanner: false,
                     title: 'Movie App',
@@ -47,11 +66,29 @@ class MyApp extends StatelessWidget {
                     theme: ThemeData(
                       primarySwatch: Colors.red,
                     ),
-                    builder: (context, child) {
-                      return const SplashScreenScaffold();
-                    },
+                    home: const NoNetworkScreen(),
                   );
           }),
+    );
+  }
+}
+
+class WebApp extends StatelessWidget {
+  const WebApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: providers,
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Movie App',
+        routes: routes,
+        theme: ThemeData(
+          primarySwatch: Colors.red,
+        ),
+        home: const HomeScreenWeb(),
+      ),
     );
   }
 }
