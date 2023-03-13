@@ -10,6 +10,12 @@ import 'package:movie_app/views/mobile/splash.screen/splash.screen.dart';
 import 'package:movie_app/views/web/home/home.screen.web.dart';
 import 'package:provider/provider.dart';
 
+//  flutter run -d chrome --web-renderer html
+
+//  flutter build web --web-renderer html --release
+
+//  https://movie-app-invenics.web.app
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
