@@ -3,6 +3,7 @@ import 'package:movie_app/model/actors.model.dart';
 import 'package:movie_app/model/genre.model.dart';
 import 'package:movie_app/model/movie.dart';
 import 'package:movie_app/model/movie.details.dart';
+import 'package:movie_app/model/related.video.model.dart';
 import 'package:movie_app/model/tv.show.details.dart';
 import 'package:movie_app/model/tv.shows.dart';
 import 'package:movie_app/repo/movie/movie.repo.dart';
@@ -60,6 +61,9 @@ class MoviesProvider extends ChangeNotifier {
   List<Actors> _actorsList = [];
   List<Actors> get actorsList => _actorsList;
 
+  List<RelatedVideoModel> _videoList = [];
+  List<RelatedVideoModel> get videoList => _videoList;
+
   final List<Movie> _carousalMovieList = [];
   List<Movie> get carousalMovieList => _carousalMovieList;
 
@@ -106,6 +110,9 @@ class MoviesProvider extends ChangeNotifier {
 
   bool _actorsListLoading = true;
   bool get actorsListLoading => _actorsListLoading;
+
+  bool _videosLoading = true;
+  bool get videosLoading => _videosLoading;
 
   bool _nowPlayingListLoading = true;
   bool get nowPlayingListLoading => _nowPlayingListLoading;
@@ -191,6 +198,7 @@ class MoviesProvider extends ChangeNotifier {
   Future getMovieDetails(int id) async {
     _selectedMovie = await MovieRepo.getMovieDetails(id);
     getActorsList(id);
+    getVideoList(id);
     getSimilarMoviesList(id);
     notifyListeners();
   }
@@ -208,6 +216,15 @@ class MoviesProvider extends ChangeNotifier {
     _actorsList = await MovieRepo.getActorsList(id);
 
     _actorsListLoading = false;
+    notifyListeners();
+  }
+
+  Future getVideoList(int id) async {
+    _videosLoading = true;
+    _videoList = [];
+    _videoList = await MovieRepo.getRelatedVideos(id);
+
+    _videosLoading = false;
     notifyListeners();
   }
 

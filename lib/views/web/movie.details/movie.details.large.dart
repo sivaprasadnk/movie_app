@@ -8,6 +8,7 @@ import 'package:movie_app/views/common/custom.cache.image.dart';
 import 'package:movie_app/views/common/section.title.dart';
 import 'package:movie_app/views/web/home/widgets/actors.list.dart';
 import 'package:movie_app/views/web/home/widgets/movie.grid.dart';
+import 'package:movie_app/views/web/home/widgets/video.list.web.dart';
 import 'package:provider/provider.dart';
 
 class MovieDetailsLarge extends StatelessWidget {
@@ -186,6 +187,18 @@ class MovieDetailsLarge extends StatelessWidget {
                 const SectionTitle(title: 'Story'),
                 const SizedBox(height: 20),
                 Text(movie.overview),
+                const SizedBox(height: 40),
+                if (!provider.videosLoading)
+                  const SectionTitle(title: 'Related Videos'),
+                const SizedBox(height: 20),
+                AnimatedSwitcher(
+                  duration: const Duration(
+                    seconds: 1,
+                  ),
+                  child: !provider.videosLoading
+                      ? const VideoListWeb()
+                      : const SizedBox.shrink(),
+                ),
                 const SizedBox(height: 40),
                 if (!provider.actorsListLoading)
                   const SectionTitle(title: 'Cast'),

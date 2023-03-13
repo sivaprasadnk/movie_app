@@ -5,7 +5,7 @@ import 'package:movie_app/views/web/movie.details/movie.details.large.dart';
 import 'package:movie_app/views/web/movie.details/movie.details.small.dart';
 
 class MovieDetailsScreenWeb extends StatefulWidget {
-  static const routeName = "/MovieDetailsWeb";
+  static const routeName = "/movie/";
 
   const MovieDetailsScreenWeb({super.key});
 

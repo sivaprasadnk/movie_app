@@ -7,6 +7,7 @@ import 'package:movie_app/model/actors.model.dart';
 import 'package:movie_app/model/genre.model.dart';
 import 'package:movie_app/model/movie.dart';
 import 'package:movie_app/model/movie.details.dart';
+import 'package:movie_app/model/related.video.model.dart';
 import 'package:movie_app/model/tv.show.details.dart';
 import 'package:movie_app/model/tv.shows.dart';
 import 'package:movie_app/repo/movie/api.key.dart';
@@ -277,5 +278,29 @@ class MovieRepo {
       debugPrint(err.toString());
     }
     return finalList;
+  }
+
+  static Future<List<RelatedVideoModel>> getRelatedVideos(int movieId) async {
+    List<RelatedVideoModel> videoList = [];
+    var url = "${kBaseUrl}movie/$movieId/videos?api_key=$apiKey";
+    debugPrint(url);
+    final response = await http.get(
+      Uri.parse(url),
+      headers: {
+        HttpHeaders.contentTypeHeader: "application/json",
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final item = json.decode(response.body);
+      var videos = item['results'] as List;
+      if (videos.isNotEmpty) {
+        for (var i in videos) {
+          videoList.add(RelatedVideoModel.fromJson(i));
+        }
+      }
+    }
+
+    return videoList;
   }
 }

@@ -52,8 +52,8 @@ class MovieCard extends StatelessWidget {
             });
           }
         } else {
-          // Dialogs.showLoader(context: context);
           if (isMovie) {
+
             context.moviesProvider.getMovieDetails(id).then((value) {
               Navigator.pushNamed(context, MovieDetailsScreenWeb.routeName);
             });
@@ -66,7 +66,6 @@ class MovieCard extends StatelessWidget {
         }
       },
       child: SizedBox(
-        // width: 110,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,

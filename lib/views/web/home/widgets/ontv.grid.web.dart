@@ -47,6 +47,7 @@ class OnTvGridWeb extends StatelessWidget {
                       poster: movie.posterPath,
                       vote: movie.voteAverage,
                       id: movie.id,
+                      isMovie: false,
                       isWeb: true,
                       imageHeight: 200,
                       imageWidth: 150,
