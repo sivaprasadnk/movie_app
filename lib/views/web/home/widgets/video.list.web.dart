@@ -1,4 +1,4 @@
-import 'dart:html' as html;
+// import 'dart:html' as html;
 
 import 'package:flutter/material.dart';
 import 'package:movie_app/provider/movies.provider.dart';
@@ -33,9 +33,9 @@ class VideoListWeb extends StatelessWidget {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            var link =
-                                "https://www.youtube.com/watch?v=${video.key}";
-                            html.window.open(link, 'new tab');
+                            // var link =
+                            //     "https://www.youtube.com/watch?v=${video.key}";
+                            // html.window.open(link, 'new tab');
                           },
                           child: Stack(
                             children: [

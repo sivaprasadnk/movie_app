@@ -4,8 +4,8 @@ import 'package:movie_app/provider/movies.provider.dart';
 import 'package:movie_app/views/mobile/home/page/movie.list/widgets/movie.card.dart';
 import 'package:provider/provider.dart';
 
-class OnTvList extends StatelessWidget {
-  const OnTvList({
+class TvShowList extends StatelessWidget {
+  const TvShowList({
     Key? key,
     this.isGrid = false,
     this.limit = 0,

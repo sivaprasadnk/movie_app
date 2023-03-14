@@ -7,7 +7,7 @@ import 'package:movie_app/provider/movies.provider.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
 import 'package:movie_app/views/common/custom.cache.image.dart';
 import 'package:movie_app/views/common/section.title.dart';
-import 'package:movie_app/views/web/home/widgets/actors.list.dart';
+import 'package:movie_app/views/web/home/widgets/actors.list.web.dart';
 import 'package:movie_app/views/web/home/widgets/movie.grid.dart';
 import 'package:movie_app/views/web/home/widgets/video.list.web.dart';
 import 'package:provider/provider.dart';

@@ -79,51 +79,53 @@ class MovieCard extends StatelessWidget {
                 )
               : CustomCacheImageWithoutSize(
                   borderRadius: 8,
-                  // height: imageHeight,
-                  // width: imageWidth,
                   imageUrl: poster,
                   cacheKey: cacheKey,
                 ),
           const SizedBox(height: 8),
-          Flexible(
-            child: Text(
-              name,
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                fontWeight: FontWeight.w200,
-                fontSize: 11,
-              ),
-            ),
-          ),
-          const SizedBox(height: 8),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text(
-                '1h 37m',
-                maxLines: 1,
-                style: TextStyle(
-                  fontWeight: FontWeight.w200,
-                  fontSize: 12,
-                ),
-              ),
-              const SizedBox(width: 20),
-              const Icon(
-                Icons.star,
-                color: Colors.amber,
-                size: 10,
-              ),
-              Text(
-                vote.toString(),
-                maxLines: 1,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w200,
-                  fontSize: 12,
-                ),
-              ),
-            ],
-          )
+          // Flexible(
+          //   child: SizedBox(
+          //     width: imageWidth,
+          //     child: Text(
+          //       name,
+          //       maxLines: 3,
+          //       // textAlign: TextAlign.center,
+          //       overflow: TextOverflow.ellipsis,
+          //       style: const TextStyle(
+          //         fontWeight: FontWeight.w200,
+          //         fontSize: 11,
+          //       ),
+          //     ),
+          //   ),
+          // ),
+          // const SizedBox(height: 8),
+          // Row(
+          //   mainAxisSize: MainAxisSize.min,
+          //   children: [
+          //     const Text(
+          //       '1h 37m',
+          //       maxLines: 1,
+          //       style: TextStyle(
+          //         fontWeight: FontWeight.w200,
+          //         fontSize: 12,
+          //       ),
+          //     ),
+          //     const SizedBox(width: 20),
+          //     const Icon(
+          //       Icons.star,
+          //       color: Colors.amber,
+          //       size: 10,
+          //     ),
+          //     Text(
+          //       vote.toString(),
+          //       maxLines: 1,
+          //       style: const TextStyle(
+          //         fontWeight: FontWeight.w200,
+          //         fontSize: 12,
+          //       ),
+          //     ),
+          //   ],
+          // )
         ],
       ),
     );

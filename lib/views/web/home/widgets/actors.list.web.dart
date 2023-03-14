@@ -3,8 +3,16 @@ import 'package:movie_app/model/actors.model.dart';
 import 'package:movie_app/provider/movies.provider.dart';
 import 'package:movie_app/views/common/custom.cache.image.dart';
 import 'package:provider/provider.dart';
+
 class ActorsListWeb extends StatelessWidget {
-  const ActorsListWeb({super.key});
+  const ActorsListWeb({
+    Key? key,
+    this.size = 180,
+    this.height = 250,
+  }) : super(key: key);
+
+  final double size;
+  final double height;
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +20,7 @@ class ActorsListWeb extends StatelessWidget {
       builder: (_, provider, __) {
         return provider.actorsList.getList.isNotEmpty
             ? SizedBox(
-                height: 250,
+                height: height,
                 width: double.infinity,
                 child: ListView.separated(
                   shrinkWrap: true,
@@ -28,9 +36,9 @@ class ActorsListWeb extends StatelessWidget {
                       children: [
                         CustomCacheImage(
                           imageUrl: actor.profilePath,
-                          borderRadius: 180,
-                          height: 180,
-                          width: 180,
+                          borderRadius: size,
+                          height: size,
+                          width: size,
                           cacheKey: 'actor${actor.id}${actor.name}',
                         ),
                         const SizedBox(height: 8),
