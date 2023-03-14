@@ -5,7 +5,14 @@ import 'package:movie_app/views/common/custom.cache.image.dart';
 import 'package:provider/provider.dart';
 
 class ActorsList extends StatelessWidget {
-  const ActorsList({super.key});
+  const ActorsList({
+    Key? key,
+    this.size = 180,
+    this.height = 250,
+  }) : super(key: key);
+
+  final double size;
+  final double height;
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +20,7 @@ class ActorsList extends StatelessWidget {
       builder: (_, provider, __) {
         return provider.actorsList.getList.isNotEmpty
             ? SizedBox(
-                height: 150,
+                height: height,
                 width: double.infinity,
                 child: ListView.separated(
                   shrinkWrap: true,
@@ -29,9 +36,9 @@ class ActorsList extends StatelessWidget {
                       children: [
                         CustomCacheImage(
                           imageUrl: actor.profilePath,
-                          borderRadius: 8,
-                          height: 100,
-                          width: 80,
+                          borderRadius: size,
+                          height: size,
+                          width: size,
                           cacheKey: 'actor${actor.id}${actor.name}',
                         ),
                         const SizedBox(height: 8),
@@ -43,6 +50,7 @@ class ActorsList extends StatelessWidget {
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                               fontSize: 12,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
                         ),

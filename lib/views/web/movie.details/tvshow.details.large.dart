@@ -5,11 +5,11 @@ import 'package:movie_app/model/genre.model.dart';
 import 'package:movie_app/model/tv.show.details.dart';
 import 'package:movie_app/provider/movies.provider.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
+import 'package:movie_app/views/common/actors.list.dart';
 import 'package:movie_app/views/common/custom.cache.image.dart';
 import 'package:movie_app/views/common/section.title.dart';
-import 'package:movie_app/views/web/home/widgets/actors.list.web.dart';
+import 'package:movie_app/views/common/video.list.dart';
 import 'package:movie_app/views/web/home/widgets/movie.grid.dart';
-import 'package:movie_app/views/web/home/widgets/video.list.web.dart';
 import 'package:provider/provider.dart';
 
 class TvShowDetailsLarge extends StatelessWidget {
@@ -203,7 +203,7 @@ class TvShowDetailsLarge extends StatelessWidget {
                     seconds: 1,
                   ),
                   child: !provider.videosLoading
-                      ? const VideoListWeb()
+                      ? const VideoList()
                       : const SizedBox.shrink(),
                 ),
                 const SizedBox(height: 40),
@@ -216,7 +216,7 @@ class TvShowDetailsLarge extends StatelessWidget {
                     seconds: 1,
                   ),
                   child: !provider.actorsListLoading
-                      ? const ActorsListWeb()
+                      ? const ActorsList()
                       : const SizedBox.shrink(),
                 ),
                 const SizedBox(height: 40),

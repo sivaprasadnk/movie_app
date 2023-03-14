@@ -6,12 +6,12 @@ import 'package:movie_app/model/movie.details.dart';
 import 'package:movie_app/provider/movies.provider.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
 import 'package:movie_app/utils/extensions/int.extensions.dart';
+import 'package:movie_app/views/common/actors.list.dart';
 import 'package:movie_app/views/common/custom.cache.image.dart';
 import 'package:movie_app/views/common/loading.shimmer.dart';
 import 'package:movie_app/views/common/section.title.dart';
-import 'package:movie_app/views/web/home/widgets/actors.list.web.dart';
+import 'package:movie_app/views/common/video.list.dart';
 import 'package:movie_app/views/web/home/widgets/movie.grid.dart';
-import 'package:movie_app/views/web/home/widgets/video.list.web.dart';
 import 'package:provider/provider.dart';
 
 class MovieDetailsLarge extends StatelessWidget {
@@ -214,19 +214,7 @@ class MovieDetailsLarge extends StatelessWidget {
                 const SectionTitle(title: 'Story'),
                 const SizedBox(height: 20),
                 Text(movie.overview),
-                const SizedBox(height: 40),
-                if (!provider.videosLoading)
-                  if (provider.videoList.isNotEmpty)
-                    const SectionTitle(title: 'Related Videos'),
-                const SizedBox(height: 20),
-                AnimatedSwitcher(
-                  duration: const Duration(
-                    seconds: 1,
-                  ),
-                  child: !provider.videosLoading
-                      ? const VideoListWeb()
-                      : const SizedBox.shrink(),
-                ),
+                
                 const SizedBox(height: 40),
                 if (!provider.actorsListLoading)
                   if (provider.actorsList.isNotEmpty)
@@ -237,7 +225,20 @@ class MovieDetailsLarge extends StatelessWidget {
                     seconds: 1,
                   ),
                   child: !provider.actorsListLoading
-                      ? const ActorsListWeb()
+                      ? const ActorsList()
+                      : const SizedBox.shrink(),
+                ),
+                const SizedBox(height: 40),
+                if (!provider.videosLoading)
+                  if (provider.videoList.isNotEmpty)
+                    const SectionTitle(title: 'Related Videos'),
+                const SizedBox(height: 20),
+                AnimatedSwitcher(
+                  duration: const Duration(
+                    seconds: 1,
+                  ),
+                  child: !provider.videosLoading
+                      ? const VideoList()
                       : const SizedBox.shrink(),
                 ),
                 const SizedBox(height: 40),

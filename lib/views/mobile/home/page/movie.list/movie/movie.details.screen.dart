@@ -4,10 +4,11 @@ import 'package:movie_app/provider/auth.provider.dart';
 import 'package:movie_app/provider/movies.provider.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
 import 'package:movie_app/utils/extensions/int.extensions.dart';
+import 'package:movie_app/views/common/actors.list.dart';
 import 'package:movie_app/views/common/common.button.dart';
 import 'package:movie_app/views/common/section.title.dart';
+import 'package:movie_app/views/common/video.list.dart';
 import 'package:movie_app/views/mobile/home/page/movie.list/movie/widgets/similar.movies.list.dart';
-import 'package:movie_app/views/web/home/widgets/actors.list.web.dart';
 import 'package:provider/provider.dart';
 
 class MovieDetailsScreen extends StatefulWidget {
@@ -201,10 +202,23 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                           seconds: 1,
                         ),
                         child: !provider.actorsListLoading
-                            ? const ActorsListWeb(
+                            ? const ActorsList(
                                 size: 120,
                                 height: 180,
                               )
+                            : const SizedBox.shrink(),
+                      ),
+                      const SizedBox(height: 40),
+                      if (!provider.videosLoading)
+                        if (provider.videoList.isNotEmpty)
+                          const SectionTitle(title: 'Related Videos'),
+                      const SizedBox(height: 20),
+                      AnimatedSwitcher(
+                        duration: const Duration(
+                          seconds: 1,
+                        ),
+                        child: !provider.videosLoading
+                            ? const VideoList()
                             : const SizedBox.shrink(),
                       ),
                       const SizedBox(height: 20),

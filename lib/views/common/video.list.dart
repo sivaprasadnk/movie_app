@@ -5,8 +5,8 @@ import 'package:movie_app/provider/movies.provider.dart';
 import 'package:movie_app/views/common/custom.cache.image.dart';
 import 'package:provider/provider.dart';
 
-class VideoListWeb extends StatelessWidget {
-  const VideoListWeb({super.key});
+class VideoList extends StatelessWidget {
+  const VideoList({super.key});
 
   @override
   Widget build(BuildContext context) {
