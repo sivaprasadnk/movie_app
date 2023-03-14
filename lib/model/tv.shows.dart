@@ -19,7 +19,7 @@ class TvShows {
   factory TvShows.fromJson(Map<String, dynamic> json) {
     return TvShows(
       id: json['id'],
-      backdropPath: kImageBaseUrl + json['backdrop_path'],
+      backdropPath: kOriginalImageBaseUrl + json['backdrop_path'],
       posterPath: kImageBaseUrl + json['poster_path'],
       genreIdList:
           (json['genre_ids'] as List).map((e) => e as int).toList(),

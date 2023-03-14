@@ -195,11 +195,11 @@ class MovieRepo {
     return show;
   }
 
-  static Future<List<Actors>> getActorsList(int id) async {
+  static Future<List<Actors>> getActorsList(int id, String show) async {
     List<Actors> actorsList = [];
 
     try {
-      var url = "${kBaseUrl}movie/$id/credits?api_key=$apiKey";
+      var url = "$kBaseUrl$show/$id/credits?api_key=$apiKey";
       debugPrint(url);
 
       final response = await http.get(
@@ -242,7 +242,9 @@ class MovieRepo {
         var movieList = item['results'] as List;
         if (movieList.isNotEmpty) {
           for (var i in movieList) {
-            finalList.add(Movie.fromJson(i));
+            if (i['poster_path'] != null && i['poster_path'].isNotEmpty) {
+              finalList.add(Movie.fromJson(i));
+            }
           }
         }
       }
@@ -280,9 +282,10 @@ class MovieRepo {
     return finalList;
   }
 
-  static Future<List<RelatedVideoModel>> getRelatedVideos(int movieId) async {
+  static Future<List<RelatedVideoModel>> getRelatedVideos(
+      int movieId, String show) async {
     List<RelatedVideoModel> videoList = [];
-    var url = "${kBaseUrl}movie/$movieId/videos?api_key=$apiKey";
+    var url = "$kBaseUrl$show/$movieId/videos?api_key=$apiKey";
     debugPrint(url);
     final response = await http.get(
       Uri.parse(url),
@@ -303,4 +306,30 @@ class MovieRepo {
 
     return videoList;
   }
+
+  // static Future<String> getImage(
+  //     int id, String show) async {
+  //   String imageUrl ="";
+  //   String imageUrl ="";
+  //   var url = "$kBaseUrl$show/$id/images?api_key=$apiKey";
+  //   debugPrint(url);
+  //   final response = await http.get(
+  //     Uri.parse(url),
+  //     headers: {
+  //       HttpHeaders.contentTypeHeader: "application/json",
+  //     },
+  //   );
+
+  //   if (response.statusCode == 200) {
+  //     final item = json.decode(response.body);
+  //     var images = item['backdrops'] as List;
+  //     if (images.isNotEmpty) {
+  //       for (var i in images) {
+  //         videoList.add(RelatedVideoModel.fromJson(i));
+  //       }
+  //     }
+  //   }
+
+  //   return videoList;
+  // }
 }

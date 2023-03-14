@@ -1,6 +1,6 @@
+
 import 'package:flutter/material.dart';
 import 'package:movie_app/model/movie.dart';
-import 'package:movie_app/utils/extensions/build.context.extension.dart';
 import 'package:movie_app/views/common/custom.cache.image.dart';
 
 class CarousalMovieItem extends StatelessWidget {
@@ -18,17 +18,10 @@ class CarousalMovieItem extends StatelessWidget {
     var cacheKey = "carousal${movie.id}${movie.title}";
     return Stack(
       children: [
-        SizedBox(
-          width: isWeb && context.width > 800
-              ? context.width * 0.6
-              : double.infinity,
-          child: CustomCacheImage(
-            imageUrl: movie.backdropPath,
-            height: context.height * 0.4,
-            width: double.infinity,
-            cacheKey: cacheKey,
-            borderRadius: 0,
-          ),
+        CustomCacheImageWithoutSize(
+          imageUrl: movie.backdropPath,
+          cacheKey: cacheKey,
+          borderRadius: 0,
         ),
         Positioned.fill(
           child: Align(
@@ -65,6 +58,7 @@ class CarousalMovieItem extends StatelessWidget {
             ),
           ),
         ),
+        
       ],
     );
   }

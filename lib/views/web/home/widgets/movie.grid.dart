@@ -36,10 +36,9 @@ class MovieGrid extends StatelessWidget {
             ? GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: context.gridCrossAxisCount,
-                  // crossAxisCount: 5,
                   crossAxisSpacing: 15,
                   mainAxisSpacing: 0,
-                  childAspectRatio: 0.5,
+                  childAspectRatio: 0.6,
                 ),
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,

@@ -8,7 +8,17 @@ import 'package:movie_app/model/tv.show.details.dart';
 import 'package:movie_app/model/tv.shows.dart';
 import 'package:movie_app/repo/movie/movie.repo.dart';
 
+enum Content { movie, tvShow }
+
 class MoviesProvider extends ChangeNotifier {
+  Content _selectedContentType = Content.movie;
+  Content get selectedContentType => _selectedContentType;
+
+  void updateContentType(Content type) {
+    _selectedContentType = type;
+    notifyListeners();
+  }
+
   MovieDetails? _selectedMovie;
   MovieDetails? get selectedMovie => _selectedMovie;
 
@@ -148,7 +158,7 @@ class MoviesProvider extends ChangeNotifier {
     _trendingMovieList = [];
     _trendingMovieList = await MovieRepo.getTrendingList();
     for (var i in _trendingMovieList) {
-      if (_carousalMovieList.length < 5) {
+      if (_carousalMovieList.length < 10) {
         _carousalMovieList.add(i);
       }
     }
@@ -197,32 +207,34 @@ class MoviesProvider extends ChangeNotifier {
 
   Future getMovieDetails(int id) async {
     _selectedMovie = await MovieRepo.getMovieDetails(id);
-    getActorsList(id);
-    getVideoList(id);
+    getActorsList(id, 'movie');
+    getVideoList(id, "movie");
     getSimilarMoviesList(id);
     notifyListeners();
   }
 
   Future getTvShowDetails(int id) async {
     _selectedShow = await MovieRepo.getTvShowDetails(id);
-    getActorsList(id);
+    getActorsList(id, 'tv');
+    getVideoList(id, "tv");
+
     getSimilarTvShowsList(id);
     notifyListeners();
   }
 
-  Future getActorsList(int id) async {
+  Future getActorsList(int id, String show) async {
     _actorsListLoading = true;
     _actorsList = [];
-    _actorsList = await MovieRepo.getActorsList(id);
+    _actorsList = await MovieRepo.getActorsList(id, show);
 
     _actorsListLoading = false;
     notifyListeners();
   }
 
-  Future getVideoList(int id) async {
+  Future getVideoList(int id, String show) async {
     _videosLoading = true;
     _videoList = [];
-    _videoList = await MovieRepo.getRelatedVideos(id);
+    _videoList = await MovieRepo.getRelatedVideos(id, show);
 
     _videosLoading = false;
     notifyListeners();

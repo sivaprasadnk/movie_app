@@ -3,7 +3,6 @@ import 'package:movie_app/model/actors.model.dart';
 import 'package:movie_app/provider/movies.provider.dart';
 import 'package:movie_app/views/common/custom.cache.image.dart';
 import 'package:provider/provider.dart';
-
 class ActorsListWeb extends StatelessWidget {
   const ActorsListWeb({super.key});
 
@@ -29,9 +28,9 @@ class ActorsListWeb extends StatelessWidget {
                       children: [
                         CustomCacheImage(
                           imageUrl: actor.profilePath,
-                          borderRadius: 200,
-                          height: 200,
-                          width: 200,
+                          borderRadius: 180,
+                          height: 180,
+                          width: 180,
                           cacheKey: 'actor${actor.id}${actor.name}',
                         ),
                         const SizedBox(height: 8),
@@ -43,6 +42,7 @@ class ActorsListWeb extends StatelessWidget {
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                               fontSize: 12,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
                         ),

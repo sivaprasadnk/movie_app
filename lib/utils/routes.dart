@@ -8,6 +8,7 @@ import 'package:movie_app/views/mobile/home/page/profile/bookmark.list.screen.da
 import 'package:movie_app/views/mobile/splash.screen/splash.screen.dart';
 import 'package:movie_app/views/web/home/home.screen.web.dart';
 import 'package:movie_app/views/web/movie.details/movie.details.screen.web.dart';
+import 'package:movie_app/views/web/movie.details/tvshow.details.screen.web.dart';
 
 final routes = <String, WidgetBuilder>{
   SignInScreen.routeName: (context) => const SignInScreen(),
@@ -18,5 +19,6 @@ final routes = <String, WidgetBuilder>{
   MovieDetailsScreen.routeName: (context) => const MovieDetailsScreen(),
   MovieDetailsScreenWeb.routeName: (context) => const MovieDetailsScreenWeb(),
   TvShowDetailsScreen.routeName: (context) => const TvShowDetailsScreen(),
+  TvShowDetailsScreenWeb.routeName: (context) => const TvShowDetailsScreenWeb(),
   BookmarkListScreen.routeName: (context) => const BookmarkListScreen(),
 };

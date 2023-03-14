@@ -1,8 +1,9 @@
+import 'dart:html' as html;
+
 import 'package:flutter/material.dart';
 import 'package:movie_app/provider/movies.provider.dart';
 import 'package:movie_app/views/common/custom.cache.image.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class VideoListWeb extends StatelessWidget {
   const VideoListWeb({super.key});
@@ -13,9 +14,6 @@ class VideoListWeb extends StatelessWidget {
         const IconData(0xf167, fontFamily: 'youtube', fontPackage: null);
     return Consumer<MoviesProvider>(
       builder: (_, provider, __) {
-        if (!provider.videosLoading) {
-          debugPrint(provider.videoList[0].thumbnail);
-        }
         return provider.videoList.isNotEmpty
             ? SizedBox(
                 height: 250,
@@ -29,8 +27,6 @@ class VideoListWeb extends StatelessWidget {
                   itemCount: provider.videoList.length,
                   itemBuilder: (context, index) {
                     var video = provider.videoList[index];
-                    debugPrint(video.name);
-                    debugPrint(video.thumbnail);
 
                     return Column(
                       mainAxisSize: MainAxisSize.min,
@@ -39,12 +35,7 @@ class VideoListWeb extends StatelessWidget {
                           onTap: () {
                             var link =
                                 "https://www.youtube.com/watch?v=${video.key}";
-                            final Uri url = Uri.parse(link);
-                            try {
-                              launchUrl(url);
-                            } catch (err) {
-                              debugPrint(err.toString());
-                            }
+                            html.window.open(link, 'new tab');
                           },
                           child: Stack(
                             children: [
@@ -69,15 +60,17 @@ class VideoListWeb extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 8),
-                        SizedBox(
-                          width: 250,
-                          child: Text(
-                            video.name,
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                              fontSize: 12,
+                        Flexible(
+                          child: SizedBox(
+                            width: 250,
+                            child: Text(
+                              video.name,
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                fontSize: 12,
+                              ),
                             ),
                           ),
                         ),

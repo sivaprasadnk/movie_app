@@ -2,27 +2,25 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:movie_app/model/genre.model.dart';
-import 'package:movie_app/model/movie.details.dart';
+import 'package:movie_app/model/tv.show.details.dart';
 import 'package:movie_app/provider/movies.provider.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
-import 'package:movie_app/utils/extensions/int.extensions.dart';
 import 'package:movie_app/views/common/custom.cache.image.dart';
-import 'package:movie_app/views/common/loading.shimmer.dart';
 import 'package:movie_app/views/common/section.title.dart';
 import 'package:movie_app/views/web/home/widgets/actors.list.dart';
 import 'package:movie_app/views/web/home/widgets/movie.grid.dart';
 import 'package:movie_app/views/web/home/widgets/video.list.web.dart';
 import 'package:provider/provider.dart';
 
-class MovieDetailsLarge extends StatelessWidget {
-  const MovieDetailsLarge({super.key, required this.movie});
+class TvShowDetailsLarge extends StatelessWidget {
+  const TvShowDetailsLarge({super.key, required this.show});
 
-  final MovieDetails movie;
+  final TvShowDetails show;
 
   @override
   Widget build(BuildContext context) {
-    var cacheKey = 'movie_${movie.id}details';
-    var cacheKey1 = 'movie_${movie.id}poster';
+    var cacheKey = 'movie_${show.id}details';
+    var cacheKey1 = 'movie_${show.id}poster';
 
     return Column(
       children: [
@@ -43,7 +41,7 @@ class MovieDetailsLarge extends StatelessWidget {
                           ? context.width * 0.6
                           : double.infinity,
                       child: CustomCacheImage(
-                        imageUrl: movie.backdropPath,
+                        imageUrl: show.backdropPath,
                         height: context.height * 0.6,
                         width: double.infinity,
                         cacheKey: cacheKey,
@@ -81,33 +79,22 @@ class MovieDetailsLarge extends StatelessWidget {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: FutureBuilder(
-                  future: _getImageSize(movie.posterPath),
+                  future: _getImageSize(show.posterPath),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.done &&
                         snapshot.data != null) {
                       double aspectRatio =
                           snapshot.data!.width / snapshot.data!.height;
-                      debugPrint('height : ${snapshot.data!.height}');
-                      debugPrint('width : ${snapshot.data!.width}');
                       return AspectRatio(
                         aspectRatio: aspectRatio,
                         child: CustomCacheImageWithoutSize(
-                          imageUrl: movie.posterPath,
+                          imageUrl: show.posterPath,
                           borderRadius: 10,
                           cacheKey: cacheKey1,
                         ),
                       );
                     } else {
-                      return LoadingShimmer(
-                        child: AspectRatio(
-                          aspectRatio: 0.667,
-                          child: Container(
-                            width: 500,
-                            height: 750,
-                            color: Colors.black,
-                          ),
-                        ),
-                      );
+                      return const CircularProgressIndicator();
                     }
                   },
                 ),
@@ -124,7 +111,7 @@ class MovieDetailsLarge extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      movie.title,
+                      show.name,
                       style: const TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: 20,
@@ -146,7 +133,7 @@ class MovieDetailsLarge extends StatelessWidget {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Text(
-                              "${movie.voteAverage}/ 10",
+                              "${show.voteAverage}/ 10",
                               style: const TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 20,
@@ -155,7 +142,7 @@ class MovieDetailsLarge extends StatelessWidget {
                             ),
                             const SizedBox(width: 5),
                             Text(
-                              "${movie.voteCount} votes",
+                              "${show.voteCount} votes",
                               style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 14,
@@ -171,7 +158,7 @@ class MovieDetailsLarge extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          movie.genreList.stringText,
+                          show.genreList.stringText,
                           style: const TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 15,
@@ -188,14 +175,6 @@ class MovieDetailsLarge extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 8),
-                        Text(
-                          movie.runtime.durationInHrs,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 15,
-                            color: Colors.white,
-                          ),
-                        ),
                       ],
                     ),
                     const SizedBox(height: 20),
@@ -213,7 +192,7 @@ class MovieDetailsLarge extends StatelessWidget {
                 const SizedBox(height: 15),
                 const SectionTitle(title: 'Story'),
                 const SizedBox(height: 20),
-                Text(movie.overview),
+                Text(show.overview),
                 const SizedBox(height: 40),
                 if (!provider.videosLoading)
                   if (provider.videoList.isNotEmpty)
@@ -242,16 +221,16 @@ class MovieDetailsLarge extends StatelessWidget {
                 ),
                 const SizedBox(height: 40),
                 if (!provider.actorsListLoading)
-                  if (provider.similarMovieList.isNotEmpty)
+                  if (provider.similarTvShowList.isNotEmpty)
                     const SectionTitle(
                       title: 'Similar',
                     ),
                 const SizedBox(height: 20),
                 if (!provider.actorsListLoading)
-                  if (provider.similarMovieList.isNotEmpty)
+                  if (provider.similarTvShowList.isNotEmpty)
                     MovieGrid(
-                      isLoading: provider.similarMovieListLoading,
-                      movieGrid: provider.similarMovieList,
+                      isLoading: provider.similarTvShowsLoading,
+                      tvShowsList: provider.similarTvShowList,
                       isWeb: true,
                       limit: context.gridCrossAxisCount,
                     ),

@@ -5,8 +5,8 @@ import 'package:movie_app/utils/extensions/build.context.extension.dart';
 import 'package:movie_app/views/mobile/home/page/movie.list/widgets/movie.card.dart';
 import 'package:provider/provider.dart';
 
-class OnTvGridWeb extends StatelessWidget {
-  const OnTvGridWeb({
+class TvShowGridWeb extends StatelessWidget {
+  const TvShowGridWeb({
     Key? key,
     this.isGrid = false,
     this.limit = 0,

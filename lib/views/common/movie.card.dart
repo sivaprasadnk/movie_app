@@ -91,8 +91,8 @@ class MovieCard extends StatelessWidget {
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
-                fontWeight: FontWeight.w200,
-                fontSize: 11,
+                fontWeight: FontWeight.w700,
+                fontSize: 12,
               ),
             ),
           ),

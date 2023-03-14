@@ -17,10 +17,10 @@ class CarousalIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned.fill(
-      left: isWeb ? context.width * 0.23 : 20,
+      left: isWeb ? 20 : 20,
       bottom: 10,
       child: Align(
-        alignment: Alignment.bottomLeft,
+        alignment: Alignment.bottomCenter,
         child: Row(
           children: movieList.map((movie) {
             var i = movieList.indexOf(movie);

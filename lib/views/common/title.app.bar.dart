@@ -15,6 +15,7 @@ class TitleAppBar extends StatelessWidget with PreferredSizeWidget {
       title: !isMobileWeb
           ? GestureDetector(
               onTap: () {
+                context.moviesProvider.updateCarousalIndex(0);
                 Navigator.pushNamedAndRemoveUntil(
                     context, HomeScreenWeb.routeName, (route) => false);
               },
@@ -23,7 +24,7 @@ class TitleAppBar extends StatelessWidget with PreferredSizeWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: const [
                     Text(
-                      "MovieVerse",
+                      "MoviezApp",
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         color: Colors.black,
