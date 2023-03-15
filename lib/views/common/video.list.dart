@@ -2,11 +2,17 @@
 
 import 'package:flutter/material.dart';
 import 'package:movie_app/provider/movies.provider.dart';
+import 'package:movie_app/utils/extensions/build.context.extension.dart';
 import 'package:movie_app/views/common/custom.cache.image.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class VideoList extends StatelessWidget {
-  const VideoList({super.key});
+  const VideoList({
+    super.key,
+    this.isWeb = false,
+  });
+  final bool isWeb;
 
   @override
   Widget build(BuildContext context) {
@@ -32,10 +38,25 @@ class VideoList extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         GestureDetector(
-                          onTap: () {
-                            // var link =
-                            //     "https://www.youtube.com/watch?v=${video.key}";
-                            // html.window.open(link, 'new tab');
+                          onTap: () async {
+                            var link =
+                                "https://www.youtube.com/watch?v=${video.key}";
+                            if (isWeb) {
+                              // html.window.open(link, 'new tab');
+                            } else {
+                              var url = Uri.parse(link);
+                              if (await canLaunchUrl(url)) {
+                                await launchUrl(url);
+                              } else {
+                                if (context.mounted) {
+                                  context.scaffoldMessenger.showSnackBar(
+                                      SnackBar(
+                                          content:
+                                              Text('Could not launch $url')));
+                                  // throw 'Could not launch $url';
+                                }
+                              }
+                            }
                           },
                           child: Stack(
                             children: [

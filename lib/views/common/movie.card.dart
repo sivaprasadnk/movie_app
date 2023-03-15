@@ -37,9 +37,9 @@ class MovieCard extends StatelessWidget {
     }
     return GestureDetector(
       onTap: () {
+        context.moviesProvider.clearActorsAndSimilarList();
         if (!isWeb) {
           Dialogs.showLoader(context: context);
-          context.moviesProvider.clearActorsAndSimilarList();
 
           if (isMovie) {
             context.moviesProvider.getMovieDetails(id).then((value) {
