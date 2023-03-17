@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:movie_app/model/movie.dart';
 import 'package:movie_app/model/tv.shows.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
+import 'package:movie_app/utils/extensions/widget.extensions.dart';
 import 'package:movie_app/views/mobile/home/page/movie.list/widgets/movie.card.dart';
 
 class MovieGrid extends StatelessWidget {
@@ -60,7 +61,7 @@ class MovieGrid extends StatelessWidget {
                         imageHeight: 200,
                         imageWidth: 150,
                       ),
-                    );
+                    ).addMousePointer;
                   } else {
                     var show = tvShowsList[index];
                     return Padding(
@@ -76,7 +77,7 @@ class MovieGrid extends StatelessWidget {
                         isWeb: isWeb,
                         imageHeight: 200,
                         imageWidth: 150,
-                      ),
+                      ).addMousePointer,
                     );
                   }
                 },

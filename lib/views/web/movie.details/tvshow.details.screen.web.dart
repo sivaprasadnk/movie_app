@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
 import 'package:movie_app/views/common/title.app.bar.dart';
-import 'package:movie_app/views/web/movie.details/tvshow.details.large.dart';
+import 'package:movie_app/views/web/movie.details/large/tvshow.details.large.dart';
 
 class TvShowDetailsScreenWeb extends StatelessWidget {
   static const routeName = "/tvshow/";

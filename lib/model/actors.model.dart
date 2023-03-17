@@ -6,12 +6,14 @@ class Actors {
   String profilePath;
   String profileUrl;
   int order;
+  String character;
   Actors({
     required this.id,
     required this.name,
     required this.profilePath,
     required this.profileUrl,
     required this.order,
+    required this.character,
   });
   factory Actors.fromJson(Map<String, dynamic> json) {
     return Actors(
@@ -19,6 +21,7 @@ class Actors {
       name: json['name'] ?? "",
       order: json['order'] ?? 0,
       profileUrl: json['profile_path'] ?? "",
+      character: json['character'] ?? "",
       profilePath: kImageBaseUrl + (json['profile_path'] ?? ""),
     );
   }

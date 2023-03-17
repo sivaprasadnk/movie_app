@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:movie_app/model/movie.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
@@ -28,7 +27,7 @@ class CarousalMovieItem extends StatelessWidget {
           child: Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              height: context.height * 0.22,
+              height: context.height * 0.12,
               decoration: const BoxDecoration(
                 color: Colors.white,
                 gradient: LinearGradient(
@@ -59,7 +58,6 @@ class CarousalMovieItem extends StatelessWidget {
             ),
           ),
         ),
-        
       ],
     );
   }

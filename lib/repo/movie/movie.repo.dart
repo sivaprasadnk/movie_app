@@ -8,6 +8,7 @@ import 'package:movie_app/model/genre.model.dart';
 import 'package:movie_app/model/movie.dart';
 import 'package:movie_app/model/movie.details.dart';
 import 'package:movie_app/model/related.video.model.dart';
+import 'package:movie_app/model/social.media.model.dart';
 import 'package:movie_app/model/tv.show.details.dart';
 import 'package:movie_app/model/tv.shows.dart';
 import 'package:movie_app/repo/movie/api.key.dart';
@@ -307,29 +308,29 @@ class MovieRepo {
     return videoList;
   }
 
-  // static Future<String> getImage(
-  //     int id, String show) async {
-  //   String imageUrl ="";
-  //   String imageUrl ="";
-  //   var url = "$kBaseUrl$show/$id/images?api_key=$apiKey";
-  //   debugPrint(url);
-  //   final response = await http.get(
-  //     Uri.parse(url),
-  //     headers: {
-  //       HttpHeaders.contentTypeHeader: "application/json",
-  //     },
-  //   );
+  static Future<SocialMediaModel> getSocialMedia(int id, String show) async {
+    SocialMediaModel socialMediaModel;
+    var url = "$kBaseUrl$show/$id/external_ids?api_key=$apiKey";
+    debugPrint(url);
+    final response = await http.get(
+      Uri.parse(url),
+      headers: {
+        HttpHeaders.contentTypeHeader: "application/json",
+      },
+    );
 
-  //   if (response.statusCode == 200) {
-  //     final item = json.decode(response.body);
-  //     var images = item['backdrops'] as List;
-  //     if (images.isNotEmpty) {
-  //       for (var i in images) {
-  //         videoList.add(RelatedVideoModel.fromJson(i));
-  //       }
-  //     }
-  //   }
-
-  //   return videoList;
-  // }
+    if (response.statusCode == 200) {
+      final item = json.decode(response.body) as Map<String, dynamic>;
+      socialMediaModel = SocialMediaModel.fromJson(item);
+      return socialMediaModel;
+    }
+    return SocialMediaModel(
+      fbId: '',
+      imdbId: "",
+      instaId: "",
+      twitterId: "",
+      wikipediaId: "",
+      isLoading: false,
+    );
+  }
 }

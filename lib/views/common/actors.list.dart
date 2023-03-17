@@ -8,7 +8,7 @@ class ActorsList extends StatelessWidget {
   const ActorsList({
     Key? key,
     this.size = 180,
-    this.height = 250,
+    this.height = 260,
   }) : super(key: key);
 
   final double size;
@@ -43,17 +43,33 @@ class ActorsList extends StatelessWidget {
                         ),
                         const SizedBox(height: 8),
                         SizedBox(
-                          width: 80,
+                          width: size - 20,
                           child: Text(
                             actor.name,
                             maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.center,
                             style: const TextStyle(
-                              fontSize: 12,
+                              fontSize: 14,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
                         ),
+                        const SizedBox(height: 8),
+                        SizedBox(
+                          width: 80,
+                          child: Text(
+                            actor.character,
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        )
                       ],
                     );
                   },

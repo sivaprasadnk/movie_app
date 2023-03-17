@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/provider/movies.provider.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
+import 'package:movie_app/utils/extensions/widget.extensions.dart';
 
 class ContentSelection extends StatelessWidget {
   const ContentSelection({
@@ -44,7 +45,7 @@ class ContentSelection extends StatelessWidget {
               ),
             ),
           ),
-        ),
+        ).addMousePointer,
         const SizedBox(width: 20),
         GestureDetector(
           onTap: () {
@@ -73,7 +74,7 @@ class ContentSelection extends StatelessWidget {
               ),
             ),
           ),
-        )
+        ).addMousePointer
       ],
     );
   }

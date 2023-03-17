@@ -3,6 +3,7 @@ import 'package:movie_app/model/genre.model.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
 import 'package:movie_app/views/common/section.title.dart';
 import 'package:movie_app/views/common/title.app.bar.dart';
+import 'package:movie_app/views/mobile/home/page/movie.list/widgets/content.selection.dart';
 import 'package:movie_app/views/web/home/widgets/now.playing.list.web.dart';
 import 'package:movie_app/views/web/home/widgets/ontv.grid.web.dart';
 import 'package:movie_app/views/web/home/widgets/trending.movie.carousal.web.dart';
@@ -42,7 +43,6 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,68 +62,7 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
                 var selected = provider.selectedContentType;
                 return Column(
                   children: [
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            provider.updateContentType(Content.movie);
-                          },
-                          child: Container(
-                            width: 90,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              color: selected == Content.movie
-                                  ? context.theme.primaryColor
-                                  : Colors.white,
-                              border: Border.all(
-                                color: context.theme.primaryColor,
-                              ),
-                            ),
-                            child: Center(
-                              child: Text(
-                                'Movie',
-                                style: TextStyle(
-                                  color: selected != Content.movie
-                                      ? context.theme.primaryColor
-                                      : Colors.white,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 20),
-                        GestureDetector(
-                          onTap: () {
-                            provider.updateContentType(Content.tvShow);
-                          },
-                          child: Container(
-                            width: 90,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              color: selected == Content.tvShow
-                                  ? context.theme.primaryColor
-                                  : Colors.white,
-                              border: Border.all(
-                                color: context.theme.primaryColor,
-                              ),
-                            ),
-                            child: Center(
-                              child: Text(
-                                'Tv Show',
-                                style: TextStyle(
-                                  color: selected != Content.tvShow
-                                      ? context.theme.primaryColor
-                                      : Colors.white,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
+                    ContentSelection(provider: provider, selected: selected),
                     const SizedBox(height: 20),
                     if (selected == Content.movie)
                       SectionTitle(

@@ -5,15 +5,20 @@ import 'package:movie_app/provider/movies.provider.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
 import 'package:movie_app/views/common/custom.cache.image.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
-class VideoList extends StatelessWidget {
+class VideoList extends StatefulWidget {
   const VideoList({
     super.key,
     this.isWeb = false,
   });
   final bool isWeb;
 
+  @override
+  State<VideoList> createState() => _VideoListState();
+}
+
+class _VideoListState extends State<VideoList> {
   @override
   Widget build(BuildContext context) {
     IconData youtube =
@@ -39,29 +44,33 @@ class VideoList extends StatelessWidget {
                       children: [
                         GestureDetector(
                           onTap: () async {
-                            var link =
-                                "https://www.youtube.com/watch?v=${video.key}";
-                            if (isWeb) {
-                              // html.window.open(link, 'new tab');
-                            } else {
-                              var url = Uri.parse(link);
-                              if (await canLaunchUrl(url)) {
-                                await launchUrl(url);
-                              } else {
-                                if (context.mounted) {
-                                  context.scaffoldMessenger.showSnackBar(
-                                      SnackBar(
-                                          content:
-                                              Text('Could not launch $url')));
-                                  // throw 'Could not launch $url';
-                                }
-                              }
-                            }
+                            playVideo(video.key, video.name, context);
+                            // var link =
+                            //     "https://www.youtube.com/watch?v=${video.key}";
+                            // if (widget.isWeb) {
+                            //   playVideo(video.key, video.name, context);
+                            //   // html.window.open(link, 'new tab');
+                            // } else {
+
+                            //   // var url = Uri.parse(link);
+                            //   // if (await canLaunchUrl(url)) {
+                            //   //   await launchUrl(url);
+                            //   // } else {
+                            //   //   if (context.mounted) {
+                            //   //     context.scaffoldMessenger.showSnackBar(
+                            //   //         SnackBar(
+                            //   //             content:
+                            //   //                 Text('Could not launch $url')));
+                            //   //     // throw 'Could not launch $url';
+                            //   //   }
+                            //   // }
+                            // }
                           },
                           child: Stack(
                             children: [
                               CustomCacheImage(
                                 imageUrl: video.thumbnail,
+                                // 'https://images.unsplash.com/photo-1579353977828-2a4eab540b9a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8c2FtcGxlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60',
                                 borderRadius: 10,
                                 height: 200,
                                 width: 250,
@@ -101,6 +110,58 @@ class VideoList extends StatelessWidget {
                 ),
               )
             : const SizedBox.shrink();
+      },
+    );
+  }
+
+  playVideo(String videoId, String title, BuildContext context) async {
+    final controller = YoutubePlayerController.fromVideoId(
+      videoId: videoId,
+      autoPlay: false,
+      params: const YoutubePlayerParams(showFullscreenButton: true),
+    );
+
+    showDialog(
+      barrierColor: Colors.black87,
+      context: context,
+      builder: (context) {
+        return Dialog(
+          backgroundColor: Colors.black,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                color: Colors.black,
+                padding: const EdgeInsets.only(
+                  top: 10,
+                  right: 10,
+                  bottom: 10,
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Spacer(),
+                    GestureDetector(
+                      onTap: () {
+                        context.pop();
+                      },
+                      child: const Icon(
+                        Icons.close,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Flexible(
+                child: YoutubePlayer(
+                  controller: controller,
+                  // aspectRatio: 4 / 3,
+                ),
+              ),
+            ],
+          ),
+        );
       },
     );
   }

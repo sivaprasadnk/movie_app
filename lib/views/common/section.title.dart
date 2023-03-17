@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
+import 'package:movie_app/utils/extensions/widget.extensions.dart';
 
 class SectionTitle extends StatelessWidget {
   const SectionTitle({
@@ -32,23 +33,26 @@ class SectionTitle extends StatelessWidget {
             onTap: () {
               seeMoreCallBack!.call();
             },
-            child: const Text(
-              "See all",
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 13,
-                color: Colors.grey,
-              ),
+            child: Row(
+              children: const [
+                Text(
+                  "See all",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 13,
+                    color: Colors.grey,
+                  ),
+                ),
+                SizedBox(width: 2),
+                Icon(
+                  Icons.arrow_forward_ios,
+                  size: 9,
+                  color: Colors.grey,
+                ),
+              ],
             ),
-          ),
-        const SizedBox(width: 2),
-        if (withSeeMore)
-          const Icon(
-            Icons.arrow_forward_ios,
-            size: 9,
-            color: Colors.grey,
-          ),
-        SizedBox(width: isWeb ? context.width * 0.2 : 20)
+          ).addMousePointer,
+        if (withSeeMore) SizedBox(width: isWeb ? context.width * 0.2 : 20)
       ],
     );
   }

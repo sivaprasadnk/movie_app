@@ -4,6 +4,7 @@ import 'package:movie_app/model/genre.model.dart';
 import 'package:movie_app/model/movie.dart';
 import 'package:movie_app/model/movie.details.dart';
 import 'package:movie_app/model/related.video.model.dart';
+import 'package:movie_app/model/social.media.model.dart';
 import 'package:movie_app/model/tv.show.details.dart';
 import 'package:movie_app/model/tv.shows.dart';
 import 'package:movie_app/repo/movie/movie.repo.dart';
@@ -11,6 +12,37 @@ import 'package:movie_app/repo/movie/movie.repo.dart';
 enum Content { movie, tvShow }
 
 class MoviesProvider extends ChangeNotifier {
+  SocialMediaModel _socialMediaModel = SocialMediaModel(
+    fbId: "",
+    imdbId: "",
+    instaId: "",
+    twitterId: "",
+    wikipediaId: "",
+    isLoading: true,
+  );
+
+  void updateSocialMedia(SocialMediaModel model) {
+    _socialMediaModel = model;
+    notifyListeners();
+  }
+
+  Future getSocialMediaLinks(int id, String show) async {
+    _socialMediaModel = SocialMediaModel(
+      fbId: "",
+      imdbId: "",
+      instaId: "",
+      twitterId: "",
+      wikipediaId: "",
+      isLoading: true,
+    );
+    notifyListeners();
+    _socialMediaModel = await MovieRepo.getSocialMedia(id, show);
+
+    notifyListeners();
+  }
+
+  SocialMediaModel get socialMediaModel => _socialMediaModel;
+
   Content _selectedContentType = Content.movie;
   Content get selectedContentType => _selectedContentType;
 
@@ -209,6 +241,7 @@ class MoviesProvider extends ChangeNotifier {
     _selectedMovie = await MovieRepo.getMovieDetails(id);
     getActorsList(id, 'movie');
     getVideoList(id, "movie");
+    getSocialMediaLinks(id, "movie");
     getSimilarMoviesList(id);
     notifyListeners();
   }
@@ -217,6 +250,7 @@ class MoviesProvider extends ChangeNotifier {
     _selectedShow = await MovieRepo.getTvShowDetails(id);
     getActorsList(id, 'tv');
     getVideoList(id, "tv");
+    getSocialMediaLinks(id, "tv");
 
     getSimilarTvShowsList(id);
     notifyListeners();

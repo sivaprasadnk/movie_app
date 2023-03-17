@@ -7,7 +7,9 @@ import 'package:movie_app/provider/movies.provider.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
 import 'package:movie_app/views/common/actors.list.dart';
 import 'package:movie_app/views/common/custom.cache.image.dart';
+import 'package:movie_app/views/common/play.trailer.text.button.dart';
 import 'package:movie_app/views/common/section.title.dart';
+import 'package:movie_app/views/common/social.media.links.dart';
 import 'package:movie_app/views/common/video.list.dart';
 import 'package:movie_app/views/web/home/widgets/movie.grid.dart';
 import 'package:provider/provider.dart';
@@ -122,6 +124,30 @@ class TvShowDetailsLarge extends StatelessWidget {
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
+                        Text(
+                          show.genreList.stringText,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 15,
+                            color: Colors.white,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Container(
+                          height: 5,
+                          width: 5,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.white,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
                         Icon(
                           Icons.star_rounded,
                           color: Colors.red.shade500,
@@ -154,30 +180,16 @@ class TvShowDetailsLarge extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 20),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          show.genreList.stringText,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 15,
-                            color: Colors.white,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        Container(
-                          height: 5,
-                          width: 5,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.white,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                      ],
-                    ),
+                    const PlayTrailerTextButton(),
                     const SizedBox(height: 20),
+                    Consumer<MoviesProvider>(
+                      builder: (_, provider, __) {
+                        var social = provider.socialMediaModel;
+                        return social.isLoading
+                            ? const SizedBox.shrink()
+                            : SocialMediaLinks(model: social);
+                      },
+                    )
                   ],
                 ),
               ),
@@ -188,6 +200,7 @@ class TvShowDetailsLarge extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: context.width * 0.1),
           child: Consumer<MoviesProvider>(builder: (_, provider, __) {
             return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 15),
                 const SectionTitle(title: 'Story'),
@@ -206,7 +219,7 @@ class TvShowDetailsLarge extends StatelessWidget {
                       ? const VideoList()
                       : const SizedBox.shrink(),
                 ),
-                const SizedBox(height: 40),
+                const SizedBox(height: 20),
                 if (!provider.actorsListLoading)
                   if (provider.actorsList.isNotEmpty)
                     const SectionTitle(title: 'Cast'),

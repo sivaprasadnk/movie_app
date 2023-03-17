@@ -7,11 +7,14 @@ import 'package:movie_app/provider/movies.provider.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
 import 'package:movie_app/utils/extensions/int.extensions.dart';
 import 'package:movie_app/views/common/actors.list.dart';
-import 'package:movie_app/views/common/custom.cache.image.dart';
-import 'package:movie_app/views/common/loading.shimmer.dart';
+import 'package:movie_app/views/common/play.trailer.text.button.dart';
 import 'package:movie_app/views/common/section.title.dart';
+import 'package:movie_app/views/common/social.media.links.dart';
 import 'package:movie_app/views/common/video.list.dart';
 import 'package:movie_app/views/web/home/widgets/movie.grid.dart';
+import 'package:movie_app/views/web/movie.details/large/widgets/back.dop.image.dart';
+import 'package:movie_app/views/web/movie.details/large/widgets/bg.gradient.dart';
+import 'package:movie_app/views/web/movie.details/large/widgets/poster.image.dart';
 import 'package:provider/provider.dart';
 
 class MovieDetailsLarge extends StatelessWidget {
@@ -21,7 +24,6 @@ class MovieDetailsLarge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var cacheKey = 'movie_${movie.id}details';
     var cacheKey1 = 'movie_${movie.id}poster';
 
     return Column(
@@ -38,83 +40,15 @@ class MovieDetailsLarge extends StatelessWidget {
                 alignment: Alignment.topRight,
                 child: Stack(
                   children: [
-                    SizedBox(
-                      width: context.width > 800
-                          ? context.width * 0.6
-                          : double.infinity,
-                      child: CustomCacheImage(
-                        imageUrl: movie.backdropPath,
-                        height: context.height * 0.6,
-                        width: double.infinity,
-                        cacheKey: cacheKey,
-                        borderRadius: 0,
-                      ),
-                    ),
-                    Positioned.fill(
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Container(
-                          height: context.height * 0.6,
-                          decoration: const BoxDecoration(
-                            color: Color.fromRGBO(26, 26, 26, 1),
-                            gradient: LinearGradient(
-                              begin: FractionalOffset.centerLeft,
-                              end: FractionalOffset.centerRight,
-                              colors: [
-                                Color.fromRGBO(26, 26, 26, 1),
-                                Colors.transparent,
-                              ],
-                              stops: [0.0, 1.0],
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
+                    MovieBackdropImage(movie: movie),
+                    const BgGradient(),
                   ],
                 ),
               ),
             ),
+            MoviePosterImage(movie: movie),
             Positioned.fill(
-              left: context.width * 0.1,
-              top: 20,
-              bottom: 20,
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: FutureBuilder(
-                  future: _getImageSize(movie.posterPath),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done &&
-                        snapshot.data != null) {
-                      double aspectRatio =
-                          snapshot.data!.width / snapshot.data!.height;
-                      debugPrint('height : ${snapshot.data!.height}');
-                      debugPrint('width : ${snapshot.data!.width}');
-                      return AspectRatio(
-                        aspectRatio: aspectRatio,
-                        child: CustomCacheImageWithoutSize(
-                          imageUrl: movie.posterPath,
-                          borderRadius: 10,
-                          cacheKey: cacheKey1,
-                        ),
-                      );
-                    } else {
-                      return LoadingShimmer(
-                        child: AspectRatio(
-                          aspectRatio: 0.667,
-                          child: Container(
-                            width: 500,
-                            height: 750,
-                            color: Colors.black,
-                          ),
-                        ),
-                      );
-                    }
-                  },
-                ),
-              ),
-            ),
-            Positioned.fill(
-              left: context.width * 0.1 + 350,
+              left: context.width * 0.1 + 315,
               top: 50,
               bottom: 20,
               child: Align(
@@ -130,6 +64,38 @@ class MovieDetailsLarge extends StatelessWidget {
                         fontSize: 20,
                         color: Colors.white,
                       ),
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          movie.genreList.stringText,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 15,
+                            color: Colors.white,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Container(
+                          height: 5,
+                          width: 5,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.white,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          movie.runtime.durationInHrs,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 15,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 20),
                     Row(
@@ -167,38 +133,16 @@ class MovieDetailsLarge extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 20),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          movie.genreList.stringText,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 15,
-                            color: Colors.white,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        Container(
-                          height: 5,
-                          width: 5,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.white,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                          movie.runtime.durationInHrs,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 15,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
+                    const PlayTrailerTextButton(),
                     const SizedBox(height: 20),
+                    Consumer<MoviesProvider>(
+                      builder: (_, provider, __) {
+                        var social = provider.socialMediaModel;
+                        return social.isLoading
+                            ? const SizedBox.shrink()
+                            : SocialMediaLinks(model: social);
+                      },
+                    )
                   ],
                 ),
               ),
@@ -209,12 +153,12 @@ class MovieDetailsLarge extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: context.width * 0.1),
           child: Consumer<MoviesProvider>(builder: (_, provider, __) {
             return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 15),
                 const SectionTitle(title: 'Story'),
                 const SizedBox(height: 20),
                 Text(movie.overview),
-                
                 const SizedBox(height: 40),
                 if (!provider.actorsListLoading)
                   if (provider.actorsList.isNotEmpty)
@@ -238,7 +182,9 @@ class MovieDetailsLarge extends StatelessWidget {
                     seconds: 1,
                   ),
                   child: !provider.videosLoading
-                      ? const VideoList()
+                      ? const VideoList(
+                          isWeb: true,
+                        )
                       : const SizedBox.shrink(),
                 ),
                 const SizedBox(height: 40),

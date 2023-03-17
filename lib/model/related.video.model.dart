@@ -33,3 +33,15 @@ class RelatedVideoModel {
     );
   }
 }
+
+extension Videoext on List<RelatedVideoModel> {
+  String get trailer {
+    for (var video in this) {
+      if (video.type == "Trailer") {
+        return video.key;
+      }
+    }
+
+    return "";
+  }
+}
