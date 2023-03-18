@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
+import 'package:movie_app/model/movie.dart';
 import 'package:movie_app/provider/movies.provider.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
 import 'package:movie_app/views/common/carousal.indicator.dart';
@@ -23,7 +24,7 @@ class _TrendingMovieCarousalWebState extends State<TrendingMovieCarousalWeb> {
   Widget build(BuildContext context) {
     return Consumer<MoviesProvider>(
       builder: (_, provider, __) {
-        return provider.trendingListLoading
+        return provider.moviesListLoading
             ? Center(
                 child: LoadingShimmer(
                   child: Container(
@@ -40,7 +41,8 @@ class _TrendingMovieCarousalWebState extends State<TrendingMovieCarousalWeb> {
                     SizedBox(
                       height: context.height * 0.6,
                       child: FlutterCarousel(
-                        items: provider.carousalMovieList.map((movie) {
+                        items:
+                            provider.moviesList.trendingMovies(10).map((movie) {
                           return GestureDetector(
                             onTap: () {
                               provider.getMovieDetails(movie.id).then((value) {
@@ -135,7 +137,7 @@ class _TrendingMovieCarousalWebState extends State<TrendingMovieCarousalWeb> {
                     ),
                     CarousalIndicator(
                       carousalIndex: provider.carousalIndex,
-                      movieList: provider.carousalMovieList,
+                      movieList: provider.moviesList.trendingMovies(10),
                       isWeb: true,
                     )
                   ],

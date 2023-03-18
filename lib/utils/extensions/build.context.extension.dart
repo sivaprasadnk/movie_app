@@ -3,6 +3,7 @@ import 'package:movie_app/provider/app.provider.dart';
 import 'package:movie_app/provider/auth.provider.dart';
 import 'package:movie_app/provider/movies.provider.dart';
 import 'package:movie_app/provider/user.provider.dart';
+import 'package:movie_app/views/mobile/home/home.screen.dart';
 import 'package:provider/provider.dart';
 
 extension ContextExtensions on BuildContext {
@@ -32,7 +33,7 @@ extension ContextExtensions on BuildContext {
           ? 4
           : width > 685
               ? 3
-              : 2;            
+              : 2;
 
   MoviesProvider get moviesProvider =>
       Provider.of<MoviesProvider>(this, listen: false);
@@ -45,13 +46,17 @@ extension ContextExtensions on BuildContext {
 
   AppProvider get appProvider => Provider.of<AppProvider>(this, listen: false);
 
-
   ScaffoldMessengerState get scaffoldMessenger => ScaffoldMessenger.of(this);
 
   ThemeData get theme => Theme.of(this);
-  
+
   void pop() {
     Navigator.pop(this);
+  }
+
+  void goHome() {
+    Navigator.pushNamedAndRemoveUntil(
+        this, HomeScreenMobile.routeName, (route) => false);
   }
 
   void unfocus() {

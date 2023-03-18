@@ -20,11 +20,12 @@ class _HomeScreenMobileState extends State<HomeScreenMobile> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      context.moviesProvider.getGenres();
-      context.moviesProvider.getTrendingList();
-      context.moviesProvider.getNowPlayingList();
-      context.moviesProvider.getOnTvList();
-      context.moviesProvider.getPopularList();
+      if (context.moviesProvider.updateData) {
+        context.moviesProvider.getMovieGenres();
+        context.moviesProvider.getTVGenres();
+        context.moviesProvider.getMoviesList();
+        context.moviesProvider.getTvShowsList();
+      }
       context.appProvider.updatedSelectedIndex(0);
     });
     super.initState();

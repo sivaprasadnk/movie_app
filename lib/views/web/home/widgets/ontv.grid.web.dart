@@ -17,7 +17,7 @@ class TvShowGridWeb extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<MoviesProvider>(
       builder: (_, provider, __) {
-        return provider.onTVListLoading
+        return provider.tvShowListLoading
             ? const SizedBox(
                 height: 75,
                 width: double.infinity,
@@ -37,7 +37,7 @@ class TvShowGridWeb extends StatelessWidget {
                 shrinkWrap: true,
                 itemCount: context.gridCrossAxisCount,
                 itemBuilder: (context, index) {
-                  var movie = provider.onTvList.homeScreenList(limit)[index];
+                  var movie = provider.tvShowsList.popularShows(limit)[index];
                   return Padding(
                     padding: const EdgeInsets.only(
                       right: 10,
@@ -51,6 +51,7 @@ class TvShowGridWeb extends StatelessWidget {
                       isWeb: true,
                       imageHeight: 200,
                       imageWidth: 150,
+                      withSize: false,
                     ),
                   );
                 },

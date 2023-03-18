@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/model/genre.model.dart';
+import 'package:movie_app/model/movie.dart';
+import 'package:movie_app/model/tv.shows.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
 import 'package:movie_app/views/common/section.title.dart';
 import 'package:movie_app/views/common/title.app.bar.dart';
@@ -32,11 +34,10 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       context.appProvider.updateMobileApp(false);
 
-      context.moviesProvider.getGenres();
-      context.moviesProvider.getTrendingList();
-      context.moviesProvider.getNowPlayingList();
-      context.moviesProvider.getOnTvList();
-      context.moviesProvider.getPopularList();
+      context.moviesProvider.getMovieGenres();
+      context.moviesProvider.getTVGenres();
+      context.moviesProvider.getMoviesList();
+      context.moviesProvider.getTvShowsList();
       context.appProvider.updatedSelectedIndex(0);
       context.appProvider.updateMobileWeb(widget.isMobileWeb);
     });
@@ -69,9 +70,9 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
                         title: 'Now Playing',
                         withSeeMore: true,
                         seeMoreCallBack: () {
-                          context.moviesProvider.updateGenre(
-                            MovieGenre(id: 0, name: 'All'),
-                            true,
+                          context.moviesProvider.updateMovieGenre(
+                            Genre(id: 0, name: 'All'),
+                            MovieType.nowPlaying,
                           );
 
                           Navigator.push(
@@ -80,6 +81,7 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
                               builder: (_) {
                                 return MovieListScreenWeb(
                                   isMobileWeb: widget.isMobileWeb,
+                                  title: 'Now Playing',
                                 );
                               },
                             ),
@@ -98,19 +100,18 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
                         title: 'Popular Movies',
                         withSeeMore: true,
                         seeMoreCallBack: () {
-                          context.moviesProvider.updateGenre(
-                            MovieGenre(id: 0, name: 'All'),
-                            true,
-                            true,
+                          context.moviesProvider.updateMovieGenre(
+                            Genre(id: 0, name: 'All'),
+                            MovieType.topRated,
                           );
-
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (_) {
                                 return MovieListScreenWeb(
                                   isMobileWeb: widget.isMobileWeb,
-                                  isPopularMovies: true,
+                                  movieType: MovieType.topRated,
+                                  title: 'Popular Movies',
                                 );
                               },
                             ),
@@ -122,16 +123,16 @@ class _HomeScreenWebState extends State<HomeScreenWeb> {
                       const NowPlayingListWeb(
                         limit: 5,
                         isGrid: true,
-                        isPopularMovies: true,
+                        type: MovieType.topRated,
                       ),
                     if (selected == Content.tvShow)
                       SectionTitle(
                         title: 'Top Rated',
                         withSeeMore: true,
                         seeMoreCallBack: () {
-                          context.moviesProvider.updateGenre(
-                            MovieGenre(id: 0, name: 'All'),
-                            false,
+                          context.moviesProvider.updateTvShowGenre(
+                            Genre(id: 0, name: 'All'),
+                            TvShowType.topRated,
                           );
 
                           Navigator.push(

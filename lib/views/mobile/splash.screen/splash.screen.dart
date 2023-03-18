@@ -20,6 +20,7 @@ class _SplashScreenStateMobile extends State<SplashScreenMobile> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       context.appProvider.updateMobileApp(true);
       context.appProvider.updateMobileWeb(false);
+      context.moviesProvider.updateDataStatus(true);
       if (FirebaseAuth.instance.currentUser == null) {
         await Dialogs.showGetStartedDialog(context);
       } else {

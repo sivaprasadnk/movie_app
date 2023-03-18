@@ -27,7 +27,7 @@ class MovieList extends StatelessWidget {
           ),
           child: isLoading
               ? SizedBox(
-                  height: 210,
+                  height: 170,
                   width: double.infinity,
                   child: ListView.separated(
                     separatorBuilder: (context, index) {
@@ -39,7 +39,7 @@ class MovieList extends StatelessWidget {
                     itemBuilder: (context, index) {
                       return LoadingShimmer(
                         child: Container(
-                          height: 170,
+                          height: 150,
                           width: 120,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
@@ -70,7 +70,7 @@ class MovieList extends StatelessWidget {
                         isWeb: isWeb,
                         imageHeight: 180,
                         imageWidth: 120,
-        
+                        withSize: true,
                       );
                     },
                   ),

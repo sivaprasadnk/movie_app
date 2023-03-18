@@ -1,16 +1,16 @@
 import 'package:movie_app/model/movie.dart';
 import 'package:movie_app/model/tv.shows.dart';
 
-class MovieGenre {
+class Genre {
   int id;
   String name;
-  MovieGenre({
+  Genre({
     required this.id,
     required this.name,
   });
 
-  factory MovieGenre.fromJson(Map<String, dynamic> json) {
-    return MovieGenre(
+  factory Genre.fromJson(Map<String, dynamic> json) {
+    return Genre(
       id: json['id'],
       name: json['name'],
     );
@@ -26,7 +26,7 @@ class MovieGenre {
   }
 }
 
-extension GenreExt on List<MovieGenre> {
+extension GenreExt on List<Genre> {
   String get stringText {
     String list = " [ ";
     var count = 0;
@@ -45,16 +45,16 @@ extension GenreExt on List<MovieGenre> {
     return list;
   }
 
-  List<MovieGenre> movieGenres(List<Movie> movieList) {
-    var list = <MovieGenre>[];
+  List<Genre> movieGenres(List<Movie> movieList) {
+    var list = <Genre>[];
     var idList = <int>[];
 
     idList = movieList.uniqueIdList();
-    list.add(MovieGenre(id: 0, name: 'All'));
+    list.add(Genre(id: 0, name: 'All'));
     for (var i in this) {
       for (var id in idList) {
         if (id == i.id) {
-          list.add(MovieGenre(id: id, name: i.name));
+          list.add(Genre(id: id, name: i.name));
         }
       }
     }
@@ -62,16 +62,16 @@ extension GenreExt on List<MovieGenre> {
     return list;
   }
 
-  List<MovieGenre> tvGenres(List<TvShows> movieList) {
-    var list = <MovieGenre>[];
+  List<Genre> tvGenres(List<TvShows> movieList) {
+    var list = <Genre>[];
     var idList = <int>[];
 
     idList = movieList.uniqueIdList();
-    list.add(MovieGenre(id: 0, name: 'All'));
+    list.add(Genre(id: 0, name: 'All'));
     for (var i in this) {
       for (var id in idList) {
         if (id == i.id) {
-          list.add(MovieGenre(id: id, name: i.name));
+          list.add(Genre(id: id, name: i.name));
         }
       }
     }
@@ -80,7 +80,7 @@ extension GenreExt on List<MovieGenre> {
   }
 }
 
-extension GenreExts on MovieGenre {
+extension GenreExts on Genre {
   List<Movie> getFilteredList(List<Movie> movieList) {
     var list = <Movie>[];
 

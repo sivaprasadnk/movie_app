@@ -20,13 +20,13 @@ class NowPlayingListMobile extends StatelessWidget {
       builder: (_, provider, __) {
         return !isGrid
             ? MovieList(
-                isLoading: provider.nowPlayingListLoading,
-                movieList: provider.nowPlayingList.homeScreenList(limit),
+                isLoading: provider.moviesListLoading,
+                movieList: provider.moviesList.nowPlayingMovies(limit),
                 isWeb: false,
               )
             : MovieGrid(
-                isLoading: provider.nowPlayingListLoading,
-                movieGrid: provider.nowPlayingList.homeScreenList(limit),
+                isLoading: provider.moviesListLoading,
+                movieGrid: provider.moviesList.nowPlayingMovies(limit),
                 isWeb: true,
                 limit: limit,
               );

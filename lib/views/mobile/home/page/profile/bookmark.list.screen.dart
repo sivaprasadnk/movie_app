@@ -81,6 +81,7 @@ class _BookmarkListScreenState extends State<BookmarkListScreen> {
                                     name: movie.title,
                                     vote: movie.voteAverage,
                                     id: movie.id,
+                                    withSize: false,
                                   );
                                 },
                               ),
@@ -109,6 +110,7 @@ class _BookmarkListScreenState extends State<BookmarkListScreen> {
                                     vote: movie.voteAverage,
                                     id: movie.id,
                                     isMovie: false,
+                                    withSize: false,
                                   );
                                 },
                               ),

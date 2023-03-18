@@ -16,6 +16,10 @@ class CarousalMovieItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var cacheKey = "carousal${movie.id}${movie.title}";
+    var height = context.height * 0.12;
+    if (context.width < 500) {
+      height = context.height * 0.2;
+    }
     return Stack(
       children: [
         CustomCacheImageWithoutSize(
@@ -27,7 +31,7 @@ class CarousalMovieItem extends StatelessWidget {
           child: Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              height: context.height * 0.12,
+              height: height,
               decoration: const BoxDecoration(
                 color: Colors.white,
                 gradient: LinearGradient(

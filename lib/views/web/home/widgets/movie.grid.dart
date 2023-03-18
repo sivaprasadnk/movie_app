@@ -25,6 +25,8 @@ class MovieGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double spacing = isWeb ? 15 : 10;
+    double ratio = isWeb ? 0.6 : 0.65;
     return isLoading
         ? const SizedBox(
             height: 75,
@@ -35,11 +37,12 @@ class MovieGrid extends StatelessWidget {
           )
         : movieGrid.isNotEmpty
             ? GridView.builder(
+                physics: const NeverScrollableScrollPhysics(),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: context.gridCrossAxisCount,
-                  crossAxisSpacing: 15,
-                  mainAxisSpacing: 0,
-                  childAspectRatio: 0.6,
+                  crossAxisSpacing: spacing,
+                  mainAxisSpacing: 1,
+                  childAspectRatio: ratio,
                 ),
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
@@ -58,8 +61,7 @@ class MovieGrid extends StatelessWidget {
                         vote: movie.voteAverage,
                         id: movie.id,
                         isWeb: isWeb,
-                        imageHeight: 200,
-                        imageWidth: 150,
+                        withSize: false,
                       ),
                     ).addMousePointer;
                   } else {
@@ -77,6 +79,7 @@ class MovieGrid extends StatelessWidget {
                         isWeb: isWeb,
                         imageHeight: 200,
                         imageWidth: 150,
+                        withSize: false,
                       ).addMousePointer,
                     );
                   }

@@ -7,7 +7,7 @@ class MovieDetails {
   int id;
   String backdropPath;
   String posterPath;
-  List<MovieGenre> genreList;
+  List<Genre> genreList;
   double voteAverage;
   int voteCount;
   int runtime;
@@ -32,7 +32,7 @@ class MovieDetails {
       backdropPath: kImageBaseUrl + json['backdrop_path'],
       posterPath: kImageBaseUrl + json['poster_path'],
       genreList:
-          (json['genres'] as List).map((e) => MovieGenre.fromJson(e)).toList(),
+          (json['genres'] as List).map((e) => Genre.fromJson(e)).toList(),
       title: json['title'] ?? "",
       voteAverage: json['vote_average'],
       voteCount: json['vote_count'],
@@ -49,7 +49,7 @@ class MovieDetails {
       backdropPath: kImageBaseUrl + json['backdrop_path'],
       posterPath: kImageBaseUrl + json['poster_path'],
       genreList:
-          (json['genres'] as List).map((e) => MovieGenre.fromJson(e)).toList(),
+          (json['genres'] as List).map((e) => Genre.fromJson(e)).toList(),
       title: json['title'] ?? "",
       voteAverage: json['vote_average'],
       voteCount: json['vote_count'],

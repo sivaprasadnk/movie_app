@@ -15,9 +15,14 @@ import 'package:movie_app/repo/movie/api.key.dart';
 import 'package:movie_app/repo/movie/end.points.dart';
 
 class MovieRepo {
-  static Future<List<MovieGenre>> getGenreList() async {
-    List<MovieGenre> list = [];
+  ///
+  ///  get genres
+  ///
+  static Future<List<Genre>> getGenreList(String show) async {
+    List<Genre> list = [];
     try {
+      String kGenreUrl = "${kBaseUrl}genre/$show/list?api_key=$apiKey";
+
       debugPrint(kGenreUrl);
 
       final response = await http.get(
@@ -32,7 +37,7 @@ class MovieRepo {
         if (genreList.isNotEmpty) {
           for (var i in genreList) {
             // list.add(MovieGenre(id: id, name: name))
-            list.add(MovieGenre.fromJson(i));
+            list.add(Genre.fromJson(i));
           }
         }
       }
@@ -42,112 +47,59 @@ class MovieRepo {
     return list;
   }
 
-  static Future getTrendingList() async {
-    List<Movie> trendingList = [];
+  ///
+  ///  get movieResults
+  ///
+
+  static Future getMovieResultsList(String url, MovieType type) async {
+    List<Movie> list = [];
     try {
-      debugPrint(kMoviesUrl);
+      debugPrint(url);
 
       final response = await http.get(
-        Uri.parse(kMoviesUrl),
+        Uri.parse(url),
         headers: {
           HttpHeaders.contentTypeHeader: "application/json",
         },
       );
-      // debugPrint(response.body);
       if (response.statusCode == 200) {
         final item = json.decode(response.body);
         var movieList = item['results'] as List;
         if (movieList.isNotEmpty) {
           for (var i in movieList) {
-            trendingList.add(Movie.fromJson(i));
+            list.add(Movie.fromJson(i, type));
           }
         }
       }
     } catch (err) {
       debugPrint(err.toString());
+      return [];
     }
-    return trendingList;
+    return list;
   }
 
-  static Future getPopularList() async {
-    List<Movie> movieList = [];
-    try {
-      debugPrint(kPopularMoviesUrl);
+  /// movies
 
-      final response = await http.get(
-        Uri.parse(kPopularMoviesUrl),
-        headers: {
-          HttpHeaders.contentTypeHeader: "application/json",
-        },
-      );
-      // debugPrint(response.body);
-      if (response.statusCode == 200) {
-        final item = json.decode(response.body);
-        var list = item['results'] as List;
-        if (list.isNotEmpty) {
-          for (var i in list) {
-            movieList.add(Movie.fromJson(i));
-          }
-        }
-      }
-    } catch (err) {
-      debugPrint(err.toString());
-    }
-    return movieList;
+  static Future getTrendingMovieList(String region, int page) async {
+    return await getMovieResultsList(
+        "$kTrendingMoviesUrl&region=$region&page=$page", MovieType.trending);
   }
 
-  static Future getNowPlayingList() async {
-    List<Movie> finalList = [];
-    try {
-      debugPrint(kPlayingNowUrl);
-
-      final response = await http.get(
-        Uri.parse(kPlayingNowUrl),
-        headers: {
-          HttpHeaders.contentTypeHeader: "application/json",
-        },
-      );
-      // debugPrint(response.body);
-      if (response.statusCode == 200) {
-        final item = json.decode(response.body);
-        var movieList = item['results'] as List;
-        if (movieList.isNotEmpty) {
-          for (var i in movieList) {
-            finalList.add(Movie.fromJson(i));
-          }
-        }
-      }
-    } catch (err) {
-      debugPrint(err.toString());
-    }
-    return finalList;
+  static Future getPopularMoviesList(String region, int page) async {
+    return await getMovieResultsList(
+        "$kTopRatedMoviesUrl&region=$region&page=$page", MovieType.topRated);
   }
 
-  static Future getOnTvList() async {
-    List<TvShows> finalList = [];
-    try {
-      debugPrint(kTvShowsUrl);
+  static Future getNowPlayingMoviesList(String region, int page) async {
+    return await getMovieResultsList(
+        "$kNowPlayingMoviesUrl&region=$region&page=$page",
+        MovieType.nowPlaying);
+  }
 
-      final response = await http.get(
-        Uri.parse(kTvShowsUrl),
-        headers: {
-          HttpHeaders.contentTypeHeader: "application/json",
-        },
-      );
-      // debugPrint(response.body);
-      if (response.statusCode == 200) {
-        final item = json.decode(response.body);
-        var movieList = item['results'] as List;
-        if (movieList.isNotEmpty) {
-          for (var i in movieList) {
-            finalList.add(TvShows.fromJson(i));
-          }
-        }
-      }
-    } catch (err) {
-      debugPrint(err.toString());
-    }
-    return finalList;
+  static Future getSimilarMoviesList(int id) async {
+    var url = "${kBaseUrl}movie/$id/similar?api_key=$apiKey";
+
+    return await getMovieResultsList(url, MovieType.similar);
   }
 
   static Future<MovieDetails?> getMovieDetails(int id) async {
@@ -172,6 +124,87 @@ class MovieRepo {
     }
     return movie;
   }
+
+  ///
+  ///  tvshows
+  ///
+
+  static Future getTvShowsResultsList(String url, TvShowType type) async {
+    List<TvShows> list = [];
+    try {
+      debugPrint(url);
+
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {
+          HttpHeaders.contentTypeHeader: "application/json",
+        },
+      );
+      if (response.statusCode == 200) {
+        final item = json.decode(response.body);
+        var movieList = item['results'] as List;
+        if (movieList.isNotEmpty) {
+          for (var i in movieList) {
+            if (i['backdrop_path'] != null && i['poster_path'] != null) {
+              list.add(TvShows.fromJson(i, type));
+            }
+          }
+        }
+      }
+    } catch (err) {
+      debugPrint(err.toString());
+      return [];
+    }
+    return list;
+  }
+
+  static Future getTrendingTvShowList(String region) async {
+    return await getTvShowsResultsList(
+        "$kTrendingTvShowsUrl&region=$region", TvShowType.trending);
+  }
+
+  static Future getPopularTvShowList(String region) async {
+    return await getTvShowsResultsList(
+        "$kPopularTvShowsUrl&region=$region", TvShowType.topRated);
+  }
+
+  static Future getNowPlayingTvShowList(String region) async {
+    return await getTvShowsResultsList(
+        "$kNowPlayingTvShowsUrl&region=$region", TvShowType.nowPlaying);
+  }
+
+  static Future getSimilarTvShowList(int id) async {
+    var url = "${kBaseUrl}tv/$id/similar?api_key=$apiKey";
+
+    return await getTvShowsResultsList(url, TvShowType.similar);
+  }
+
+  // static Future getOnTvList() async {
+  //   List<TvShows> finalList = [];
+  //   try {
+  //     debugPrint(kPopularTvShowsUrl);
+
+  //     final response = await http.get(
+  //       Uri.parse(kPopularTvShowsUrl),
+  //       headers: {
+  //         HttpHeaders.contentTypeHeader: "application/json",
+  //       },
+  //     );
+  //     // debugPrint(response.body);
+  //     if (response.statusCode == 200) {
+  //       final item = json.decode(response.body);
+  //       var movieList = item['results'] as List;
+  //       if (movieList.isNotEmpty) {
+  //         for (var i in movieList) {
+  //           finalList.add(TvShows.fromJson(i));
+  //         }
+  //       }
+  //     }
+  //   } catch (err) {
+  //     debugPrint(err.toString());
+  //   }
+  //   return finalList;
+  // }
 
   static Future<TvShowDetails?> getTvShowDetails(int id) async {
     TvShowDetails? show;
@@ -225,64 +258,6 @@ class MovieRepo {
     return actorsList;
   }
 
-  static Future getSimilarMoviesList(int id) async {
-    List<Movie> finalList = [];
-    try {
-      var url = "${kBaseUrl}movie/$id/similar?api_key=$apiKey";
-      debugPrint(url);
-
-      final response = await http.get(
-        Uri.parse(url),
-        headers: {
-          HttpHeaders.contentTypeHeader: "application/json",
-        },
-      );
-      // debugPrint(response.body);
-      if (response.statusCode == 200) {
-        final item = json.decode(response.body);
-        var movieList = item['results'] as List;
-        if (movieList.isNotEmpty) {
-          for (var i in movieList) {
-            if (i['poster_path'] != null && i['poster_path'].isNotEmpty) {
-              finalList.add(Movie.fromJson(i));
-            }
-          }
-        }
-      }
-    } catch (err) {
-      debugPrint(err.toString());
-    }
-    return finalList;
-  }
-
-  static Future getSimilarTvShowList(int id) async {
-    List<TvShows> finalList = [];
-    try {
-      var url = "${kBaseUrl}tv/$id/similar?api_key=$apiKey";
-      debugPrint(url);
-
-      final response = await http.get(
-        Uri.parse(url),
-        headers: {
-          HttpHeaders.contentTypeHeader: "application/json",
-        },
-      );
-      // debugPrint(response.body);
-      if (response.statusCode == 200) {
-        final item = json.decode(response.body);
-        var movieList = item['results'] as List;
-        if (movieList.isNotEmpty) {
-          for (var i in movieList) {
-            finalList.add(TvShows.fromJson(i));
-          }
-        }
-      }
-    } catch (err) {
-      debugPrint(err.toString());
-    }
-    return finalList;
-  }
-
   static Future<List<RelatedVideoModel>> getRelatedVideos(
       int movieId, String show) async {
     List<RelatedVideoModel> videoList = [];
@@ -332,5 +307,47 @@ class MovieRepo {
       wikipediaId: "",
       isLoading: false,
     );
+  }
+
+  static Future getMoviesList(String region, int page) async {
+    List<Movie> finalList = [];
+    var trendingList = await getTrendingMovieList(region, page);
+    var nowPlayingList = await getNowPlayingMoviesList(region, page);
+    var popularMoviesList = await getPopularMoviesList(region, page);
+
+    for (var movie in trendingList) {
+      finalList.add(movie);
+    }
+
+    for (var movie in nowPlayingList) {
+      finalList.add(movie);
+    }
+
+    for (var movie in popularMoviesList) {
+      finalList.add(movie);
+    }
+
+    return finalList;
+  }
+
+  static Future getTvShowsList(String region) async {
+    List<TvShows> finalList = [];
+    var trendingList = await getTrendingTvShowList(region);
+    var nowPlayingList = await getNowPlayingTvShowList(region);
+    var popularMoviesList = await getPopularTvShowList(region);
+
+    for (var movie in trendingList) {
+      finalList.add(movie);
+    }
+
+    for (var movie in nowPlayingList) {
+      finalList.add(movie);
+    }
+
+    for (var movie in popularMoviesList) {
+      finalList.add(movie);
+    }
+
+    return finalList;
   }
 }

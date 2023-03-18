@@ -44,6 +44,9 @@ class TvShowList extends StatelessWidget {
                       vote: movie.voteAverage,
                       id: movie.id,
                       isMovie: false,
+                      withSize: true,
+                      imageHeight: 180,
+                      imageWidth: 120,
                     );
                   },
                 ),

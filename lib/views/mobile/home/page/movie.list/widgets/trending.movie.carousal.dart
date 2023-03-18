@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
+import 'package:movie_app/model/movie.dart';
 import 'package:movie_app/provider/movies.provider.dart';
 import 'package:movie_app/utils/dialogs.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
@@ -17,13 +18,14 @@ class TrendingMovieCarousal extends StatelessWidget {
     return Consumer<MoviesProvider>(
       builder: (_, provider, __) {
         return AnimatedSwitcher(
+          switchInCurve: Curves.easeIn,
           duration: const Duration(seconds: 1),
-          child: provider.trendingListLoading
+          child: provider.moviesListLoading
               ? Center(
                   child: LoadingShimmer(
                     child: Container(
                       color: Colors.black,
-                      height: context.height * 0.26,
+                      height: context.height * 0.27,
                       width: double.infinity,
                     ),
                   ),
@@ -32,7 +34,8 @@ class TrendingMovieCarousal extends StatelessWidget {
                   child: Stack(
                     children: [
                       FlutterCarousel(
-                        items: provider.carousalMovieList.map((movie) {
+                        items:
+                            provider.moviesList.trendingMovies(10).map((movie) {
                           return GestureDetector(
                             onTap: () {
                               Dialogs.showLoader(context: context);
@@ -60,7 +63,7 @@ class TrendingMovieCarousal extends StatelessWidget {
                       ),
                       CarousalIndicator(
                         carousalIndex: provider.carousalIndex,
-                        movieList: provider.carousalMovieList,
+                        movieList: provider.moviesList.trendingMovies(10),
                       )
                     ],
                   ),

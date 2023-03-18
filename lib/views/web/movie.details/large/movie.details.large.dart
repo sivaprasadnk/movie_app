@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:movie_app/model/genre.model.dart';
 import 'package:movie_app/model/movie.details.dart';
@@ -24,8 +22,6 @@ class MovieDetailsLarge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var cacheKey1 = 'movie_${movie.id}poster';
-
     return Column(
       children: [
         Stack(
@@ -142,7 +138,7 @@ class MovieDetailsLarge extends StatelessWidget {
                             ? const SizedBox.shrink()
                             : SocialMediaLinks(model: social);
                       },
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -210,16 +206,16 @@ class MovieDetailsLarge extends StatelessWidget {
     );
   }
 
-  Future<Size> _getImageSize(String imageUrl) {
-    Completer<Size> completer = Completer();
-    NetworkImage(imageUrl).resolve(const ImageConfiguration()).addListener(
-      ImageStreamListener(
-        (ImageInfo info, bool _) {
-          completer.complete(
-              Size(info.image.width.toDouble(), info.image.height.toDouble()));
-        },
-      ),
-    );
-    return completer.future;
-  }
+  // Future<Size> _getImageSize(String imageUrl) {
+  //   Completer<Size> completer = Completer();
+  //   NetworkImage(imageUrl).resolve(const ImageConfiguration()).addListener(
+  //     ImageStreamListener(
+  //       (ImageInfo info, bool _) {
+  //         completer.complete(
+  //             Size(info.image.width.toDouble(), info.image.height.toDouble()));
+  //       },
+  //     ),
+  //   );
+  //   return completer.future;
+  // }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/model/genre.model.dart';
+import 'package:movie_app/model/movie.dart';
+import 'package:movie_app/model/tv.shows.dart';
 import 'package:movie_app/provider/movies.provider.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
 import 'package:provider/provider.dart';
@@ -9,18 +11,22 @@ class GenreOptionsList extends StatelessWidget {
     super.key,
     required this.genreList,
     this.isMovie = true,
-    this.isPopular = false,
+    this.movieType = MovieType.nowPlaying,
+    this.tvShowType = TvShowType.nowPlaying,
   });
 
-  final List<MovieGenre> genreList;
+  final List<Genre> genreList;
   final bool isMovie;
-  final bool isPopular;
+  final MovieType movieType;
+  final TvShowType tvShowType;
 
   @override
   Widget build(BuildContext context) {
     return Consumer<MoviesProvider>(
       builder: (_, provider, __) {
-        var selected = provider.selectedGenre;
+        var selectedId = isMovie
+            ? provider.selectedMovieGenre.id
+            : provider.selectedTvGenre.id;
         return Wrap(
           direction: Axis.horizontal,
           children: genreList.map((genre) {
@@ -28,13 +34,17 @@ class GenreOptionsList extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: GestureDetector(
                 onTap: () {
-                  provider.updateGenre(genre, isMovie, isPopular);
+                  if (isMovie) {
+                    provider.updateMovieGenre(genre, movieType);
+                  } else {
+                    provider.updateTvShowGenre(genre, tvShowType);
+                  }
                 },
                 child: Container(
                   width: 90,
                   height: 40,
                   decoration: BoxDecoration(
-                    color: genre.id == selected.id
+                    color: genre.id == selectedId
                         ? context.theme.primaryColor
                         : Colors.white,
                     border: Border.all(
@@ -45,7 +55,7 @@ class GenreOptionsList extends StatelessWidget {
                     child: Text(
                       genre.name,
                       style: TextStyle(
-                        color: genre.id != selected.id
+                        color: genre.id != selectedId
                             ? context.theme.primaryColor
                             : Colors.white,
                       ),

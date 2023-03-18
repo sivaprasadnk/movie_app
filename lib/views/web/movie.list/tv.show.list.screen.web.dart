@@ -37,7 +37,7 @@ class TvShowListScreenWeb extends StatelessWidget {
               const SizedBox(height: 20),
               GenreOptionsList(
                 genreList: context.moviesProvider.movieGenreList
-                    .tvGenres(context.moviesProvider.onTvList),
+                    .tvGenres(context.moviesProvider.tvShowsList),
               ),
               const SizedBox(height: 20),
               Consumer<MoviesProvider>(

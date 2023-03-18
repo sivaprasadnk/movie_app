@@ -18,8 +18,8 @@ class PopularMoviesList extends StatelessWidget {
     return Consumer<MoviesProvider>(
       builder: (_, provider, __) {
         return MovieList(
-          isLoading: provider.popularListLoading,
-          movieList: provider.popularMovieList.homeScreenList(limit),
+          isLoading: provider.moviesListLoading,
+          movieList: provider.moviesList.popularMovies(limit),
         );
       },
     );

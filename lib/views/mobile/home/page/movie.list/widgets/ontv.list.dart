@@ -17,7 +17,7 @@ class TvShowList extends StatelessWidget {
     // final limit = isWeb ? 10 : 5;
     return Consumer<MoviesProvider>(
       builder: (_, provider, __) {
-        return provider.onTVListLoading
+        return provider.tvShowListLoading
             ? const SizedBox(
                 height: 75,
                 width: double.infinity,
@@ -34,15 +34,18 @@ class TvShowList extends StatelessWidget {
                   },
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
-                  itemCount: provider.onTvList.homeScreenList(limit).length,
+                  itemCount: provider.tvShowsList.popularShows(5).length,
                   itemBuilder: (context, index) {
-                    var movie = provider.onTvList.homeScreenList(limit)[index];
+                    var movie = provider.tvShowsList.popularShows(5)[index];
                     return MovieCard(
                       name: movie.name,
                       poster: movie.posterPath,
                       vote: movie.voteAverage,
                       id: movie.id,
                       isMovie: false,
+                      withSize: true,
+                      imageHeight: 180,
+                      imageWidth: 120,
                     );
                   },
                 ),

@@ -15,7 +15,9 @@ class TvShowSectionMobile extends StatelessWidget {
           seeMoreCallBack: () {},
         ),
         const SizedBox(height: 20),
-        const TvShowList()
+        const TvShowList(
+          limit: 5,
+        )
       ],
     );
   }
