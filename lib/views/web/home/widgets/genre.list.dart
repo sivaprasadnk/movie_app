@@ -12,7 +12,7 @@ class GenreOptionsList extends StatelessWidget {
     required this.genreList,
     this.isMovie = true,
     this.movieType = MovieType.nowPlaying,
-    this.tvShowType = TvShowType.nowPlaying,
+    this.tvShowType = TvShowType.airingToday,
   });
 
   final List<Genre> genreList;

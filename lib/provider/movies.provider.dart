@@ -90,6 +90,7 @@ class MoviesProvider extends ChangeNotifier {
 
   Future getMovieDetails(int id) async {
     _selectedMovie = await MovieRepo.getMovieDetails(id);
+
     getActorsList(id, 'movie');
     getVideoList(id, "movie");
     getSocialMediaLinks(id, "movie");
@@ -114,6 +115,8 @@ class MoviesProvider extends ChangeNotifier {
         _filteredMoviesList = _moviesList.nowPlayingMovies(20);
       } else if (type == MovieType.topRated) {
         _filteredMoviesList = _moviesList.popularMovies(20);
+      } else {
+        _filteredMoviesList = _moviesList.upcomingMovies(20);
       }
     } else {
       if (type == MovieType.nowPlaying) {
@@ -122,6 +125,9 @@ class MoviesProvider extends ChangeNotifier {
       } else if (type == MovieType.topRated) {
         _filteredMoviesList =
             genre.getFilteredList(_moviesList.popularMovies(20));
+      } else {
+        _filteredMoviesList =
+            genre.getFilteredList(_moviesList.upcomingMovies(20));
       }
     }
     notifyListeners();
@@ -178,18 +184,23 @@ class MoviesProvider extends ChangeNotifier {
     _selectedTvGenre = genre;
     _filteredTvShowsList = [];
     if (genre.id == 0) {
-      if (type == TvShowType.nowPlaying) {
-        _filteredTvShowsList = _tvShowsList.nowPlayingShows(20);
-      } else if (type == MovieType.topRated) {
+      if (type == TvShowType.airingToday) {
+        _filteredTvShowsList = _tvShowsList.airingTodayShows(20);
+      } else if (type == TvShowType.topRated) {
+        _filteredTvShowsList = _tvShowsList.topRatedShows(20);
+      } else {
         _filteredTvShowsList = _tvShowsList.popularShows(20);
       }
     } else {
-      if (type == TvShowType.nowPlaying) {
+      if (type == TvShowType.airingToday) {
         _filteredTvShowsList =
-            genre.getFilteredTvShowsList(_tvShowsList.nowPlayingShows(20));
-      } else if (type == TvShowType.topRated) {
+            genre.getFilteredTvShowsList(_tvShowsList.airingTodayShows(20));
+      } else if (type == TvShowType.popular) {
         _filteredTvShowsList =
             genre.getFilteredTvShowsList(_tvShowsList.popularShows(20));
+      } else {
+        _filteredTvShowsList =
+            genre.getFilteredTvShowsList(_tvShowsList.topRatedShows(20));
       }
     }
     notifyListeners();
@@ -264,6 +275,7 @@ class MoviesProvider extends ChangeNotifier {
 
   void updateContentType(Content type) {
     _selectedContentType = type;
+    _carousalIndex = 0;
     notifyListeners();
   }
 

@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:movie_app/provider/movies.provider.dart';
 import 'package:movie_app/utils/dialogs.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
 import 'package:movie_app/views/common/custom.cache.image.dart';
-import 'package:movie_app/views/mobile/home/page/movie.list/movie/movie.details.screen.dart';
-import 'package:movie_app/views/mobile/home/page/movie.list/movie/tv.show.details.screen.dart';
+import 'package:movie_app/views/mobile/home/page/movie.list/details/movie.details.screen.dart';
+import 'package:movie_app/views/mobile/home/page/movie.list/details/tv.show.details.screen.dart';
 import 'package:movie_app/views/web/movie.details/movie.details.screen.web.dart';
 import 'package:movie_app/views/web/movie.details/tvshow.details.screen.web.dart';
+import 'package:provider/provider.dart';
 
-class MovieCard extends StatelessWidget {
+class MovieCard extends StatefulWidget {
   const MovieCard({
     Key? key,
     required this.poster,
     required this.name,
     required this.vote,
     required this.id,
+    required this.withSize,
     this.isMovie = true,
     this.isWeb = false,
     this.imageHeight = 155,
@@ -28,104 +31,75 @@ class MovieCard extends StatelessWidget {
   final bool isWeb;
   final double imageHeight;
   final double imageWidth;
+  final bool withSize;
 
   @override
-  Widget build(BuildContext context) {
-    var cacheKey = "movie$id$name";
-    if (!isMovie) {
-      cacheKey = "tvshow$id$name";
-    }
-    return GestureDetector(
-      onTap: () {
-        context.moviesProvider.clearActorsAndSimilarList();
-        if (!isWeb) {
-          Dialogs.showLoader(context: context);
+  State<MovieCard> createState() => _MovieCardState();
+}
 
-          if (isMovie) {
-            context.moviesProvider.getMovieDetails(id).then((value) {
-              context.pop();
-              Navigator.pushNamed(context, MovieDetailsScreen.routeName);
-            });
+class _MovieCardState extends State<MovieCard> {
+  @override
+  Widget build(BuildContext context) {
+    var cacheKey = "movie${widget.id}${widget.name}";
+    if (!widget.isMovie) {
+      cacheKey = "tvshow${widget.id}${widget.name}";
+    }
+    return Consumer<MoviesProvider>(builder: (_, provider, __) {
+      return GestureDetector(
+        onTap: () {
+          Dialogs.showLoader(context: context);
+          provider.clearActorsAndSimilarList();
+          if (!widget.isWeb) {
+            if (widget.isMovie) {
+              provider.getMovieDetails(widget.id).then((value) {
+                context.pop();
+                Navigator.pushNamed(context, MovieDetailsScreen.routeName);
+              });
+            } else {
+              provider.getTvShowDetails(widget.id).then((value) {
+                context.pop();
+                Navigator.pushNamed(context, TvShowDetailsScreen.routeName);
+              });
+            }
           } else {
-            context.moviesProvider.getTvShowDetails(id).then((value) {
-              context.pop();
-              Navigator.pushNamed(context, TvShowDetailsScreen.routeName);
-            });
+            if (widget.isMovie) {
+              debugPrint('id :: ${widget.id}');
+              provider.getMovieDetails(widget.id).then((value) {
+                // context.pop();
+                Navigator.pushNamed(
+                  context,
+                  MovieDetailsScreenWeb.routeName,
+                );
+              });
+            } else {
+              provider.getTvShowDetails(widget.id).then((value) {
+                context.pop();
+                Navigator.pushNamed(context, TvShowDetailsScreenWeb.routeName);
+              });
+            }
           }
-        } else {
-          if (isMovie) {
-            context.moviesProvider.getMovieDetails(id).then((value) {
-              Navigator.pushNamed(context, MovieDetailsScreenWeb.routeName);
-            });
-          } else {
-            context.moviesProvider.getTvShowDetails(id).then((value) {
-              context.pop();
-              Navigator.pushNamed(context, TvShowDetailsScreenWeb.routeName);
-            });
-          }
-        }
-      },
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          !isWeb
-              ? CustomCacheImage(
-                  borderRadius: 8,
-                  height: imageHeight,
-                  width: imageWidth,
-                  imageUrl: poster,
-                  cacheKey: cacheKey,
-                )
-              : CustomCacheImageWithoutSize(
-                  borderRadius: 8,
-                  // height: imageHeight,
-                  // width: imageWidth,
-                  imageUrl: poster,
-                  cacheKey: cacheKey,
-                ),
-          const SizedBox(height: 8),
-          Flexible(
-            child: Text(
-              name,
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                fontWeight: FontWeight.w700,
-                fontSize: 12,
-              ),
-            ),
-          ),
-          const SizedBox(height: 8),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text(
-                '1h 37m',
-                maxLines: 1,
-                style: TextStyle(
-                  fontWeight: FontWeight.w200,
-                  fontSize: 12,
-                ),
-              ),
-              const SizedBox(width: 20),
-              const Icon(
-                Icons.star,
-                color: Colors.amber,
-                size: 10,
-              ),
-              Text(
-                vote.toString(),
-                maxLines: 1,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w200,
-                  fontSize: 12,
-                ),
-              ),
-            ],
-          )
-        ],
-      ),
-    );
+        },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            widget.withSize
+                ? CustomCacheImage(
+                    borderRadius: 8,
+                    height: widget.imageHeight,
+                    width: widget.imageWidth,
+                    imageUrl: widget.poster,
+                    cacheKey: cacheKey,
+                  )
+                : CustomCacheImageWithoutSize(
+                    borderRadius: 8,
+                    imageUrl: widget.poster,
+                    cacheKey: cacheKey,
+                  ),
+            const SizedBox(height: 5),
+          ],
+        ),
+      );
+    });
   }
 }

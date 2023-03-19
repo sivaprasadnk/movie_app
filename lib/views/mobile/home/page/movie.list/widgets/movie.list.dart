@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:movie_app/model/movie.dart';
 import 'package:movie_app/provider/movies.provider.dart';
 import 'package:movie_app/views/common/loading.shimmer.dart';
-import 'package:movie_app/views/mobile/home/page/movie.list/widgets/movie.card.dart';
+import 'package:movie_app/views/common/movie.card.dart';
 import 'package:provider/provider.dart';
 
 class MovieList extends StatelessWidget {
@@ -55,22 +55,25 @@ class MovieList extends StatelessWidget {
                   width: double.infinity,
                   child: ListView.separated(
                     separatorBuilder: (context, index) {
-                      return const SizedBox(width: 15);
+                      return const SizedBox(width: 10);
                     },
                     scrollDirection: Axis.horizontal,
                     shrinkWrap: true,
                     itemCount: movieList.length,
                     itemBuilder: (context, index) {
                       var movie = movieList[index];
-                      return MovieCard(
-                        name: movie.title,
-                        poster: movie.posterPath,
-                        vote: movie.voteAverage,
-                        id: movie.id,
-                        isWeb: isWeb,
-                        imageHeight: 180,
-                        imageWidth: 120,
-                        withSize: true,
+                      return Padding(
+                        padding: EdgeInsets.only(right: index == 4 ? 20 : 0),
+                        child: MovieCard(
+                          name: movie.title,
+                          poster: movie.posterPath,
+                          vote: movie.voteAverage,
+                          id: movie.id,
+                          isWeb: isWeb,
+                          imageHeight: 180,
+                          imageWidth: 120,
+                          withSize: true,
+                        ),
                       );
                     },
                   ),

@@ -11,7 +11,6 @@ class MovieDetailsScreenWeb extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var movie = context.moviesProvider.selectedMovie!;
     return WillPopScope(
       onWillPop: () async {
         return false;
@@ -20,8 +19,8 @@ class MovieDetailsScreenWeb extends StatelessWidget {
         appBar: const TitleAppBar(),
         body: SingleChildScrollView(
           child: context.width > 700
-              ? MovieDetailsLarge(movie: movie)
-              : MovieDetailsSmall(movie: movie),
+              ? const MovieDetailsLarge()
+              : const MovieDetailsSmall(),
         ),
       ),
     );

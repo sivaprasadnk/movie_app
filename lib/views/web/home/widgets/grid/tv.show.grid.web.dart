@@ -2,17 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:movie_app/model/tv.shows.dart';
 import 'package:movie_app/provider/movies.provider.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
-import 'package:movie_app/views/mobile/home/page/movie.list/widgets/movie.card.dart';
+import 'package:movie_app/views/common/movie.card.dart';
 import 'package:provider/provider.dart';
 
 class TvShowGridWeb extends StatelessWidget {
   const TvShowGridWeb({
     Key? key,
-    this.isGrid = false,
     this.limit = 0,
+    required this.showList,
   }) : super(key: key);
-  final bool isGrid;
   final int limit;
+  final List<TvShows> showList;
+
   @override
   Widget build(BuildContext context) {
     return Consumer<MoviesProvider>(
@@ -28,16 +29,15 @@ class TvShowGridWeb extends StatelessWidget {
             : GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: context.gridCrossAxisCount,
-                  // crossAxisCount: 5,
                   crossAxisSpacing: 15,
                   mainAxisSpacing: 0,
-                  childAspectRatio: 0.5,
+                  childAspectRatio: 0.6,
                 ),
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
                 itemCount: context.gridCrossAxisCount,
                 itemBuilder: (context, index) {
-                  var movie = provider.tvShowsList.popularShows(limit)[index];
+                  var movie = showList[index];
                   return Padding(
                     padding: const EdgeInsets.only(
                       right: 10,

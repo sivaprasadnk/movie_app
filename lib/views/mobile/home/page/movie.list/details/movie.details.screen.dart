@@ -9,11 +9,11 @@ import 'package:movie_app/views/common/common.button.dart';
 import 'package:movie_app/views/common/section.title.dart';
 import 'package:movie_app/views/common/social.media.links.dart';
 import 'package:movie_app/views/common/video.list.dart';
-import 'package:movie_app/views/mobile/home/page/movie.list/movie/widgets/back.button.dart';
-import 'package:movie_app/views/mobile/home/page/movie.list/movie/widgets/backdrop.image.dart';
-import 'package:movie_app/views/mobile/home/page/movie.list/movie/widgets/bg.gradient.container.dart';
-import 'package:movie_app/views/mobile/home/page/movie.list/movie/widgets/movie.rating.dart';
-import 'package:movie_app/views/mobile/home/page/movie.list/movie/widgets/similar.movies.list.dart';
+import 'package:movie_app/views/mobile/home/page/movie.list/details/widgets/back.button.dart';
+import 'package:movie_app/views/mobile/home/page/movie.list/details/widgets/backdrop.image.dart';
+import 'package:movie_app/views/mobile/home/page/movie.list/details/widgets/bg.gradient.container.dart';
+import 'package:movie_app/views/mobile/home/page/movie.list/details/widgets/movie.rating.dart';
+import 'package:movie_app/views/mobile/home/page/movie.list/details/widgets/similar.movies.list.dart';
 import 'package:provider/provider.dart';
 
 class MovieDetailsScreen extends StatefulWidget {

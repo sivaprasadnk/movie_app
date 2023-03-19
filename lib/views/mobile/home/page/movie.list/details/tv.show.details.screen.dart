@@ -3,11 +3,11 @@ import 'package:movie_app/model/genre.model.dart';
 import 'package:movie_app/provider/auth.provider.dart';
 import 'package:movie_app/provider/movies.provider.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
+import 'package:movie_app/views/common/actors.list.dart';
 import 'package:movie_app/views/common/common.button.dart';
 import 'package:movie_app/views/common/custom.cache.image.dart';
 import 'package:movie_app/views/common/section.title.dart';
-import 'package:movie_app/views/mobile/home/page/movie.list/movie/widgets/similar.shows.list.dart';
-import 'package:movie_app/views/common/actors.list.dart';
+import 'package:movie_app/views/mobile/home/page/movie.list/details/widgets/similar.shows.list.dart';
 import 'package:provider/provider.dart';
 
 class TvShowDetailsScreen extends StatefulWidget {

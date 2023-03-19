@@ -97,11 +97,43 @@ class WebApp extends StatelessWidget {
       providers: providers,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Movie App',
+        title: 'MoviezApp',
         routes: routes,
         theme: ThemeData(
           primarySwatch: Colors.red,
         ),
+        builder: (context, widget) {
+          ErrorWidget.builder = (FlutterErrorDetails errorDetails) {
+            String message = kDebugMode
+                ? "${errorDetails.summary}"
+                : "Something went wrong !";
+
+            Widget error = Text(message);
+            debugPrint('error : ${errorDetails.summary}');
+            if (widget is Scaffold) {
+              error = MaterialApp(
+                builder: (context, child) {
+                  return Scaffold(
+                    body: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(30.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(Icons.error_outlined, size: 50),
+                            error,
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              );
+            }
+            return error;
+          };
+          return widget!;
+        },
         home: HomeScreenWeb(isMobileWeb: isMobileWeb),
       ),
     );

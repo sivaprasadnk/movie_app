@@ -27,18 +27,31 @@ class MovieDetails {
   });
 
   factory MovieDetails.fromJson(Map<String, dynamic> json) {
+    var backdropImage = json['backdrop_path'];
+    if (backdropImage != null) {
+      backdropImage = kOriginalImageBaseUrl + backdropImage;
+    } else {
+      backdropImage = "";
+    }
+
+    var posterImage = json['poster_path'];
+    if (posterImage != null) {
+      posterImage = kImageBaseUrl + posterImage;
+    } else {
+      posterImage = "";
+    }
     return MovieDetails(
       id: json['id'],
-      backdropPath: kImageBaseUrl + json['backdrop_path'],
-      posterPath: kImageBaseUrl + json['poster_path'],
+      backdropPath: backdropImage,
+      posterPath: posterImage,
       genreList:
           (json['genres'] as List).map((e) => Genre.fromJson(e)).toList(),
       title: json['title'] ?? "",
-      voteAverage: json['vote_average'],
-      voteCount: json['vote_count'],
-      runtime: json['runtime'],
-      releaseDate: json['release_date'],
-      overview: json['overview'],
+      voteAverage: json['vote_average'] ?? 0.0,
+      voteCount: json['vote_count'] ?? 0,
+      runtime: json['runtime'] ?? 0,
+      releaseDate: json['release_date'] ?? "",
+      overview: json['overview'] ?? "",
     );
   }
 

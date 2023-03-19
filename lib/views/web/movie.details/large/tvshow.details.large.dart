@@ -11,7 +11,7 @@ import 'package:movie_app/views/common/play.trailer.text.button.dart';
 import 'package:movie_app/views/common/section.title.dart';
 import 'package:movie_app/views/common/social.media.links.dart';
 import 'package:movie_app/views/common/video.list.dart';
-import 'package:movie_app/views/web/home/widgets/movie.grid.dart';
+import 'package:movie_app/views/web/home/widgets/grid/movie.grid.dart';
 import 'package:provider/provider.dart';
 
 class TvShowDetailsLarge extends StatelessWidget {
@@ -245,6 +245,7 @@ class TvShowDetailsLarge extends StatelessWidget {
                       isLoading: provider.similarTvShowsLoading,
                       tvShowsList: provider.similarTvShowList,
                       isWeb: true,
+                      isMovie: false,
                       limit: context.gridCrossAxisCount,
                     ),
               ],

@@ -19,7 +19,7 @@ class RegionSelectScreenMobile extends StatelessWidget {
             child: Column(
               children: [
                 const SizedBox(height: 20),
-                const SectionTitle(title: 'Select Region'),
+                const SectionTitle(title: 'Select Country'),
                 const SizedBox(height: 20),
                 Consumer<MoviesProvider>(
                   builder: (_, provider, __) {
@@ -33,15 +33,13 @@ class RegionSelectScreenMobile extends StatelessWidget {
                         return ListTile(
                           onTap: () {
                             provider.updateRegion(region);
-                            // context.pop();
                           },
                           selected: region == selected,
-                          selectedColor: context.theme.primaryColor,
+                          selectedColor: Colors.green,
                           title: Text(region),
                           trailing: region == selected
                               ? const Icon(
                                   Icons.check,
-                                  color: Colors.green,
                                 )
                               : null,
                         );

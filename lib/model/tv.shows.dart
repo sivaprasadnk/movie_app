@@ -1,6 +1,6 @@
 import 'package:movie_app/repo/movie/end.points.dart';
 
-enum TvShowType { trending, nowPlaying, topRated, upcoming, similar }
+enum TvShowType { trending, popular, airingToday, similar, topRated }
 
 class TvShows {
   String name;
@@ -67,36 +67,64 @@ extension TvShowExtension on List<TvShows> {
     return idList.toSet().toList();
   }
 
-  List<TvShows> trendingShows(int limit) {
+  List<TvShows> trendingShows([int limit = 0]) {
     List<TvShows> list = [];
-    for (var movie in this) {
-      if (movie.tvShowType == TvShowType.trending) {
-        if (list.length < limit) {
-          list.add(movie);
+    for (var show in this) {
+      if (show.tvShowType == TvShowType.trending) {
+        if (limit != 0) {
+          if (list.length < limit) {
+            list.add(show);
+          }
+        } else {
+          list.add(show);
         }
       }
     }
     return list;
   }
 
-  List<TvShows> nowPlayingShows(int limit) {
+  List<TvShows> airingTodayShows([int limit = 0]) {
     List<TvShows> list = [];
-    for (var movie in this) {
-      if (movie.tvShowType == TvShowType.nowPlaying) {
-        if (list.length < limit) {
-          list.add(movie);
+    for (var show in this) {
+      if (show.tvShowType == TvShowType.airingToday) {
+        if (limit != 0) {
+          if (list.length < limit) {
+            list.add(show);
+          }
+        } else {
+          list.add(show);
         }
       }
     }
     return list;
   }
 
-  List<TvShows> popularShows(int limit) {
+  List<TvShows> popularShows([int limit = 0]) {
     List<TvShows> list = [];
-    for (var movie in this) {
-      if (movie.tvShowType == TvShowType.topRated) {
-        if (list.length < limit) {
-          list.add(movie);
+    for (var show in this) {
+      if (show.tvShowType == TvShowType.popular) {
+        if (limit != 0) {
+          if (list.length < limit) {
+            list.add(show);
+          }
+        } else {
+          list.add(show);
+        }
+      }
+    }
+    return list;
+  }
+
+  List<TvShows> topRatedShows([int limit = 0]) {
+    List<TvShows> list = [];
+    for (var show in this) {
+      if (show.tvShowType == TvShowType.topRated) {
+        if (limit != 0) {
+          if (list.length < limit) {
+            list.add(show);
+          }
+        } else {
+          list.add(show);
         }
       }
     }

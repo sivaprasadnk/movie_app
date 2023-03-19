@@ -4,8 +4,8 @@ import 'package:movie_app/utils/extensions/build.context.extension.dart';
 import 'package:movie_app/utils/extensions/widget.extensions.dart';
 import 'package:provider/provider.dart';
 
-class ContentSelection extends StatelessWidget {
-  const ContentSelection({
+class ContentSelectionWeb extends StatelessWidget {
+  const ContentSelectionWeb({
     Key? key,
   }) : super(key: key);
 
@@ -26,7 +26,7 @@ class ContentSelection extends StatelessWidget {
               width: 90,
               height: 40,
               decoration: BoxDecoration(
-                color: selected == Content.movie ? primaryColor : whiteColor,
+                color: selected == Content.movie ? whiteColor : primaryColor,
                 border: Border.all(
                   color: context.theme.primaryColor,
                 ),
@@ -36,7 +36,7 @@ class ContentSelection extends StatelessWidget {
                   'Movies',
                   style: TextStyle(
                     color:
-                        selected == Content.movie ? whiteColor : primaryColor,
+                        selected != Content.movie ? whiteColor : primaryColor,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -52,7 +52,7 @@ class ContentSelection extends StatelessWidget {
               width: 90,
               height: 40,
               decoration: BoxDecoration(
-                color: selected == Content.tvShow ? primaryColor : whiteColor,
+                color: selected == Content.tvShow ? whiteColor : primaryColor,
                 border: Border.all(
                   color: context.theme.primaryColor,
                 ),
@@ -62,13 +62,13 @@ class ContentSelection extends StatelessWidget {
                   'Tv Shows',
                   style: TextStyle(
                     color:
-                        selected == Content.tvShow ? whiteColor : primaryColor,
+                        selected != Content.tvShow ? whiteColor : primaryColor,
                   ),
                   textAlign: TextAlign.center,
                 ),
               ),
             ),
-          ).addMousePointer
+          ).addMousePointer,
         ],
       );
     });

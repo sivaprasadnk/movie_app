@@ -9,12 +9,14 @@ String kTrendingMoviesUrl = "${kBaseUrl}trending/movie/week?api_key=$apiKey";
 String kNowPlayingMoviesUrl = "${kBaseUrl}movie/now_playing?api_key=$apiKey";
 
 String kTopRatedMoviesUrl = "${kBaseUrl}movie/top_rated?api_key=$apiKey";
+String kUpcomingMoviesUrl = "${kBaseUrl}movie/upcoming?api_key=$apiKey";
 
 String kTrendingTvShowsUrl = "${kBaseUrl}trending/tv/week?api_key=$apiKey";
 
-String kNowPlayingTvShowsUrl = "${kBaseUrl}tv/now_playing?api_key=$apiKey";
+String kAiringTodayTvShowsUrl = "${kBaseUrl}tv/airing_today?api_key=$apiKey";
 
 String kPopularTvShowsUrl = "${kBaseUrl}tv/popular?api_key=$apiKey";
+String kTopRatedTvShowsUrl = "${kBaseUrl}tv/top_rated?api_key=$apiKey";
 
 // String kGenreUrl = "${kBaseUrl}genre/movie/list?api_key=$apiKey";
 

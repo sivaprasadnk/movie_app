@@ -17,6 +17,7 @@ class TitleAppBar extends StatelessWidget with PreferredSizeWidget {
           ? GestureDetector(
               onTap: () {
                 context.moviesProvider.updateCarousalIndex(0);
+                context.moviesProvider.updateDataStatus(false);
                 Navigator.pushNamedAndRemoveUntil(
                     context, HomeScreenWeb.routeName, (route) => false);
               },

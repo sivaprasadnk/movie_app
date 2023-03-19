@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/model/genre.model.dart';
-import 'package:movie_app/model/movie.details.dart';
+import 'package:movie_app/utils/extensions/build.context.extension.dart';
 import 'package:movie_app/utils/extensions/int.extensions.dart';
 import 'package:movie_app/views/common/section.title.dart';
 
@@ -9,12 +9,12 @@ import '../../../common/custom.cache.image.dart';
 class MovieDetailsSmall extends StatelessWidget {
   const MovieDetailsSmall({
     Key? key,
-    required this.movie,
   }) : super(key: key);
-  final MovieDetails movie;
 
   @override
   Widget build(BuildContext context) {
+    var movie = context.moviesProvider.selectedMovie!;
+
     var cacheKey1 = 'movie_${movie.id}poster';
 
     return Padding(

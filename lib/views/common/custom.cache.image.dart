@@ -41,7 +41,6 @@ class CustomCacheImage extends StatelessWidget {
   }
 }
 
-
 class CustomCacheImageWithoutSize extends StatelessWidget {
   const CustomCacheImageWithoutSize({
     super.key,
@@ -66,7 +65,10 @@ class CustomCacheImageWithoutSize extends StatelessWidget {
         fit: BoxFit.cover,
         errorWidget: (context, url, error) {
           return const SizedBox(
-            child: Icon(Icons.error),
+            height: 180,
+            child: Center(
+              child: Icon(Icons.error),
+            ),
           );
         },
       ),

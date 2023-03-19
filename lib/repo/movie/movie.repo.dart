@@ -67,7 +67,9 @@ class MovieRepo {
         var movieList = item['results'] as List;
         if (movieList.isNotEmpty) {
           for (var i in movieList) {
-            list.add(Movie.fromJson(i, type));
+            if (i['backdrop_path'] != null && i['poster_path'] != null) {
+              list.add(Movie.fromJson(i, type));
+            }
           }
         }
       }
@@ -88,6 +90,11 @@ class MovieRepo {
   static Future getPopularMoviesList(String region, int page) async {
     return await getMovieResultsList(
         "$kTopRatedMoviesUrl&region=$region&page=$page", MovieType.topRated);
+  }
+
+  static Future getUpcomingMoviesList(String region, int page) async {
+    return await getMovieResultsList(
+        "$kUpcomingMoviesUrl&region=$region&page=$page", MovieType.upcoming);
   }
 
   static Future getNowPlayingMoviesList(String region, int page) async {
@@ -165,12 +172,17 @@ class MovieRepo {
 
   static Future getPopularTvShowList(String region) async {
     return await getTvShowsResultsList(
-        "$kPopularTvShowsUrl&region=$region", TvShowType.topRated);
+        "$kPopularTvShowsUrl&region=$region", TvShowType.popular);
   }
 
-  static Future getNowPlayingTvShowList(String region) async {
+  static Future getTopRatedTvShowList(String region) async {
     return await getTvShowsResultsList(
-        "$kNowPlayingTvShowsUrl&region=$region", TvShowType.nowPlaying);
+        "$kTopRatedTvShowsUrl&region=$region", TvShowType.topRated);
+  }
+
+  static Future getAiringTodayTvShowList(String region) async {
+    return await getTvShowsResultsList(
+        "$kAiringTodayTvShowsUrl&region=$region", TvShowType.airingToday);
   }
 
   static Future getSimilarTvShowList(int id) async {
@@ -314,6 +326,7 @@ class MovieRepo {
     var trendingList = await getTrendingMovieList(region, page);
     var nowPlayingList = await getNowPlayingMoviesList(region, page);
     var popularMoviesList = await getPopularMoviesList(region, page);
+    var upcomingList = await getUpcomingMoviesList(region, page);
 
     for (var movie in trendingList) {
       finalList.add(movie);
@@ -324,6 +337,10 @@ class MovieRepo {
     }
 
     for (var movie in popularMoviesList) {
+      finalList.add(movie);
+    }
+
+    for (var movie in upcomingList) {
       finalList.add(movie);
     }
 
@@ -333,18 +350,23 @@ class MovieRepo {
   static Future getTvShowsList(String region) async {
     List<TvShows> finalList = [];
     var trendingList = await getTrendingTvShowList(region);
-    var nowPlayingList = await getNowPlayingTvShowList(region);
-    var popularMoviesList = await getPopularTvShowList(region);
+    var airingTodayList = await getAiringTodayTvShowList(region);
+    var popularList = await getPopularTvShowList(region);
+    var topRatedList = await getTopRatedTvShowList(region);
 
     for (var movie in trendingList) {
       finalList.add(movie);
     }
 
-    for (var movie in nowPlayingList) {
+    for (var movie in airingTodayList) {
       finalList.add(movie);
     }
 
-    for (var movie in popularMoviesList) {
+    for (var movie in popularList) {
+      finalList.add(movie);
+    }
+
+    for (var movie in topRatedList) {
       finalList.add(movie);
     }
 

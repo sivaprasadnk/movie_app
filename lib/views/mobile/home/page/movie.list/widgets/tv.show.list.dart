@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/model/tv.shows.dart';
 import 'package:movie_app/provider/movies.provider.dart';
-import 'package:movie_app/views/mobile/home/page/movie.list/widgets/movie.card.dart';
+import 'package:movie_app/views/common/movie.card.dart';
 import 'package:provider/provider.dart';
 
 class TvShowList extends StatelessWidget {

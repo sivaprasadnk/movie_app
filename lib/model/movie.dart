@@ -25,10 +25,23 @@ class Movie {
     if (vote.runtimeType == int) {
       vote = (vote as int).toDouble();
     }
+    var backdropImage = json['backdrop_path'];
+    if (backdropImage != null) {
+      backdropImage = kOriginalImageBaseUrl + backdropImage;
+    } else {
+      backdropImage = "";
+    }
+
+    var posterImage = json['poster_path'];
+    if (posterImage != null) {
+      posterImage = kImageBaseUrl + posterImage;
+    } else {
+      posterImage = "";
+    }
     return Movie(
       id: json['id'],
-      backdropPath: kOriginalImageBaseUrl + (json['backdrop_path'] ?? ""),
-      posterPath: kImageBaseUrl + (json['poster_path'] ?? ""),
+      backdropPath: backdropImage,
+      posterPath: posterImage,
       genreIdList: (json['genre_ids'] as List).map((e) => e as int).toList(),
       title: json['title'] ?? "",
       voteAverage: vote,
@@ -81,11 +94,33 @@ extension MovieExtension on List<Movie> {
     return idList.toSet().toList();
   }
 
-  List<Movie> trendingMovies(int limit) {
+  List<Movie> trendingMovies([int limit = 0]) {
     List<Movie> list = [];
     for (var movie in this) {
       if (movie.movieType == MovieType.trending) {
         if (list.length < limit) {
+          if (limit != 0) {
+            if (list.length < limit) {
+              list.add(movie);
+            }
+          } else {
+            list.add(movie);
+          }
+        }
+      }
+    }
+    return list;
+  }
+
+  List<Movie> nowPlayingMovies([int limit = 0]) {
+    List<Movie> list = [];
+    for (var movie in this) {
+      if (movie.movieType == MovieType.nowPlaying) {
+        if (limit != 0) {
+          if (list.length < limit) {
+            list.add(movie);
+          }
+        } else {
           list.add(movie);
         }
       }
@@ -93,25 +128,33 @@ extension MovieExtension on List<Movie> {
     return list;
   }
 
-  List<Movie> nowPlayingMovies(int limit) {
+  List<Movie> popularMovies([int limit = 0]) {
     List<Movie> list = [];
     for (var movie in this) {
-      if (movie.movieType == MovieType.nowPlaying) {
-        list.add(movie);
-        // if (list.length < limit) {
-        // }
+      if (movie.movieType == MovieType.topRated) {
+        if (limit != 0) {
+          if (list.length < limit) {
+            list.add(movie);
+          }
+        } else {
+          list.add(movie);
+        }
       }
     }
     return list;
   }
 
-  List<Movie> popularMovies(int limit) {
+  List<Movie> upcomingMovies([int limit = 0]) {
     List<Movie> list = [];
     for (var movie in this) {
-      if (movie.movieType == MovieType.topRated) {
-        list.add(movie);
-        // if (list.length < limit) {
-        // }
+      if (movie.movieType == MovieType.upcoming) {
+        if (limit != 0) {
+          if (list.length < limit) {
+            list.add(movie);
+          }
+        } else {
+          list.add(movie);
+        }
       }
     }
     return list;

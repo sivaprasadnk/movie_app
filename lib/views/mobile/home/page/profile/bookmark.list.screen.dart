@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:movie_app/provider/user.provider.dart';
 import 'package:movie_app/utils/dialogs.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
+import 'package:movie_app/views/common/movie.card.dart';
 import 'package:movie_app/views/common/page.title.dart';
 import 'package:movie_app/views/common/section.title.dart';
-import 'package:movie_app/views/mobile/home/page/movie.list/widgets/movie.card.dart';
 import 'package:movie_app/views/mobile/home/page/profile/widgets/empty.bookmark.list.container.dart';
 import 'package:provider/provider.dart';
 

@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/model/movie.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
 import 'package:movie_app/views/common/custom.cache.image.dart';
 
 class CarousalMovieItem extends StatelessWidget {
   const CarousalMovieItem({
     super.key,
-    required this.movie,
     this.isWeb = false,
+    required this.id,
+    required this.title,
+    required this.backdropImage,
   });
 
-  final Movie movie;
   final bool isWeb;
+  final String id;
+  final String title;
+  final String backdropImage;
 
   @override
   Widget build(BuildContext context) {
-    var cacheKey = "carousal${movie.id}${movie.title}";
+    var cacheKey = "carousal$id$title";
     var height = context.height * 0.12;
     if (context.width < 500) {
       height = context.height * 0.2;
@@ -23,7 +26,7 @@ class CarousalMovieItem extends StatelessWidget {
     return Stack(
       children: [
         CustomCacheImageWithoutSize(
-          imageUrl: movie.backdropPath,
+          imageUrl: backdropImage,
           cacheKey: cacheKey,
           borderRadius: 0,
         ),
@@ -53,7 +56,7 @@ class CarousalMovieItem extends StatelessWidget {
           child: Align(
             alignment: Alignment.bottomLeft,
             child: Text(
-              movie.title,
+              title,
               maxLines: 3,
               style: const TextStyle(
                 fontWeight: FontWeight.w600,
