@@ -180,7 +180,9 @@ class TvShowDetailsLarge extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 20),
-                    const PlayTrailerTextButton(),
+                    const PlayTrailerTextButton(
+                      isMobile: false,
+                    ),
                     const SizedBox(height: 20),
                     Consumer<MoviesProvider>(
                       builder: (_, provider, __) {
@@ -203,9 +205,10 @@ class TvShowDetailsLarge extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 15),
-                const SectionTitle(title: 'Story'),
-                const SizedBox(height: 20),
-                Text(show.overview),
+                if (show.overview.isNotEmpty)
+                  const SectionTitle(title: 'Story'),
+                if (show.overview.isNotEmpty) const SizedBox(height: 20),
+                if (show.overview.isNotEmpty) Text(show.overview),
                 const SizedBox(height: 40),
                 if (!provider.videosLoading)
                   if (provider.videoList.isNotEmpty)
@@ -216,7 +219,9 @@ class TvShowDetailsLarge extends StatelessWidget {
                     seconds: 1,
                   ),
                   child: !provider.videosLoading
-                      ? const VideoList()
+                      ? const VideoList(
+                          isWeb: true,
+                        )
                       : const SizedBox.shrink(),
                 ),
                 const SizedBox(height: 20),

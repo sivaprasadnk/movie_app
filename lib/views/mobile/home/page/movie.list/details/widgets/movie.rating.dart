@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/model/movie.details.dart';
 
 class MovieRatingDetailsMobile extends StatelessWidget {
-  const MovieRatingDetailsMobile({super.key, required this.movie});
+  const MovieRatingDetailsMobile({
+    super.key,
+    required this.voteAverage,
+    required this.voteCount,
+  });
 
-  final MovieDetails movie;
+  final String voteAverage;
+  final String voteCount;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +26,7 @@ class MovieRatingDetailsMobile extends StatelessWidget {
             ),
             const SizedBox(width: 8),
             Text(
-              movie.voteAverage.toString(),
+              voteAverage,
               style: const TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: 12,
@@ -30,7 +34,7 @@ class MovieRatingDetailsMobile extends StatelessWidget {
             ),
             const SizedBox(width: 8),
             Text(
-              "( ${movie.voteCount} )",
+              "( $voteCount )",
               style: const TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: 12,

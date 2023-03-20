@@ -26,7 +26,7 @@ class MovieGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double spacing = isWeb ? 15 : 10;
-    double ratio = isWeb ? 0.6 : 0.65;
+    double ratio = 0.6;
     return isLoading
         ? const SizedBox(
             height: 75,
@@ -53,6 +53,7 @@ class MovieGrid extends StatelessWidget {
                     return Padding(
                       padding: const EdgeInsets.only(
                         right: 10,
+                        // bottom: 10,
                       ),
                       child: MovieCard(
                         isMovie: true,
@@ -70,6 +71,7 @@ class MovieGrid extends StatelessWidget {
                     return Padding(
                       padding: const EdgeInsets.only(
                         right: 10,
+                        bottom: 10,
                       ),
                       child: MovieCard(
                         isMovie: false,

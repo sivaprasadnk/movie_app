@@ -8,7 +8,8 @@ import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 import '../../provider/movies.provider.dart';
 
 class PlayTrailerTextButton extends StatelessWidget {
-  const PlayTrailerTextButton({super.key});
+  const PlayTrailerTextButton({super.key, required this.isMobile});
+  final bool isMobile;
 
   @override
   Widget build(BuildContext context) {
@@ -22,21 +23,33 @@ class PlayTrailerTextButton extends StatelessWidget {
           ? GestureDetector(
               onTap: () {
                 playVideo(trailerVideo, context);
+                // Navigator.push(context, MaterialPageRoute(builder: (_) {
+                //   return VideoPlayerScreen(videoId: trailerVideo);
+                // }));
               },
               child: SizedBox(
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
-                  children: const [
-                    Icon(
-                      Icons.play_arrow_rounded,
-                      size: 20,
-                      color: Colors.white,
+                  children: [
+                    Container(
+                      height: 50,
+                      width: 50,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white,
+                      ),
+                      child: const Icon(
+                        Icons.play_arrow_rounded,
+                        size: 23,
+                        color: Colors.black,
+                      ),
                     ),
-                    SizedBox(width: 10),
-                    Text(
+                    const SizedBox(width: 10),
+                    const Text(
                       'Play Trailer',
                       style: TextStyle(
                         color: Colors.white,
+                        fontSize: 18,
                       ),
                     ),
                   ],

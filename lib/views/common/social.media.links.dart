@@ -26,6 +26,7 @@ class SocialMediaLinks extends StatelessWidget {
         IconData(0xf266, fontFamily: kFontFam, fontPackage: kFontPkg);
     const IconData imdb =
         IconData(0xf2d8, fontFamily: kFontFam, fontPackage: kFontPkg);
+    double spacing = 15;
     return Row(
       children: [
         if (model.fbId.isNotEmpty)
@@ -34,37 +35,33 @@ class SocialMediaLinks extends StatelessWidget {
             icon: facebookSquare,
             isMobile: isMobile,
           ),
-        if (model.fbId.isNotEmpty) const SizedBox(width: 10),
+        if (model.fbId.isNotEmpty) SizedBox(width: spacing),
         if (model.instaId.isNotEmpty)
           SocialMediaIcon(
             link: 'https://instagram.com/${model.instaId}',
             icon: instagram,
             isMobile: isMobile,
-
           ),
-        if (model.instaId.isNotEmpty) const SizedBox(width: 10),
+        if (model.instaId.isNotEmpty) SizedBox(width: spacing),
         if (model.twitterId.isNotEmpty)
           SocialMediaIcon(
             link: 'https://twitter.com/${model.twitterId}',
             icon: twitterSquare,
             isMobile: isMobile,
-
           ),
-        if (model.twitterId.isNotEmpty) const SizedBox(width: 10),
+        if (model.twitterId.isNotEmpty) SizedBox(width: spacing),
         if (model.wikipediaId.isNotEmpty)
           SocialMediaIcon(
             link: 'https://en.wikipedia.org/wiki/${model.wikipediaId}',
             icon: wikipediaLogo,
             isMobile: isMobile,
-
           ),
-        if (model.wikipediaId.isNotEmpty) const SizedBox(width: 10),
+        if (model.wikipediaId.isNotEmpty) SizedBox(width: spacing),
         if (model.imdbId.isNotEmpty)
           SocialMediaIcon(
             link: 'https://imdb.com/title/${model.imdbId}',
             icon: imdb,
             isMobile: isMobile,
-
           ),
         if (model.imdbId.isNotEmpty) const SizedBox(width: 10),
       ],

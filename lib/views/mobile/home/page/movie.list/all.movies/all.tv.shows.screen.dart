@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:movie_app/model/genre.model.dart';
 import 'package:movie_app/model/tv.shows.dart';
 import 'package:movie_app/provider/movies.provider.dart';
+import 'package:movie_app/utils/dialogs.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
 import 'package:movie_app/views/common/section.title.dart';
 import 'package:movie_app/views/web/home/widgets/genre.list.dart';
@@ -24,24 +25,45 @@ class AllTvShowsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          leadingWidth: 50,
+          leading: GestureDetector(
+            onTap: () {
+              context.pop();
+            },
+            child: Icon(
+              Icons.arrow_back_ios_rounded,
+              color: context.theme.primaryColor,
+            ),
+          ),
+          title: SectionTitle(title: title),
+          actions: [
+            GestureDetector(
+              onTap: () {
+                Dialogs.showSortByDialog(
+                  context,
+                  context.moviesProvider.selectedSort,
+                  isMovie: false,
+                );
+              },
+              child: const Icon(
+                Icons.settings,
+                color: Colors.black,
+                size: 20,
+              ),
+            ),
+            const SizedBox(width: 20),
+          ],
+        ),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.only(left: 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 20),
-                GestureDetector(
-                  onTap: () {
-                    context.pop();
-                  },
-                  child: Icon(
-                    Icons.arrow_back_ios_rounded,
-                    color: context.theme.primaryColor,
-                  ),
-                ),
-                const SizedBox(height: 20),
-                SectionTitle(title: title),
                 const SizedBox(height: 20),
                 GenreOptionsList(
                   isMovie: false,

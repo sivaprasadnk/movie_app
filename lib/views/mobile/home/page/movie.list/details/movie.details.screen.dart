@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/model/genre.model.dart';
+import 'package:movie_app/model/movie.details.dart';
 import 'package:movie_app/provider/auth.provider.dart';
 import 'package:movie_app/provider/movies.provider.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
 import 'package:movie_app/utils/extensions/int.extensions.dart';
+import 'package:movie_app/utils/extensions/string.extensions.dart';
 import 'package:movie_app/views/common/actors.list.dart';
 import 'package:movie_app/views/common/common.button.dart';
 import 'package:movie_app/views/common/section.title.dart';
@@ -12,9 +14,12 @@ import 'package:movie_app/views/common/video.list.dart';
 import 'package:movie_app/views/mobile/home/page/movie.list/details/widgets/back.button.dart';
 import 'package:movie_app/views/mobile/home/page/movie.list/details/widgets/backdrop.image.dart';
 import 'package:movie_app/views/mobile/home/page/movie.list/details/widgets/bg.gradient.container.dart';
+import 'package:movie_app/views/mobile/home/page/movie.list/details/widgets/genre.details.dart';
+import 'package:movie_app/views/mobile/home/page/movie.list/details/widgets/movie.name.dart';
 import 'package:movie_app/views/mobile/home/page/movie.list/details/widgets/movie.rating.dart';
 import 'package:movie_app/views/mobile/home/page/movie.list/details/widgets/similar.movies.list.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MovieDetailsScreen extends StatefulWidget {
   const MovieDetailsScreen({super.key});
@@ -39,82 +44,41 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
             child: Consumer<MoviesProvider>(
               builder: (_, provider, __) {
                 var movie = provider.selectedMovie!;
-                var year = movie.releaseDate.split('-').first;
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Stack(
                       children: [
-                        BackdropImageMobile(movie: movie),
+                        BackdropImageMobile(
+                          id: movie.id,
+                          imageUrl: movie.backdropPath,
+                        ),
                         const BgBradientContainerMobile(),
+                        MovieName(name: movie.title),
                         Positioned.fill(
-                          bottom: 60,
-                          left: 20,
+                          bottom: 40,
+                          right: 20,
                           child: Align(
-                            alignment: Alignment.bottomLeft,
-                            child: Text(
-                              movie.title,
-                              maxLines: 3,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 18,
-                              ),
-                            ),
-                          ),
+                              alignment: Alignment.bottomRight,
+                              child: GestureDetector(
+                                onTap: () {
+                                  showDetailsDialog(movie);
+                                },
+                                child: const Icon(
+                                  Icons.info,
+                                  size: 30,
+                                ),
+                              )),
                         ),
-                        Positioned.fill(
-                          bottom: 30,
-                          left: 20,
-                          child: Align(
-                            alignment: Alignment.bottomLeft,
-                            child: Row(
-                              children: [
-                                Text(
-                                  year,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
-                                Container(
-                                  height: 5,
-                                  width: 5,
-                                  decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
-                                Text(
-                                  movie.genreList.stringText,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
-                                Container(
-                                  height: 5,
-                                  width: 5,
-                                  decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
-                                Text(
-                                  movie.runtime.durationInHrs,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                        GenreDetails(
+                          duration: movie.runtime.durationInHrs,
+                          genreList: movie.genreList.stringText,
+                          releaseDate: movie.releaseDate.split('-').first,
                         ),
-                        MovieRatingDetailsMobile(movie: movie),
+                        MovieRatingDetailsMobile(
+                          voteAverage: movie.voteAverage.toString(),
+                          voteCount: movie.voteCount.toString(),
+                        ),
                         const BackButtonMobile(),
                       ],
                     ),
@@ -146,24 +110,6 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                                     height: 190,
                                   )
                                 : const SizedBox.shrink(),
-                          ),
-                          const SizedBox(height: 20),
-                          Consumer<MoviesProvider>(
-                            builder: (_, provider, __) {
-                              var social = provider.socialMediaModel;
-                              return social.isLoading
-                                  ? const SizedBox.shrink()
-                                  : Column(
-                                      children: [
-                                        const SectionTitle(title: 'Follow on '),
-                                        const SizedBox(height: 20),
-                                        SocialMediaLinks(
-                                          model: social,
-                                          isMobile: true,
-                                        ),
-                                      ],
-                                    );
-                            },
                           ),
                           const SizedBox(height: 40),
                           if (!provider.videosLoading)
@@ -219,6 +165,114 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  showDetailsDialog(MovieDetails movie) async {
+    await showDialog(
+      context: context,
+      barrierColor: Colors.black87,
+      builder: (_) {
+        return AlertDialog(
+          insetPadding: EdgeInsets.zero,
+          backgroundColor: Colors.white,
+          title: Column(
+            children: const [
+              SectionTitle(
+                title: 'More details',
+              ),
+              Divider(
+                indent: 0,
+                endIndent: 0,
+                color: Colors.black,
+              ),
+            ],
+          ),
+          content: Container(
+            width: context.width * 0.2,
+            color: Colors.white,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (movie.releaseDate.isNotEmpty)
+                  Text(
+                    "Release Date : ${movie.releaseDate.formatedDateString}",
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 15,
+                    ),
+                  ),
+                if (movie.releaseDate.isNotEmpty) const SizedBox(height: 25),
+                if (movie.language.isNotEmpty)
+                  Text(
+                    "Language : ${movie.language}",
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 15,
+                    ),
+                  ),
+                if (movie.language.isNotEmpty) const SizedBox(height: 25),
+                if (movie.homepage.isNotEmpty) const Text('Website :'),
+                if (movie.homepage.isNotEmpty) const SizedBox(height: 5),
+                if (movie.homepage.isNotEmpty)
+                  GestureDetector(
+                    onTap: () async {
+                      try {
+                        if (await canLaunchUrl(Uri.parse(movie.homepage))) {
+                          launchUrl(Uri.parse(movie.homepage));
+                        }
+                      } catch (err) {
+                        context.scaffoldMessenger.showSnackBar(const SnackBar(
+                            content: Text('Cannot launch url!')));
+                      }
+                    },
+                    child: Text(
+                      movie.homepage,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 15,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ),
+                if (movie.homepage.isNotEmpty) const SizedBox(height: 25),
+                Consumer<MoviesProvider>(
+                  builder: (_, provider, __) {
+                    var social = provider.socialMediaModel;
+                    return social.isLoading
+                        ? const SizedBox.shrink()
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text('Follow on :'),
+                              const SizedBox(height: 5),
+                              SocialMediaLinks(
+                                model: social,
+                                isMobile: true,
+                              ),
+                            ],
+                          );
+                  },
+                ),
+                const SizedBox(height: 20),
+              ],
+            ),
+          ),
+          actions: [
+            const SizedBox(width: 10),
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: GestureDetector(
+                onTap: () {
+                  context.pop();
+                },
+                child: const Text('Close'),
+              ),
+            )
+          ],
+        );
+      },
     );
   }
 }

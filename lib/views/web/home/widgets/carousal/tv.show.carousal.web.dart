@@ -8,7 +8,7 @@ import 'package:movie_app/views/common/loading.shimmer.dart';
 import 'package:movie_app/views/mobile/home/page/movie.list/widgets/carousal.movie.item.dart';
 import 'package:movie_app/views/web/home/widgets/carousal/left.arrow.container.dart';
 import 'package:movie_app/views/web/home/widgets/carousal/right.arrow.container.dart';
-import 'package:movie_app/views/web/movie.details/movie.details.screen.web.dart';
+import 'package:movie_app/views/web/movie.details/tvshow.details.screen.web.dart';
 import 'package:provider/provider.dart';
 
 class TvShowCarousalWeb extends StatefulWidget {
@@ -44,9 +44,9 @@ class _TvShowCarousalWebState extends State<TvShowCarousalWeb> {
                       items: provider.tvShowsList.trendingShows(10).map((show) {
                         return GestureDetector(
                           onTap: () {
-                            provider.getMovieDetails(show.id).then((value) {
+                            provider.getTvShowDetails(show.id).then((value) {
                               Navigator.pushNamed(
-                                  context, MovieDetailsScreenWeb.routeName);
+                                  context, TvShowDetailsScreenWeb.routeName);
                             });
                           },
                           child: CarousalMovieItem(

@@ -36,9 +36,9 @@ class ActorsList extends StatelessWidget {
                       children: [
                         CustomCacheImage(
                           imageUrl: actor.profilePath,
-                          borderRadius: size,
-                          height: size,
-                          width: size,
+                          borderRadius: size - 10,
+                          height: size - 10,
+                          width: size - 10,
                           cacheKey: 'actor${actor.id}${actor.name}',
                         ),
                         const SizedBox(height: 8),

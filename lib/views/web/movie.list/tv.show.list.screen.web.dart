@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:movie_app/model/genre.model.dart';
 import 'package:movie_app/model/tv.shows.dart';
 import 'package:movie_app/provider/movies.provider.dart';
+import 'package:movie_app/utils/dialogs.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
 import 'package:movie_app/views/common/section.title.dart';
 import 'package:movie_app/views/common/title.app.bar.dart';
@@ -40,6 +41,14 @@ class TvShowListScreenWeb extends StatelessWidget {
               SectionTitle(
                 title: title,
                 withSeeMore: false,
+                withSettings: true,
+                settingsCallBack: () {
+                  Dialogs.showSortByDialog(
+                    context,
+                    context.moviesProvider.selectedSort,
+                    isMovie: false,
+                  );
+                },
               ),
               const SizedBox(height: 20),
               GenreOptionsList(
@@ -53,6 +62,7 @@ class TvShowListScreenWeb extends StatelessWidget {
                   isLoading: false,
                   tvShowsList: provider.filteredTvShowsList,
                   isWeb: true,
+                  isMovie: false,
                   limit: provider.filteredTvShowsList.length,
                 );
               }),

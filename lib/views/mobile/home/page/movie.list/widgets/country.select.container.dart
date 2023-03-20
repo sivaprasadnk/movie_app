@@ -10,7 +10,6 @@ class CountrySelectContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<MoviesProvider>(
       builder: (_, provider, __) {
-        var selected = provider.selectedRegion;
         return Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [

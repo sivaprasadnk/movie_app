@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/model/tv.shows.dart';
 import 'package:movie_app/provider/movies.provider.dart';
+import 'package:movie_app/views/common/loading.shimmer.dart';
 import 'package:movie_app/views/common/movie.card.dart';
 import 'package:provider/provider.dart';
 
@@ -18,11 +19,28 @@ class TvShowList extends StatelessWidget {
     return Consumer<MoviesProvider>(
       builder: (_, provider, __) {
         return provider.tvShowListLoading
-            ? const SizedBox(
-                height: 75,
+            ? SizedBox(
+                height: 170,
                 width: double.infinity,
-                child: Center(
-                  child: CircularProgressIndicator(),
+                child: ListView.separated(
+                  separatorBuilder: (context, index) {
+                    return const SizedBox(width: 15);
+                  },
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  itemCount: 5,
+                  itemBuilder: (context, index) {
+                    return LoadingShimmer(
+                      child: Container(
+                        height: 150,
+                        width: 120,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.white,
+                        ),
+                      ),
+                    );
+                  },
                 ),
               )
             : SizedBox(

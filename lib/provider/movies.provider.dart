@@ -12,30 +12,30 @@ import 'package:movie_app/repo/movie/region.list.dart';
 
 enum Content { movie, tvShow }
 
-enum sortBy {
+enum SortBy {
   titleAscending,
   titleDescending,
   dateAscending,
   dateDescending,
 }
 
-extension SortExt on sortBy {
+extension SortExt on SortBy {
   String get displayTitle {
     switch (this) {
-      case sortBy.titleAscending:
+      case SortBy.titleAscending:
         return 'Title - Ascending';
-      case sortBy.titleDescending:
+      case SortBy.titleDescending:
         return 'Title - Descending';
-      case sortBy.dateAscending:
+      case SortBy.dateAscending:
         return 'Date - Ascending';
-      case sortBy.dateDescending:
+      case SortBy.dateDescending:
         return 'Date - Descending';
     }
   }
 }
 
 class MoviesProvider extends ChangeNotifier {
-  String _selectedSort = sortBy.titleAscending.displayTitle;
+  String _selectedSort = SortBy.titleAscending.displayTitle;
   String get selectedSort => _selectedSort;
 
   void updateSort(String value) {
@@ -200,6 +200,11 @@ class MoviesProvider extends ChangeNotifier {
       _tvShowsList = await MovieRepo.getTvShowsList(selectedRegion.regionCode);
       _tvShowListLoading = false;
     }
+    notifyListeners();
+  }
+
+  void updateFilteredTvShowsList(List<TvShows> list) {
+    _filteredTvShowsList = list;
     notifyListeners();
   }
 

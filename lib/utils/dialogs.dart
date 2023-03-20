@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:movie_app/provider/movies.provider.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
+import 'package:movie_app/utils/extensions/widget.extensions.dart';
 import 'package:movie_app/views/common/auth/sign.in/sign.in.screen.dart';
+import 'package:movie_app/views/common/section.title.dart';
 import 'package:movie_app/views/mobile/home/home.screen.dart';
+import 'package:provider/provider.dart';
 
 class Dialogs {
   static void showLoader({required BuildContext context}) async {
@@ -268,4 +272,135 @@ class Dialogs {
     );
   }
 
+  static Future showSortByDialog(
+    BuildContext context,
+    String currentSettings, {
+    bool isMovie = true,
+  }) async {
+    var primaryColor = context.theme.primaryColor;
+    var whiteColor = Colors.white;
+
+    await showDialog(
+      context: context,
+      barrierColor: Colors.black87,
+      builder: (_) {
+        var selected = currentSettings;
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          title: const SectionTitle(title: 'Sort By'),
+          content: StatefulBuilder(builder: (context, setState) {
+            return Container(
+              width: context.width * 0.3,
+              color: Colors.white,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const SizedBox(height: 10),
+                  SizedBox(
+                    child: Wrap(
+                      spacing: 10,
+                      runSpacing: 10,
+                      children: SortBy.values.map((order) {
+                        if (!isMovie &&
+                            (order == SortBy.dateAscending ||
+                                order == SortBy.dateDescending)) {
+                          return const SizedBox.shrink();
+                        }
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              selected = order.displayTitle;
+                            });
+                          },
+                          child: Container(
+                            width: 90,
+                            height: 40,
+                            margin: const EdgeInsets.only(right: 15),
+                            decoration: BoxDecoration(
+                              color: selected == order.displayTitle
+                                  ? primaryColor
+                                  : whiteColor,
+                              border: Border.all(
+                                color: context.theme.primaryColor,
+                              ),
+                            ),
+                            child: Center(
+                              child: Text(
+                                order.displayTitle,
+                                style: TextStyle(
+                                  color: selected == order.displayTitle
+                                      ? whiteColor
+                                      : primaryColor,
+                                  fontSize: 12,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                ],
+              ),
+            );
+          }),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: GestureDetector(
+                onTap: () {
+                  context.pop();
+                },
+                child: const Text('Cancel'),
+              ).addMousePointer,
+            ),
+            const SizedBox(width: 10),
+            Consumer<MoviesProvider>(builder: (_, provider, __) {
+              return Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: GestureDetector(
+                  onTap: () {
+                    context.pop();
+                    if (isMovie) {
+                      var list = provider.filteredMoviesList;
+                      if (selected == SortBy.titleAscending.displayTitle) {
+                        list.sort((a, b) => a.title.compareTo(b.title));
+                      } else if (selected ==
+                          SortBy.titleDescending.displayTitle) {
+                        list.sort((a, b) => b.title.compareTo(a.title));
+                      } else if (selected ==
+                          SortBy.dateAscending.displayTitle) {
+                        list.sort(
+                            (a, b) => a.releaseDate.compareTo(b.releaseDate));
+                      } else if (selected ==
+                          SortBy.dateDescending.displayTitle) {
+                        list.sort(
+                            (a, b) => b.releaseDate.compareTo(a.releaseDate));
+                      }
+                      provider.updateSort(selected);
+                      provider.updateFilteredMoviesList(list);
+                    } else {
+                      var list = provider.filteredTvShowsList;
+                      if (selected == SortBy.titleAscending.displayTitle) {
+                        list.sort((a, b) => a.name.compareTo(b.name));
+                      } else if (selected ==
+                          SortBy.titleDescending.displayTitle) {
+                        list.sort((a, b) => b.name.compareTo(a.name));
+                      }
+                      provider.updateSort(selected);
+                      provider.updateFilteredTvShowsList(list);
+                    }
+                  },
+                  child: const Text('OK'),
+                ).addMousePointer,
+              );
+            })
+          ],
+        );
+      },
+    );
+  }
 }

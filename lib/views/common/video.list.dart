@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:movie_app/provider/movies.provider.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
 import 'package:movie_app/views/common/custom.cache.image.dart';
+import 'package:movie_app/views/mobile/home/page/movie.list/video.player.screen.dart';
 import 'package:provider/provider.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
@@ -44,7 +45,14 @@ class _VideoListState extends State<VideoList> {
                       children: [
                         GestureDetector(
                           onTap: () async {
-                            playVideo(video.key, video.name, context);
+                            if (widget.isWeb) {
+                              playVideo(video.key, video.name, context);
+                            } else {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (_) {
+                                return VideoPlayerScreen(videoId: video.key);
+                              }));
+                            }
                             // var link =
                             //     "https://www.youtube.com/watch?v=${video.key}";
                             // if (widget.isWeb) {
