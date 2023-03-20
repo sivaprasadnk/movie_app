@@ -52,6 +52,7 @@ class TvShowGridWeb extends StatelessWidget {
                       imageHeight: 200,
                       imageWidth: 150,
                       withSize: false,
+                      releaseDate: '',
                     ),
                   );
                 },

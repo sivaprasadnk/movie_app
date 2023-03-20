@@ -10,6 +10,7 @@ class Movie {
   List<int> genreIdList;
   double voteAverage;
   MovieType movieType;
+  String releaseDate;
   Movie({
     required this.title,
     required this.id,
@@ -18,6 +19,7 @@ class Movie {
     required this.genreIdList,
     required this.voteAverage,
     required this.movieType,
+    required this.releaseDate,
   });
 
   factory Movie.fromJson(Map<String, dynamic> json, MovieType type) {
@@ -38,6 +40,7 @@ class Movie {
     } else {
       posterImage = "";
     }
+
     return Movie(
       id: json['id'],
       backdropPath: backdropImage,
@@ -46,6 +49,7 @@ class Movie {
       title: json['title'] ?? "",
       voteAverage: vote,
       movieType: type,
+      releaseDate: json['release_date'] ?? "",
     );
   }
 
@@ -58,6 +62,7 @@ class Movie {
     result.addAll({'title': title});
     result.addAll({'vote_average': voteAverage});
     result.addAll({'movie_type': movieType});
+    result.addAll({'release_date': releaseDate});
 
     return result;
   }

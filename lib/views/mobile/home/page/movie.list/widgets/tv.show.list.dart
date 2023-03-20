@@ -46,6 +46,7 @@ class TvShowList extends StatelessWidget {
                       withSize: true,
                       imageHeight: 180,
                       imageWidth: 120,
+                      releaseDate: '',
                     );
                   },
                 ),

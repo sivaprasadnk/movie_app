@@ -3,6 +3,8 @@ import 'package:movie_app/model/genre.model.dart';
 import 'package:movie_app/provider/movies.provider.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
 import 'package:movie_app/utils/extensions/int.extensions.dart';
+import 'package:movie_app/utils/extensions/string.extensions.dart';
+import 'package:movie_app/utils/extensions/widget.extensions.dart';
 import 'package:movie_app/views/common/actors.list.dart';
 import 'package:movie_app/views/common/play.trailer.text.button.dart';
 import 'package:movie_app/views/common/section.title.dart';
@@ -13,6 +15,7 @@ import 'package:movie_app/views/web/movie.details/large/widgets/back.dop.image.d
 import 'package:movie_app/views/web/movie.details/large/widgets/bg.gradient.dart';
 import 'package:movie_app/views/web/movie.details/large/widgets/poster.image.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MovieDetailsLarge extends StatelessWidget {
   const MovieDetailsLarge({
@@ -95,6 +98,52 @@ class MovieDetailsLarge extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 20),
+                      if (movie.releaseDate.isNotEmpty)
+                        Text(
+                          "Release Date : ${movie.releaseDate.formatedDateString}",
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 15,
+                            color: Colors.white,
+                          ),
+                        ),
+                      if (movie.releaseDate.isNotEmpty)
+                        const SizedBox(height: 20),
+                      if (movie.language.isNotEmpty)
+                        Text(
+                          "Language : ${movie.language}",
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 15,
+                            color: Colors.white,
+                          ),
+                        ),
+                      if (movie.language.isNotEmpty) const SizedBox(height: 20),
+                      if (movie.homepage.isNotEmpty)
+                        GestureDetector(
+                          onTap: () async {
+                            try {
+                              if (await canLaunchUrl(
+                                  Uri.parse(movie.homepage))) {
+                                launchUrl(Uri.parse(movie.homepage));
+                              }
+                            } catch (err) {
+                              context.scaffoldMessenger.showSnackBar(
+                                  const SnackBar(
+                                      content: Text('Cannot launch url!')));
+                            }
+                          },
+                          child: Text(
+                            movie.homepage,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 15,
+                              color: Colors.white,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        ).addMousePointer,
+                      if (movie.homepage.isNotEmpty) const SizedBox(height: 20),
                       Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -153,8 +202,9 @@ class MovieDetailsLarge extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 15),
-                  const SectionTitle(title: 'Story'),
-                  const SizedBox(height: 20),
+                  if (movie.overview.isNotEmpty)
+                    const SectionTitle(title: 'Story'),
+                  if (movie.overview.isNotEmpty) const SizedBox(height: 20),
                   Text(movie.overview),
                   const SizedBox(height: 40),
                   if (!provider.actorsListLoading)

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:movie_app/provider/movies.provider.dart';
 import 'package:movie_app/utils/dialogs.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
+import 'package:movie_app/utils/extensions/string.extensions.dart';
 import 'package:movie_app/views/common/custom.cache.image.dart';
 import 'package:movie_app/views/mobile/home/page/movie.list/details/movie.details.screen.dart';
 import 'package:movie_app/views/mobile/home/page/movie.list/details/tv.show.details.screen.dart';
@@ -17,6 +18,7 @@ class MovieCard extends StatefulWidget {
     required this.vote,
     required this.id,
     required this.withSize,
+    required this.releaseDate,
     this.isMovie = true,
     this.isWeb = false,
     this.imageHeight = 155,
@@ -25,6 +27,7 @@ class MovieCard extends StatefulWidget {
 
   final String poster;
   final String name;
+  final String releaseDate;
   final double vote;
   final int id;
   final bool isMovie;
@@ -97,6 +100,14 @@ class _MovieCardState extends State<MovieCard> {
                     cacheKey: cacheKey,
                   ),
             const SizedBox(height: 5),
+            if (widget.releaseDate.isNotEmpty)
+              Text(
+                widget.releaseDate.formatedDateString,
+                style: const TextStyle(
+                  color: Colors.grey,
+                  fontSize: 12,
+                ),
+              )
           ],
         ),
       );

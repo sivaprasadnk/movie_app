@@ -62,6 +62,7 @@ class MovieGrid extends StatelessWidget {
                         id: movie.id,
                         isWeb: isWeb,
                         withSize: false,
+                        releaseDate: movie.releaseDate,
                       ),
                     ).addMousePointer;
                   } else {
@@ -80,6 +81,7 @@ class MovieGrid extends StatelessWidget {
                         imageHeight: 200,
                         imageWidth: 150,
                         withSize: false,
+                        releaseDate: '',
                       ).addMousePointer,
                     );
                   }
@@ -111,6 +113,7 @@ class MovieGrid extends StatelessWidget {
                         id: movie.id,
                         isWeb: isWeb,
                         withSize: false,
+                        releaseDate: movie.releaseDate,
                       ),
                     ).addMousePointer;
                   } else {
@@ -129,6 +132,7 @@ class MovieGrid extends StatelessWidget {
                         imageHeight: 200,
                         imageWidth: 150,
                         withSize: false,
+                        releaseDate: '',
                       ).addMousePointer,
                     );
                   }

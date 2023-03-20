@@ -13,6 +13,8 @@ class MovieDetails {
   int runtime;
   String releaseDate;
   String overview;
+  String language;
+  String homepage;
   MovieDetails({
     required this.title,
     required this.id,
@@ -24,6 +26,8 @@ class MovieDetails {
     required this.runtime,
     required this.releaseDate,
     required this.overview,
+    required this.language,
+    required this.homepage,
   });
 
   factory MovieDetails.fromJson(Map<String, dynamic> json) {
@@ -40,6 +44,11 @@ class MovieDetails {
     } else {
       posterImage = "";
     }
+    var language = "";
+    List languageList = json['spoken_languages'] ?? [];
+    if (languageList.isNotEmpty) {
+      language = languageList[0]['english_name'] ?? "";
+    }
     return MovieDetails(
       id: json['id'],
       backdropPath: backdropImage,
@@ -52,11 +61,18 @@ class MovieDetails {
       runtime: json['runtime'] ?? 0,
       releaseDate: json['release_date'] ?? "",
       overview: json['overview'] ?? "",
+      language: language,
+      homepage: json['homepage'] ?? "",
     );
   }
 
   factory MovieDetails.fromDoc(
       QueryDocumentSnapshot<Map<String, dynamic>> json) {
+    var language = "";
+    List languageList = json['spoken_languages'] ?? [];
+    if (languageList.isNotEmpty) {
+      language = languageList[0]['english_name'] ?? "";
+    }
     return MovieDetails(
       id: json['id'],
       backdropPath: kImageBaseUrl + json['backdrop_path'],
@@ -69,6 +85,8 @@ class MovieDetails {
       runtime: json['runtime'],
       releaseDate: json['release_date'],
       overview: json['overview'],
+      language: language,
+      homepage: json['homepage'],
     );
   }
 

@@ -8,12 +8,16 @@ class SectionTitle extends StatelessWidget {
     required this.title,
     this.seeMoreCallBack,
     this.withSeeMore = false,
+    this.withSettings = false,
     this.isWeb = false,
+    this.settingsCallBack,
   });
   final String title;
   final VoidCallback? seeMoreCallBack;
   final bool withSeeMore;
+  final bool withSettings;
   final bool isWeb;
+  final VoidCallback? settingsCallBack;
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +56,19 @@ class SectionTitle extends StatelessWidget {
               ],
             ),
           ).addMousePointer,
-        if (withSeeMore) SizedBox(width: isWeb ? context.width * 0.2 : 20)
+        if (withSeeMore) SizedBox(width: isWeb ? context.width * 0.2 : 20),
+        if (withSettings)
+          GestureDetector(
+            onTap: () {
+              settingsCallBack!.call();
+            },
+            child: const Icon(
+              Icons.settings,
+              size: 20,
+              color: Colors.grey,
+            ),
+          ),
+        if (withSettings) SizedBox(width: isWeb ? context.width * 0.2 : 20)
       ],
     );
   }

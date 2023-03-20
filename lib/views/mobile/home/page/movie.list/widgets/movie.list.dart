@@ -73,6 +73,7 @@ class MovieList extends StatelessWidget {
                           imageHeight: 180,
                           imageWidth: 120,
                           withSize: true,
+                          releaseDate: movie.releaseDate,
                         ),
                       );
                     },
