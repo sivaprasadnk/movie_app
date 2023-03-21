@@ -379,6 +379,14 @@ class Dialogs {
                           SortBy.dateDescending.displayTitle) {
                         list.sort(
                             (a, b) => b.releaseDate.compareTo(a.releaseDate));
+                      } else if (selected ==
+                          SortBy.ratingAscending.displayTitle) {
+                        list.sort(
+                            (a, b) => a.voteAverage.compareTo(b.voteAverage));
+                      } else if (selected ==
+                          SortBy.ratingDescending.displayTitle) {
+                        list.sort(
+                            (a, b) => b.voteAverage.compareTo(a.voteAverage));
                       }
                       provider.updateSort(selected);
                       provider.updateFilteredMoviesList(list);
@@ -389,6 +397,14 @@ class Dialogs {
                       } else if (selected ==
                           SortBy.titleDescending.displayTitle) {
                         list.sort((a, b) => b.name.compareTo(a.name));
+                      } else if (selected ==
+                          SortBy.ratingAscending.displayTitle) {
+                        list.sort(
+                            (a, b) => a.voteAverage.compareTo(b.voteAverage));
+                      } else if (selected ==
+                          SortBy.ratingDescending.displayTitle) {
+                        list.sort(
+                            (a, b) => b.voteAverage.compareTo(a.voteAverage));
                       }
                       provider.updateSort(selected);
                       provider.updateFilteredTvShowsList(list);

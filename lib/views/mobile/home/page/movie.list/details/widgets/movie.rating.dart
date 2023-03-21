@@ -7,7 +7,7 @@ class MovieRatingDetailsMobile extends StatelessWidget {
     required this.voteCount,
   });
 
-  final String voteAverage;
+  final double voteAverage;
   final String voteCount;
 
   @override
@@ -26,7 +26,7 @@ class MovieRatingDetailsMobile extends StatelessWidget {
             ),
             const SizedBox(width: 8),
             Text(
-              voteAverage,
+              ((voteAverage * 10).ceilToDouble()).toInt().toString(),
               style: const TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: 12,

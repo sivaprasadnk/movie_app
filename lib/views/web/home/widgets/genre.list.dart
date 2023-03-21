@@ -4,6 +4,7 @@ import 'package:movie_app/model/movie.dart';
 import 'package:movie_app/model/tv.shows.dart';
 import 'package:movie_app/provider/movies.provider.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
+import 'package:movie_app/utils/extensions/widget.extensions.dart';
 import 'package:provider/provider.dart';
 
 class GenreOptionsList extends StatelessWidget {
@@ -63,7 +64,7 @@ class GenreOptionsList extends StatelessWidget {
                     ),
                   ),
                 ),
-              ),
+              ).addMousePointer,
             );
           }).toList(),
         );

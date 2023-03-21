@@ -103,7 +103,7 @@ class MovieDetailsContainer extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      "${movie.voteAverage}/ 10",
+                      "${((movie.voteAverage) * 10).ceilToDouble()}/ 100",
                       style: const TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: 20,

@@ -15,9 +15,7 @@ class UserDetailsContainer extends StatelessWidget {
       user = FirebaseAuth.instance.currentUser!;
     }
     return GestureDetector(
-      onTap: () {
-        debugPrint('@@@@2');
-      },
+      onTap: () {},
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

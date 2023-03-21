@@ -2,7 +2,7 @@ import 'package:movie_app/repo/movie/api.key.dart';
 
 String kBaseUrl = "https://api.themoviedb.org/3/";
 String kImageBaseUrl = "https://image.tmdb.org/t/p/w500/";
-String kOriginalImageBaseUrl = "https://image.tmdb.org/t/p/original/";
+String kOriginalImageBaseUrl = "https://image.tmdb.org/t/p/original";
 
 String kTrendingMoviesUrl = "${kBaseUrl}trending/movie/week?api_key=$apiKey";
 

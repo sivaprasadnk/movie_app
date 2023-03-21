@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
+import 'package:movie_app/utils/extensions/widget.extensions.dart';
 
 class RightArrowContainer extends StatelessWidget {
   const RightArrowContainer({
@@ -42,7 +43,7 @@ class RightArrowContainer extends StatelessWidget {
               ),
             ),
           ),
-        ),
+        ).addMousePointer,
       ),
     );
   }

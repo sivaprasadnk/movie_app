@@ -3,6 +3,7 @@ import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:movie_app/model/tv.shows.dart';
 import 'package:movie_app/provider/movies.provider.dart';
 import 'package:movie_app/utils/extensions/build.context.extension.dart';
+import 'package:movie_app/utils/extensions/widget.extensions.dart';
 import 'package:movie_app/views/common/carousal.indicator.dart';
 import 'package:movie_app/views/common/loading.shimmer.dart';
 import 'package:movie_app/views/mobile/home/page/movie.list/widgets/carousal.movie.item.dart';
@@ -55,7 +56,7 @@ class _TvShowCarousalWebState extends State<TvShowCarousalWeb> {
                             id: show.id.toString(),
                             title: show.name,
                           ),
-                        );
+                        ).addMousePointer;
                       }).toList(),
                       options: CarouselOptions(
                         controller: controller,

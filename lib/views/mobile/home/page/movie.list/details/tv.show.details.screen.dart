@@ -58,7 +58,7 @@ class _TvShowDetailsScreenState extends State<TvShowDetailsScreen> {
                           duration: '',
                         ),
                         MovieRatingDetailsMobile(
-                          voteAverage: show.voteAverage.toString(),
+                          voteAverage: show.voteAverage,
                           voteCount: show.voteCount.toString(),
                         ),
                         const BackButtonMobile(),

@@ -21,13 +21,17 @@ class TvShows {
   });
 
   factory TvShows.fromJson(Map<String, dynamic> json, TvShowType type) {
+    var vote = json['vote_average'];
+    if (vote.runtimeType == int) {
+      vote = (vote as int).toDouble();
+    }
     return TvShows(
       id: json['id'],
       backdropPath: kOriginalImageBaseUrl + json['backdrop_path'],
       posterPath: kImageBaseUrl + json['poster_path'],
       genreIdList: (json['genre_ids'] as List).map((e) => e as int).toList(),
       name: json['name'] ?? "",
-      voteAverage: 0.0,
+      voteAverage: vote,
       tvShowType: type,
       // voteAverage: json['vote_average'],
     );

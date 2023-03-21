@@ -23,9 +23,6 @@ class PlayTrailerTextButton extends StatelessWidget {
           ? GestureDetector(
               onTap: () {
                 playVideo(trailerVideo, context);
-                // Navigator.push(context, MaterialPageRoute(builder: (_) {
-                //   return VideoPlayerScreen(videoId: trailerVideo);
-                // }));
               },
               child: SizedBox(
                 child: Row(
@@ -95,7 +92,7 @@ class PlayTrailerTextButton extends StatelessWidget {
                         Icons.close,
                         color: Colors.white,
                       ),
-                    ),
+                    ).addMousePointer,
                   ],
                 ),
               ),

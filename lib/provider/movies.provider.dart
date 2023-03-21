@@ -17,6 +17,8 @@ enum SortBy {
   titleDescending,
   dateAscending,
   dateDescending,
+  ratingAscending,
+  ratingDescending,
 }
 
 extension SortExt on SortBy {
@@ -30,6 +32,10 @@ extension SortExt on SortBy {
         return 'Date - Ascending';
       case SortBy.dateDescending:
         return 'Date - Descending';
+      case SortBy.ratingAscending:
+        return "Rating - Ascending";
+      case SortBy.ratingDescending:
+        return "Rating - Descending";
     }
   }
 }

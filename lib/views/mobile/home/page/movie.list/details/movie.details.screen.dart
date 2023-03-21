@@ -76,7 +76,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                           releaseDate: movie.releaseDate.split('-').first,
                         ),
                         MovieRatingDetailsMobile(
-                          voteAverage: movie.voteAverage.toString(),
+                          voteAverage: movie.voteAverage,
                           voteCount: movie.voteCount.toString(),
                         ),
                         const BackButtonMobile(),
